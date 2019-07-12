@@ -408,7 +408,7 @@ div.WordSection1
 class=GramE>;?</span>eren <span class=SpellE>C'elik</span> HASAN <span
 class=SpellE>gamzeren</span> <span class=SpellE>gelik</span> <span
 class=SpellE>abdulkerim</span> o;?eren <span class=SpellE>C'elik</span> HASAN <span
-class=SpellE>Vkk</span> <o:p></o:p></span></p>
+class=SpellE>Vkk</span> <o:p></o:p></span> <span class=SpellE>nazan</span></p>
 
 </div>
 
