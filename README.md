@@ -404,11 +404,19 @@ div.WordSection1
 <h1>Bu Nasıl Readme</h1>
 <div class=WordSection1>
 
-<p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'>o<span
-class=GramE>;?</span>eren <span class=SpellE>C'elik</span> HASAN <span
-class=SpellE>gamzeren</span> <span class=SpellE>gelik</span> <span
-class=SpellE>abdulkerim</span> o;?eren <span class=SpellE>C'elik</span> HASAN <span
-class=SpellE>Vkk</span> <o:p></o:p></span> <span class=SpellE>nazan</span></p>
+<p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'><span>
+<h1>In this tutorial, we will show you how to create a Hibernate + Spring Framework + JSF 2 + PrimeFaces web project. </h1>
+Tools used :
+	1.	JSF 2.1.11
+	2.	Primefaces 6.2
+	3.	Maven 3
+	4.	Tested on Tomcat 8
+	5.	pretty config
+	6.	Spring Framework
+	6.	Hibernate
+
+	
+</span></p>
 
 </div>
 
