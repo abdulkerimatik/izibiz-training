@@ -1,0 +1,428 @@
+body {
+	font-family: verdana, tahoma, sans-serif;
+	font-size: 8pt;
+	border: 0 none;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	overflow: visible;
+}
+
+.singleLine {
+	text-wrap: none;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+a img {
+	border: none;
+}
+
+input[type=submit], input[type=button] {
+	margin: 5px 5px 5px 0;
+	cursor: pointer;
+}
+
+hr {
+	border: 0 none;
+	background-color: #ccc;
+	color: #ccc;
+	height: 0.5px;
+}
+
+#project-body {
+	padding: 0;
+	width: 98%;
+	height: 98%;
+	min-height: 350px;
+	min-width: 600px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#footer {
+	position: relative;
+	text-align: center;
+	left: 0px;
+	bottom: 0px;
+	height: 7%;
+	width: 100%;
+	left: 0px;
+}
+
+table tr {
+	vertical-align: top;
+}
+
+table td {
+	vertical-align: middle;
+}
+
+.ui-panelgrid.borderless .ui-panelgrid td, .ui-panelgrid.borderless .ui-panelgrid tr
+	{
+	border-style: none;
+}
+
+.ui-datatable.borderless .ui-datatable-data td, .ui-datatable.borderless .ui-datatable-data-empty td
+	{
+	border-style: inherit;
+}
+
+/*** START of Primefaces Components  ***/
+.ui-growl {
+	left: 40% !important;
+	top: 50% !important;
+}
+
+.ui-inputfield {
+	width: 220px;
+}
+
+.ui-selectonemenu { /* 	width: 220px !important; */
+	width: 230px !important;
+}
+
+.ui-datagrid-column {
+	vertical-align: top;
+}
+
+.ui-datatable table {
+	
+}
+
+.ui-datatable tbody td {
+	
+}
+
+.ui-datatable .ui-column-filter {
+	width: 70% !important;
+}
+
+.ui-datatable .ui-datatable-even {
+	
+}
+
+.ui-datatable .ui-datatable-odd {
+	
+}
+
+.ui-tooltip {
+	max-width: 350px;
+	z-index: 10000 !important;
+}
+
+ul.ui-menu-child {
+	width: 250px !important;
+}
+
+.detailDialog {
+	width: 98% !important;
+	height: 90% !important;
+	overflow: auto !important;
+}
+
+.ui-menu {
+	width: auto !important;
+}
+
+.ui-menu-list .ui-menuitem a {
+	display: block;
+	float: none;
+	white-space: nowrap;
+}
+
+.ui-menu-list .ui-menuitem a span {
+	white-space: nowrap;
+	display: inline-block;
+	float: none;
+}
+
+/*** END of Primefaces Components  ***/
+.row-height {
+	height: 28px;
+}
+
+.row-align {
+	vertical-align: top;
+}
+
+.column-label-width {
+	min-width: 120px;
+}
+
+.column-value-width {
+	min-width: 240px;
+}
+
+.column-label-font {
+	font-weight: bold;
+}
+
+.ui-menu-child-impl .ui-menu-child {
+	width: 170px !important;
+}
+
+.buttonHome {
+	background: #E1EFF8;
+	background-position: 0 0;
+	color: #0084CC;
+	border: 1px solid #0084CC;
+	font-size: 16px !important;
+	height: 54px;
+	width: 150px;
+	margin: 0px 4px 10px 0px;
+	/* 	overflow: hidden; */
+	display: block;
+	text-align: center !important;
+	line-height: 54px !important;
+	/*Transition*/
+	-webkit-transition: All 0.8s ease;
+	-moz-transition: All 0.8s ease;
+	-o-transition: All 0.8s ease;
+	-ms-transition: All 0.8s ease;
+	transition: All 0.8s ease;
+	/*Rounded Corners*/
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	/*Shadow*/
+	-webkit-box-shadow: 0px 3px 1px rgba(0, 0, 0, 0.2);
+	-moz-box-shadow: 0px 3px 1px rgba(0, 0, 0, 0.2);
+	box-shadow: 0px 3px 1px rgba(0, 0, 0, 0.2);
+}
+
+.buttonHome:hover {
+	background: #0084CC;
+	color: white;
+	border: 1px solid #E1EFF8;
+}
+
+.buttonHomeText {
+	font: 18px/1.5 Helvetica, Arial, sans-serif;
+	text-decoration: none;
+}
+
+/* .requestSetColumn { */
+/* 	padding: 5px 30px !important; */
+/* } */
+.statusColumnWarn, .executorStatusPaused {
+	color: goldenrod !important;
+	text-decoration: none !important;
+	font-weight: bold;
+}
+
+.statusColumnError, .executorStatusFailed {
+	color: red !important;
+	text-decoration: none !important;
+	font-weight: bold;
+}
+
+.statusColumnSuccess, .executorStatusRunning, .executorStatusInitFailed
+	{
+	color: limeGreen !important;
+	text-decoration: none !important;
+	font-weight: bold;
+}
+
+.statusColumnProgress {
+	color: midnightblue !important;
+	text-decoration: none !important;
+	font-weight: bold;
+}
+
+.statusColumnAwait {
+	color: silver !important;
+	text-decoration: none !important;
+	font-weight: bold;
+	overflow: auto;
+}
+
+.logDialog {
+	width: 500px !important;
+	height: 500px !important;
+	min-width: 300px !important;
+	min-height: 300px !important;
+}
+
+.dateTimeField .ui-datepicker {
+	width: 94%;
+	position: relative;
+	right: 2%;
+	left: 3%;
+}
+
+.dateTimeField input {
+	width: 100px;
+}
+
+.dateTimeFieldSpecial input {
+	width: 170px !important;
+}
+
+.homeCalendar .ui-datepicker {
+	width: 98%;
+	height: 98%;
+}
+
+.hiddenSpinnerInput .ui-spinner-input {
+	visibility: hidden;
+}
+
+.executorTableColumn {
+	border-width: 0px !important;
+}
+
+.rightFloatMenuItem .ui-menuitem {
+	float: right !important;
+}
+
+.spacer {
+	height: 5px;
+	width: 1px;
+}
+
+.spacer-show-hide {
+	height: 1px;
+	width: 30px;
+}
+
+.st-tgm-tax-inputfield {
+	width: 60px !important;
+}
+
+.st-datesearch-inputfield input {
+	width: 80px !important;
+}
+
+.st-buttons-ok-cancel {
+	width: 110px;
+}
+
+.st-datatable-column-filter-hide {
+	display: none;
+	visibility: hidden;
+}
+
+.colAlignTop {
+	vertical-align: top;
+}
+
+.template-body-left {
+	width: 190px;
+	vertical-align: top;
+}
+
+.template-body-center {
+	vertical-align: top;
+}
+
+.datatable-envelope-unread {
+	background: #AAFFFF;
+}
+
+.panelgrid-text {
+	text-align: left;
+	vertical-align: middle;
+}
+
+.accountTable-record-info-header {
+	background: #B3A2C7;
+	color: white;
+	text-shadow: black 0.1em 0.1em 0.2em
+}
+
+.accountTable-web-info-header {
+	background: #D99694;
+	color: white;
+	text-shadow: black 0.1em 0.1em 0.2em;
+}
+
+.accountTable-alias-info-header {
+	background: #FAC090;
+	color: white;
+	text-shadow: black 0.1em 0.1em 0.2em
+}
+
+.tariff-products {
+	font-size: 120%;
+	font-weight: bold;
+}
+
+.tariff-price-des {
+	font-size: 120%;
+}
+
+.tariff-price-des.price {
+	color: red;
+	font-weight: bold;
+}
+
+.ui-datatable-hor-scroll .ui-datatable-tablewrapper, .scrolling-div .ui-datatable-tablewrapper
+	{
+	overflow: auto;
+	width: 100%;
+	padding-bottom: 5px;
+}
+
+.panelGridCenter {
+	margin: 1% auto;
+}
+
+.preformatted {
+	white-space: pre;
+}
+
+.unreadInvoice {
+	background-color: olive;
+}
+
+.ui-widget {
+	font-family: Arial, sans-serif !important;
+	font-size: 1.2em !important;
+}
+
+.ui-widget * {
+	font-family: Arial, sans-serif !important;
+	font-size: 1em !important;
+}
+
+.ui-notificationbar {
+	padding: 20px 0 0 240px !important;
+}
+
+.notification-bar {
+	opacity: 0.9;
+	color: red;
+}
+
+.notification-bar-info {
+	font-size: 24px;
+	color: black;
+}
+
+.earchiveInfo * {
+	border-style: none;
+}
+
+.earchiveInfo td {
+	border-bottom-style: dashed;
+	border-bottom-width: 1px;
+}
+
+.ui-dialog .ui-dialog-footer {
+	padding: .4em 1em; 
+	border-width: 1px 0 0 0;
+	text-align:center;
+}
+
+.inputTextSpecial{
+	width: 200px !important;
+}
+
+.dateFieldSpecial input {
+	width: 190px !important;
+}
+
+
+

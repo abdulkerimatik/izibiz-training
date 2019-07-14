@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/layout/template-with-menu.xhtml">
+
+	<ui:define name="body">
+	<h:form prependId="false">
+	
+	 #{invoiceBean.openViewInvoicePage()}
+		<p:outputPanel id="buttonPanel">
+				<p:commandButton value="Yeni Fatura" update="dialogPAnel" global="false"
+					process="@this" onclick="PF('dlg1').show()"></p:commandButton>
+
+				<p:commandButton value="Fatura Sil"
+					action="#{invoiceBean.deleteInvoice}"
+					update="invoices  buttonPanel" process="@this"
+					rendered="#{invoiceBean.selectedInvoiceDto!=null}"></p:commandButton>
+			
+				<p:commandButton value="Düzenle"
+					onclick="PF('editInvoiceWidget').show()" update=" editDialogPAnel"
+					process="@this" rendered="#{invoiceBean.selectedInvoiceDto!=null}"></p:commandButton>
+			
+				<p:commandButton value="Kuyruga Ekle"
+					action="#{invoiceBean.changeStatus('NEW')}"
+					update="invoices  buttonPanel" process="@this"
+					rendered="#{invoiceBean.selectedInvoiceDto!=null}"></p:commandButton>
+			
+				<p:commandButton value="Gönder"
+					action="#{invoiceBean.changeStatus('SUCCEED')}"
+					update="invoices  buttonPanel" process="@this"
+					rendered="#{invoiceBean.selectedInvoiceDto!=null}"
+					style="    background-color: green;"></p:commandButton>
+
+			</p:outputPanel>
+
+
+			<p:outputPanel id="invoices">
+				<p:dataTable var="car" editable="true"
+					value="#{invoiceBean.invoiceDTOs}" rowKey="#{car.uuid}}"
+					selection="#{invoiceBean.selectedInvoiceDto}"
+					selectionMode="single"
+					rendered="#{invoiceBean.invoiceDTOs.size()>0}">
+
+					<p:ajax event="rowSelect" update="buttonPanel" />
+					<p:ajax event="rowUnselect" update="buttonPanel" />
+
+					<p:column headerText="uuid">
+						<h:outputText value="#{car.uuid}" />
+					</p:column>
+
+					<p:column headerText="Fatura Tarihi">
+						<h:outputText value="#{car.invoiceDate}">
+							<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" />
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Fatura NO">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{car.invoiceId}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{car.invoiceId}" style="width:96%"
+									label="Year" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column headerText="Gönderici">
+						<h:outputText value="#{car.senderName}" />
+					</p:column>
+
+					<p:column headerText="Alıcı">
+						<h:outputText value="#{car.receiverName}" />
+					</p:column>
+					<p:column headerText="Tutar">
+						<h:outputText value="#{car.amount}" />
+					</p:column>
+
+					<p:column headerText="Durum"
+						style="background-color:#{invoiceBean.statusColor(car.status)}">
+						<h:outputText value="#{invoiceBean.statusDesc(car.status)}" />
+					</p:column>
+					<p:column style="width:35px">
+						<p:rowEditor />
+					</p:column>
+				</p:dataTable>
+
+			</p:outputPanel>
+
+
+
+
+
+
+			<p:dialog header="Yeni Fatura Oluştur" widgetVar="dlg1"
+				minHeight="40">
+
+				<p:outputPanel id="dialogPAnel">
+					<h:panelGrid columns="5">
+						<p:outputLabel value="UUID" />
+						<p:inputText value="#{invoiceBean.invoiceDto.uuid}"
+							readonly="true" />
+						<p:spacer width="5px" />
+						<p:outputLabel value="Fatura No" />
+						<p:inputText value="#{invoiceBean.invoiceDto.invoiceId}"
+							required="true"
+							validatorMessage="Fatura numarası 10 ile 15 karakterden oluşmaktadır"
+							requiredMessage="Fautrnaı numarası boş geçeilemez">
+							<f:validateLength minimum="1" maximum="15"></f:validateLength>
+						</p:inputText>
+
+
+						<p:outputLabel value="Fatura Tarihi" />
+						<p:calendar value="#{invoiceBean.invoiceDto.invoiceDate}" />
+						<p:spacer width="5px" />
+						<p:outputLabel for="amount" value="Tutar " />
+						<p:inputNumber id="amount" value="#{invoiceBean.invoiceDto.amount}" required="true"
+							requiredMessage="tutar  boş geçeilemez"></p:inputNumber>
+
+
+						<p:outputLabel value="Gönderici " for="sender" />
+						<p:inputText id="sender"
+							value="#{invoiceBean.invoiceDto.senderName}" required="true"
+							requiredMessage="Gönderici  boş geçeilemez">
+						</p:inputText>
+						<p:spacer width="5px" />
+						<p:outputLabel value="Alıcı " />
+						<p:inputText value="#{invoiceBean.invoiceDto.receiverName}"
+							required="true" requiredMessage="Gönderici  boş geçeilemez"></p:inputText>
+
+
+					</h:panelGrid>
+					<div align="center">
+						<p:commandButton value="Kaydet"
+							action="#{invoiceBean.saveInvoice}" global="false"
+							update="invoices dialogPAnel " process="@this,dialogPAnel"
+							oncomplete="if (!args.validationFailed) PF('dlg1').hide()"></p:commandButton>
+						<p:commandButton value="Temizle"
+							action="#{invoiceBean.clearInvoice()}"
+							process="@this,dialogPAnel">
+						</p:commandButton>
+					</div>
+
+				</p:outputPanel>
+			</p:dialog>
+
+
+			<p:dialog header="Fatura Düzenle" widgetVar="editInvoiceWidget" minHeight="40">
+
+				<p:outputPanel id="editDialogPAnel">
+					<h:panelGrid columns="5">
+						<p:outputLabel value="UUID" />
+						<p:inputText value="#{invoiceBean.selectedInvoiceDto.uuid}"
+							readonly="true" />
+						<p:spacer width="5px" />
+						<p:outputLabel value="Fatura No" />
+						<p:inputText value="#{invoiceBean.selectedInvoiceDto.invoiceId}"></p:inputText>
+
+						<p:outputLabel value="Fatura Tarihi" />
+						<p:calendar value="#{invoiceBean.selectedInvoiceDto.invoiceDate}" />
+						<p:spacer width="5px" />
+						<p:outputLabel value="Tutar " />
+						<p:inputNumber value="#{invoiceBean.selectedInvoiceDto.amount}"></p:inputNumber>
+
+
+						<p:outputLabel value="Gönderici " />
+						<p:inputText value="#{invoiceBean.selectedInvoiceDto.senderName}"></p:inputText>
+						<p:spacer width="5px" />
+
+						<p:outputLabel value="Alıcı " />
+						<p:inputText
+							value="#{invoiceBean.selectedInvoiceDto.receiverName}"></p:inputText>
+
+
+					</h:panelGrid>
+					<div align="center">
+						<p:commandButton value="Kaydet"
+							action="#{invoiceBean.editInvoice}"
+							update="invoices dialogPAnel buttonPanel"
+							process="@this,editDialogPAnel"
+							oncomplete="PF('editInvoiceWidget').hide()"></p:commandButton>
+						<p:commandButton value="Kapat"
+							onclick="PF('editInvoiceWidget').hide()" />
+					</div>
+
+				</p:outputPanel>
+			</p:dialog>
+		</h:form>
+
+	</ui:define>
+</ui:composition>
