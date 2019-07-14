@@ -401,11 +401,10 @@ div.WordSection1
 </head>
 
 <body lang=TR style='tab-interval:35.4pt'>
-<h1>Bu Nasıl Readme</h1>
 <div class=WordSection1>
 
 <p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'><span>
-<h1>In this tutorial, we will show you how to create a Hibernate + Spring Framework + JSF 2 + PrimeFaces web project. </h1>
+In this tutorial, we will show you how to create a Hibernate + Spring Framework + JSF 2 + PrimeFaces web project.
 Tools used :
 	1.	JSF 2.1.11
 	2.	Primefaces 6.2
