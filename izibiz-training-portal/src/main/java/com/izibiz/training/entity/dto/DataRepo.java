@@ -7,5 +7,5 @@ import com.izibiz.training.entity.dto.InvoiceDTO;
 public class DataRepo {
 
 	public static List<InvoiceDTO> invoice=new ArrayList<InvoiceDTO>();
-	
+	public static List<DespatchDTO> despatches = new ArrayList<>();
 }

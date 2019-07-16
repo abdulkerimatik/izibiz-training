@@ -11,6 +11,12 @@
 				<p:menuitem value="#{msg['app.portal.menu.draft.invoice']}"  icon="ui-icon-mail-closed"  url="/darft-invoice"  />
 			</p:submenu>
 			
+			<p:submenu label="#{msg['app.portal.menu.despatch.title']}" >
+				<p:menuitem value="#{msg['app.portal.menu.despatch.inbox']}"  icon="ui-icon-mail-closed"  url="/despatch-inbox"/>
+				<p:menuitem value="#{msg['app.portal.menu.despatch.outbox']}"  icon="ui-icon-mail-closed"   url="/despatch-outbox" />
+				<p:menuitem value="#{msg['app.portal.menu.draft.despatch']}"  icon="ui-icon-mail-closed"  url="/draft-despatch"  />
+			</p:submenu>
+			
 		</p:menu>
 	</h:form>
 </ui:composition>
