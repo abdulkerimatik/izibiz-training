@@ -16,7 +16,7 @@
 	<h:body>
 	<f:view encoding="UTF-8" contentType="text/html">
 
-		<p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();" />
+		<p:ajaxStatus onstart="PF('statusDialog').show();" onsuccess="PF('statusDialog').hide();" />
 
 		<p:growl id="growl" autoUpdate="true" showDetail="true" showSummary="true" redisplay="false" life="14000" />
 
