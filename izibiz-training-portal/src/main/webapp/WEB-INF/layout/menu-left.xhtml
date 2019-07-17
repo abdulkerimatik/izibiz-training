@@ -11,6 +11,13 @@
 				<p:menuitem value="#{msg['app.portal.menu.draft.invoice']}"  icon="ui-icon-mail-closed"  url="/darft-invoice"  />
 			</p:submenu>
 			
+			<p:submenu label="#{msg['app.portal.menu.archive.title']}" >
+				<p:menuitem value="#{msg['app.portal.menu.archive.invoice']}"  icon="ui-icon-mail-closed"  url="/earsiv/faturalar"/>
+				<p:menuitem value="#{msg['app.portal.menu.archive.report']}"  icon="ui-icon-mail-closed"   url="/earsiv/raporlar" />
+				<p:menuitem value="#{msg['app.portal.menu.archive.draft']}"  icon="ui-icon-mail-closed"  url="/earsiv/taslaklar"  />
+				<p:menuitem value="#{msg['app.portal.menu.archive.create']}"  icon="ui-icon-mail-closed"  url="/earsiv/olustur"  />
+			</p:submenu>
+			
 		</p:menu>
 	</h:form>
 </ui:composition>

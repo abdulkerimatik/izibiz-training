@@ -13,23 +13,23 @@ import javax.servlet.http.HttpServletResponse;
 
 public class HttpToHttpsFilter implements Filter {
 
-	@Override
+	public void init(FilterConfig filterConfig) throws ServletException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+			throws IOException, ServletException {
+		request.setCharacterEncoding("UTF-8");
+		chain.doFilter(request, new HttpHeaderRedirect((HttpServletRequest) request, (HttpServletResponse) response));
+		
+	}
+
 	public void destroy() {
 		// TODO Auto-generated method stub
-
+		
 	}
 
-	@Override
-	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-		servletRequest.setCharacterEncoding("UTF-8");
-		filterChain.doFilter(servletRequest, new HttpHeaderRedirect((HttpServletRequest) servletRequest, (HttpServletResponse) servletResponse));
-
-	}
-
-	@Override
-	public void init(FilterConfig config) throws ServletException {
-		// TODO Auto-generated method stub
-
-	}
+	
 
 }

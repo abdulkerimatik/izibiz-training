@@ -8,4 +8,7 @@ public class DataRepo {
 
 	public static List<InvoiceDTO> invoice=new ArrayList<InvoiceDTO>();
 	
+	public static List<ArchiveDTO> archive=new ArrayList<ArchiveDTO>();
+
+	
 }

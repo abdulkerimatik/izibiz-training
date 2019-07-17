@@ -1,6 +1,5 @@
 <pretty-config xmlns="http://ocpsoft.com/prettyfaces/3.3.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://ocpsoft.com/prettyfaces/3.3.2
-                                   		http://ocpsoft.com/xml/ns/prettyfaces/ocpsoft-pretty-faces-3.3.2.xsd">
+	xsi:schemaLocation="http://ocpsoft.com/xml/ns/prettyfaces/ocpsoft-pretty-faces-3.3.2.xsd">
 	
 	<url-mapping id="darft-invoice">
 		<pattern value="/darft-invoice" />
@@ -17,4 +16,26 @@
 		<pattern value="/invoice-outbox" />
 		<view-id value="/pages/einvoice/invoice-outbox.xhtml" />
 	</url-mapping>
+	
+	<url-mapping id="earsiv-faturalar">
+		<pattern value="/earsiv/faturalar" />
+		<view-id value="/pages/earchive/archive.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="earsiv-raporlar">
+		<pattern value="/earsiv/raporlar" />
+		<view-id value="/pages/earchive/archive.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="earsiv-taslaklar">
+		<pattern value="/earsiv/taslaklar" />
+		<view-id value="/pages/earchive/archive.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="earsiv-olustur">
+		<pattern value="/earsiv/olustur" />
+		<view-id value="/pages/earchive/archive.xhtml" />
+	</url-mapping>
+	
+	
 </pretty-config>

@@ -1,0 +1,229 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/layout/template-with-menu.xhtml">
+
+	<ui:define name="body">
+		<h:form prependId="false">
+		
+		#{archiveBean.openViewArchivePage()}
+		<p:outputPanel id="buttonPanel">
+				<p:commandButton value="#{msg['app.portal.archive.top.new']}"
+					update="dialogPAnel" global="false" process="@this"
+					onclick="PF('dlg2').show()">
+				</p:commandButton>
+
+				<p:commandButton value="#{msg['app.portal.archive.top.edit']}"
+					onclick="PF('editArchiveWidget').show()" update=" editDialogPAnel"
+					process="@this"
+					rendered="#{archiveBean.earchiveEditAble}">
+				</p:commandButton>
+
+				<p:commandButton value="#{msg['app.portal.archive.top.delete']}"
+					action="#{archiveBean.deleteArchive}"
+					update="archives  buttonPanel" process="@this"
+					rendered="#{archiveBean.earchiveDeleteAble}">
+				</p:commandButton>
+
+				<p:commandButton value="#{msg['app.portal.archive.top.queue']}"
+					action="#{archiveBean.changeStatus('QUEUE')}"
+					update="archives  buttonPanel" process="@this"
+					rendered="#{archiveBean.earchiveQueueAble}" >
+				</p:commandButton>
+
+				<p:commandButton value="#{msg['app.portal.archive.top.send']}"
+					action="#{archiveBean.changeStatus('SEND')}"
+					update="archives  buttonPanel" process="@this"
+					style="background-color: green;"
+					rendered="#{archiveBean.earchiveSendAble}">
+				</p:commandButton>
+			</p:outputPanel>
+
+
+			<p:dialog header="#{msg['app.portal.archive.dialog.title']}"
+				widgetVar="dlg2" minHeight="40">
+
+				<p:outputPanel id="dialogPAnel">
+					<h:panelGrid columns="5">
+						<p:outputLabel value="#{msg['app.portal.archive.uuid']}" />
+						<p:inputText value="#{archiveBean.archiveDto.uuid}"
+							readonly="true" />
+
+						<p:spacer width="5px" />
+
+						<p:outputLabel value="#{msg['app.portal.archive.no']}" />
+						<p:inputText value="#{archiveBean.archiveDto.archiveId}"
+							required="true"
+							
+							validatorMessage="Arşiv numarası 7 ile 15 karakterden oluşmaktadır"
+							requiredMessage="Arşiv numarası boş geçilemez"
+							onkeyup="this.value = this.value.toUpperCase()">
+							<f:validateLength minimum="7" maximum="15"></f:validateLength>						
+						</p:inputText>
+
+
+						<p:outputLabel value="#{msg['app.portal.archive.date']}" />
+						<p:calendar value="#{archiveBean.archiveDto.archiveDate}"
+						disabledWeekends="true"/>
+
+						<p:spacer width="5px" />
+
+						<p:outputLabel for="amount"
+							value="#{msg['app.portal.archive.amount']} " />
+						<p:inputNumber id="amount"
+							value="#{archiveBean.archiveDto.amount}" required="true"
+							requiredMessage="Tutar boş geçilemez"></p:inputNumber>
+
+						<p:outputLabel value="#{msg['app.portal.archive.sender']}"
+							for="sender" />
+						<p:inputText id="sender"
+							value="#{archiveBean.archiveDto.senderName}" required="true"
+							requiredMessage="Gönderici boş geçilemez"
+							onkeyup="this.value = this.value.toUpperCase()"
+							>
+						</p:inputText>
+
+						<p:spacer width="5px" />
+
+						<p:outputLabel value="#{msg['app.portal.archive.receiver']}" />
+						<p:inputText value="#{archiveBean.archiveDto.receiverName}"
+							required="true" requiredMessage="Alıcı boş geçilemez"
+							onkeyup="this.value = this.value.toUpperCase()"
+							></p:inputText>
+
+					</h:panelGrid>
+					<div align="center">
+						<p:commandButton value="#{msg['app.portal.archive.dialog.save']}"
+							action="#{archiveBean.saveArchive}" global="false"
+							update="archives dialogPAnel " process="@this,dialogPAnel"
+							oncomplete="PF('dlg2').hide()" ></p:commandButton>
+						<p:commandButton value="#{msg['app.portal.archive.dialog.clear']}"
+							action="#{archiveBean.clearArchive()}"
+							process="@this,dialogPAnel">
+						</p:commandButton>
+					</div>
+
+				</p:outputPanel>
+			</p:dialog>
+
+			<p:outputPanel id="archives">
+				<p:dataTable value="#{archiveBean.archiveDTOs}"
+					selection="#{archiveBean.selectedList}" var="arc"
+					rowKey="#{arc.uuid}" rendered="#{archiveBean.archiveDTOs.size()>0}">
+
+
+					<p:ajax event="rowSelect" update="buttonPanel" listener="#{archiveBean.rowSelect}" global="false"/>
+					<p:ajax event="rowUnselect" update="buttonPanel" listener="#{archiveBean.rowSelect}" global="false"/>
+					<p:ajax event="rowSelectCheckbox" update="buttonPanel" listener="#{archiveBean.rowSelect()}" global="false"/>
+					<p:ajax event="rowUnselectCheckbox" update="buttonPanel" listener="#{archiveBean.rowSelect()}" global="false"/>
+					<p:ajax event="toggleSelect" update="buttonPanel" listener="#{archiveBean.rowSelect}" global="false"/>
+
+
+					<p:column selectionMode="multiple"
+						style="width:16px; text-align:center" >
+					</p:column>
+
+					<p:column headerText="#{msg['app.portal.archive.uuid']}"
+					style="text-align:center">
+						<h:outputText value="#{arc.uuid}" />
+					</p:column>
+					
+					<p:column headerText="#{msg['app.portal.archive.no']}"
+					style="text-align:center">
+						<h:outputText value="#{arc.archiveId}" />
+					</p:column>
+
+					<p:column headerText="#{msg['app.portal.archive.date']}"
+					style="text-align:center">
+						<h:outputText value="#{arc.archiveDate}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputText>
+					</p:column>
+
+
+					<p:column headerText="#{msg['app.portal.archive.sender']}"
+					style="text-align:center">
+						<h:outputText value="#{arc.senderName}" />
+					</p:column>
+
+					<p:column headerText="#{msg['app.portal.archive.receiver']}"
+					style="text-align:center">
+						<h:outputText value="#{arc.receiverName}" />
+					</p:column>
+					<p:column headerText="#{msg['app.portal.archive.amount']}"
+					style="text-align:center">
+						<h:outputText value="#{arc.amount}" />
+					</p:column>
+
+					<p:column headerText="#{msg['app.portal.archive.status']}"
+						style="background-color:#{archiveBean.statusColor(arc.status)}; text-align:center">
+						<h:outputText value="#{archiveBean.statusDesc(arc.status)}" />
+					</p:column>
+				</p:dataTable>
+			</p:outputPanel>
+
+			<p:dialog header="#{msg['app.portal.archive.dialog.edit.title']}"
+				widgetVar="editArchiveWidget" minHeight="40">
+
+				<p:outputPanel id="editDialogPAnel">
+					<h:panelGrid columns="5">
+						<p:outputLabel value="#{msg['app.portal.archive.uuid']}" />
+						<p:inputText value="#{archiveBean.selectedArchiveDto.uuid}"
+							readonly="true" />
+
+						<p:spacer width="5px" />
+
+						<p:outputLabel value="#{msg['app.portal.archive.no']}" />
+						<p:inputText value="#{archiveBean.selectedArchiveDto.archiveId}"
+							required="true"
+							validatorMessage="Arşiv numarası 5 ile 15 karakterden oluşmaktadır"
+							requiredMessage="Arşiv numarası boş geçilemez"
+							onkeyup="this.value = this.value.toUpperCase()">
+							<f:validateLength minimum="5" maximum="15"></f:validateLength>
+						</p:inputText>
+
+						<p:outputLabel value="#{msg['app.portal.archive.date']}" />
+						<p:calendar value="#{archiveBean.selectedArchiveDto.archiveDate}"
+							required="true" requiredMessage="Tarih boş geçilemez" />
+
+						<p:spacer width="5px" />
+
+						<p:outputLabel value="Tutar " />
+						<p:inputNumber value="#{archiveBean.selectedArchiveDto.amount}"
+							required="true" requiredMessage="Tutar boş geçilemez"></p:inputNumber>
+
+						<p:outputLabel value="#{msg['app.portal.archive.sender']} " />
+						<p:inputText value="#{archiveBean.selectedArchiveDto.senderName}"
+							required="true" requiredMessage="Gönderici boş geçilemez"
+							onkeyup="this.value = this.value.toUpperCase()"></p:inputText>
+
+						<p:spacer width="5px" />
+
+						<p:outputLabel value="#{msg['app.portal.archive.receiver']}" />
+						<p:inputText
+							value="#{archiveBean.selectedArchiveDto.receiverName}"
+							required="true" requiredMessage="Alıcı boş geçilemez"
+							onkeyup="this.value = this.value.toUpperCase()"></p:inputText>
+
+
+					</h:panelGrid>
+					<div align="center">
+						<p:commandButton value="#{msg['app.portal.archive.dialog.save']}"
+							action="#{archiveBean.editArchive}"
+							update="archives dialogPAnel buttonPanel"
+							process="@this,editDialogPAnel"
+							oncomplete="PF('editArchiveWidget').hide()"></p:commandButton>
+						<p:commandButton value="#{msg['app.portal.archive.dialog.close']}"
+							onclick="PF('editArchiveWidget').hide()" />
+					</div>
+
+				</p:outputPanel>
+			</p:dialog>
+
+		</h:form>
+	</ui:define>
+</ui:composition>
