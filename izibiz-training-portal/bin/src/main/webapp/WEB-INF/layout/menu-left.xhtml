@@ -1,0 +1,16 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:p="http://primefaces.org/ui">
+
+	<h:form id="formMenu">
+		<p:menu style="width:100%">
+		
+			<p:submenu label="#{msg['app.portal.menu.invoice.title']}" >
+				<p:menuitem value="#{msg['app.portal.menu.invoice.inbox']}"  icon="ui-icon-mail-closed"  url="/invoice-inbox"/>
+				<p:menuitem value="#{msg['app.portal.menu.invoice.outbox']}"  icon="ui-icon-mail-closed"   url="/invoice-outbox" />
+				<p:menuitem value="#{msg['app.portal.menu.draft.invoice']}"  icon="ui-icon-mail-closed"  url="/darft-invoice"  />
+			</p:submenu>
+			
+		</p:menu>
+	</h:form>
+</ui:composition>

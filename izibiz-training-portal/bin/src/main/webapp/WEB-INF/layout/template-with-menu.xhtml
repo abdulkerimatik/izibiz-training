@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=9" />
+		<h:outputStylesheet library="stylesheet" name="project.css" />
+	
+	<h:outputStylesheet library="default" name="general.css" />
+	
+	<title>İzibiz Training</title>
+</h:head>
+
+	<h:body>
+	<f:view encoding="UTF-8" contentType="text/html">
+
+		<p:ajaxStatus onstart="PF('statusDialog').show();" onsuccess="PF('statusDialog').hide();" />
+
+		<p:growl id="growl" autoUpdate="true" showDetail="true" showSummary="true" redisplay="false" life="14000" />
+
+	 <p:dialog id="stDlg" modal="true" widgetVar="statusDialog" draggable="false" closable="false" resizable="false">
+	 <h:panelGrid columns="1" style="width:100%;text-align:center;">
+	<h:graphicImage library="image" name="ajax-loader-bar.gif" />
+	 </h:panelGrid>
+		</p:dialog>
+		
+		
+	
+		<div id="project-body">
+			<ui:include src="header.xhtml" />			
+			<ui:include src="menu.xhtml" />
+			<div id="template-body">
+				<h:panelGrid columns="2" columnClasses="template-body-left,template-body-center" style="width:100%">
+				
+				<ui:include src="menu-left.xhtml" />
+					<p:outputPanel id="bodyMain">
+						<ui:insert name="body" />
+					</p:outputPanel>
+				</h:panelGrid>
+				
+			</div>
+			<ui:include src="footer.xhtml" />
+		</div>
+	</f:view>
+</h:body>
+</html>

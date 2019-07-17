@@ -5,6 +5,11 @@ import java.util.Date;
 
 public class DespatchDTO {
 
+	public static final String LOAD="LOAD";
+	public static final String SENT="SENT";
+	public static final String RECEIVED="RECEIVED";
+	public static final String DEFAULT_SERIAL_ID="IZI";
+	
 	private String uuid;
 	private String despatchId;
 	private String sender;

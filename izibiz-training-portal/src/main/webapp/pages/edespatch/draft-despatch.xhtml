@@ -8,9 +8,18 @@
 	template="/WEB-INF/layout/template-with-menu.xhtml">
 
 	<ui:define name="body">
+		<script>
+function toUpperCase(value){
+	var result = value.toUpperCase();
+	return result;
+}
+</script>
 		<h:form prependId="false">
+		
 		#{draftDespatchBean.openDraftDespatchPage()}
 	<h3>#{msg['app.portal.menu.despatch.title']}</h3>
+
+
 			<p:outputPanel id="buttonPanel">
 				<p:commandButton
 					value="#{msg['app.portal.despatch.buttons.new.title']}"
@@ -19,27 +28,46 @@
 					update="pnlNewDespatch" />
 				<p:commandButton
 					value="#{msg['app.portal.despatch.buttons.edit.title']}"
-					style="background-color:blue !important color:white" 
-					onclick="PF('dlgEditDespatch').show()"
-					rendered="#{draftDespatchBean.selectedDraftDespatch!=null}"/>
+					style="background-color:blue !important" update="pnlEditDespatch"
+					onclick="PF('dlgEditDespatch').show()" process="@this"
+					rendered="#{draftDespatchBean.selectedDraftDespatch!=null}" />
 				<p:commandButton
 					value="#{msg['app.portal.despatch.buttons.send.title']}"
-					style="background-color:green !important color:white" 
-					rendered="#{draftDespatchBean.selectedDraftDespatch!=null}"/>
+					style="background-color:green !important" process="@this"
+					update="pnlDespatchDataTable buttonPanel pnlSendDespatch"
+					onclick="PF('dlgSendDespatch').show()"
+					rendered="#{draftDespatchBean.selectedDraftDespatch!=null}" />
 				<p:commandButton
 					value="#{msg['app.portal.despatch.buttons.delete.title']}"
-					style="background-color:red !important" 
-					rendered="#{draftDespatchBean.selectedDraftDespatch!=null}"/>
+					style="background-color:red !important" process="@this"
+					update="pnlDespatchDataTable buttonPanel"
+					action="#{draftDespatchBean.deleteDespatch()}"
+					rendered="#{draftDespatchBean.selectedDraftDespatch!=null}">
+					<p:confirm
+						header="#{msg['app.portal.despatch.buttons.delete.confirm.message.title']}"
+						message="#{msg['app.portal.despatch.buttons.delete.confirm.message.content']}"
+						icon="pi pi-exclamation-triangle" />
+				</p:commandButton>
 			</p:outputPanel>
+
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+				responsive="true">
+				<p:commandButton value="Yes" type="button"
+					styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+				<p:commandButton value="No" type="button"
+					styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+			</p:confirmDialog>
+
 			<p:outputPanel id="pnlDespatchDataTable">
 				<p:dataTable var="despatch" id="draftDespatchDataTable"
 					value="#{draftDespatchBean.draftDespatchList}"
 					rowKey="#{despatch.uuid}" selectionMode="single"
-					selection="#{draftDespatchBean.selectedDraftDespatch}">
-					
-					<p:ajax event="rowSelect" update="buttonPanel"/>
-					<p:ajax event="rowUnselect" update="buttonPanel"/>
-					
+					selection="#{draftDespatchBean.selectedDraftDespatch}"
+					rendered="#{draftDespatchBean.draftDespatchList.size()>0}">
+
+					<p:ajax event="rowSelect" update="buttonPanel" />
+					<p:ajax event="rowUnselect" update="buttonPanel" />
+
 					<p:column
 						headerText="#{msg['app.portal.despatch.draftDespatchDataTable.column.despatchId.title']}">
 						<p:outputLabel value="#{despatch.despatchId}" />
@@ -51,7 +79,7 @@
 					<p:column
 						headerText="#{msg['app.portal.despatch.draftDespatchDataTable.column.despatchDate.title']}">
 						<p:outputLabel value="#{despatch.despatchDate}">
-							<f:convertDateTime pattern="dd.MM.yyyy HH:mm" />
+							<f:convertDateTime pattern="dd.MM.yyyy" />
 						</p:outputLabel>
 					</p:column>
 					<p:column
@@ -63,35 +91,48 @@
 						<p:outputLabel value="#{despatch.receiver}" />
 					</p:column>
 					<p:column
-						headerText="#{msg['app.portal.despatch.draftDespatchDataTable.column.status.title']}">
-						<p:outputLabel value="#{despatch.status}" />
+						headerText="#{msg['app.portal.despatch.draftDespatchDataTable.column.status.title']}"
+						style="background-color:#{draftDespatchBean.statusToColor(despatch.status)}">
+						<p:outputLabel
+							value="#{draftDespatchBean.statusToString(despatch.status)}" />
 					</p:column>
 				</p:dataTable>
 			</p:outputPanel>
+
+
 			<p:dialog widgetVar="DlgNewDespatch">
 				<p:outputPanel id="pnlNewDespatch">
 					<p:panelGrid columns="5">
-						<p:outputLabel
+						<h:outputLabel
 							value="#{msg['app.portal.despatch.draftDespatchDataTable.column.despatchUUID.title']}" />
 						<p:inputText
 							value="#{draftDespatchBean.currentDraftDespatch.uuid}"
-							required="true" />
+							readonly="true" />
 						<p:spacer width="5px" />
-						<p:outputLabel
+						<h:outputLabel
 							value="#{msg['app.portal.despatch.draftDespatchDataTable.column.despatchId.title']}" />
 						<p:inputText
 							value="#{draftDespatchBean.currentDraftDespatch.despatchId}"
-							required="true" />
+							onkeyup="this.value=toUpperCase(this.value)" />
 
-						<p:outputLabel
+						<h:outputLabel
 							value="#{msg['app.portal.despatch.draftDespatchDataTable.column.sender.title']}" />
 						<p:inputText
-							value="#{draftDespatchBean.currentDraftDespatch.sender}" />
+							value="#{draftDespatchBean.currentDraftDespatch.sender}"
+							onkeyup="this.value=toUpperCase(this.value)">
+						</p:inputText>
 						<p:spacer width="5px" />
-						<p:outputLabel
+						<h:outputLabel
 							value="#{msg['app.portal.despatch.draftDespatchDataTable.column.receiver.title']}" />
 						<p:inputText
-							value="#{draftDespatchBean.currentDraftDespatch.receiver}" />
+							value="#{draftDespatchBean.currentDraftDespatch.receiver}"
+							onkeyup="this.value=toUpperCase(this.value)" />
+
+						<h:outputLabel
+							value="#{msg['app.portal.despatch.draftDespatchDataTable.column.despatchDate.title']}" />
+						<p:calendar
+							value="#{draftDespatchBean.currentDraftDespatch.despatchDate}"
+							pattern="dd.MM.yyyy" mask="true" />
 					</p:panelGrid>
 					<p:outputPanel>
 						<p:commandButton
@@ -116,14 +157,13 @@
 						<p:outputLabel
 							value="#{msg['app.portal.despatch.draftDespatchDataTable.column.despatchUUID.title']}" />
 						<p:inputText
-							value="#{draftDespatchBean.selectedDraftDespatch.uuid}" 
-							required="true"/>
+							value="#{draftDespatchBean.selectedDraftDespatch.uuid}"
+							readonly="true" />
 						<p:spacer width="5px" />
 						<p:outputLabel
 							value="#{msg['app.portal.despatch.draftDespatchDataTable.column.despatchId.title']}" />
 						<p:inputText
-							value="#{draftDespatchBean.selectedDraftDespatch.despatchId}" 
-							required="true"/>
+							value="#{draftDespatchBean.selectedDraftDespatch.despatchId}" />
 
 						<p:outputLabel
 							value="#{msg['app.portal.despatch.draftDespatchDataTable.column.sender.title']}" />
@@ -134,17 +174,71 @@
 							value="#{msg['app.portal.despatch.draftDespatchDataTable.column.receiver.title']}" />
 						<p:inputText
 							value="#{draftDespatchBean.selectedDraftDespatch.receiver}" />
+						<p:outputLabel
+							value="#{msg['app.portal.despatch.draftDespatchDataTable.column.despatchDate.title']}" />
+						<p:calendar
+							value="#{draftDespatchBean.selectedDraftDespatch.despatchDate}"
+							pattern="dd.MM.yyyy" mask="true" />
 					</p:panelGrid>
 					<p:outputPanel>
 						<p:commandButton
 							value="#{msg['app.portal.despatch.buttons.save.title']}"
 							action="#{draftDespatchBean.editDespatch()}" global="false"
-							oncomplete="if(args.validDespatch) PF('dlgEditDespatch').hide()"
+							oncomplete="(!args.validationFailed) PF('dlgEditDespatch').hide()"
 							process="@this,pnlEditDespatch"
 							update="pnlEditDespatch pnlDespatchDataTable" />
 						<p:commandButton
-							value="#{msg['app.portal.despatch.buttons.clear.title']}"
+							value="#{msg['app.portal.despatch.buttons.close.title']}"
 							onclick="PF('dlgEditDespatch').hide()" />
+					</p:outputPanel>
+				</p:outputPanel>
+			</p:dialog>
+
+
+			<p:dialog widgetVar="dlgSendDespatch">
+				<p:outputPanel id="pnlSendDespatch">
+					<h:outputLabel value="İrsaliye Gönder" />
+					<p:selectOneMenu id="console" value="#{draftDespatchBean.selectedSeries}"
+						style="width:125px">
+							<f:selectItems value="#{draftDespatchBean.despatchSeriesList}" />
+					</p:selectOneMenu>
+					<p:panelGrid columns="5">
+						<p:outputLabel
+							value="#{msg['app.portal.despatch.draftDespatchDataTable.column.despatchUUID.title']}" />
+						<p:inputText
+							value="#{draftDespatchBean.selectedDraftDespatch.uuid}"
+							readonly="true" />
+						<p:spacer width="5px" />
+						<p:outputLabel
+							value="#{msg['app.portal.despatch.draftDespatchDataTable.column.despatchId.title']}" />
+						<p:inputText
+							value="#{draftDespatchBean.selectedDraftDespatch.despatchId}" />
+
+						<p:outputLabel
+							value="#{msg['app.portal.despatch.draftDespatchDataTable.column.sender.title']}" />
+						<p:inputText
+							value="#{draftDespatchBean.selectedDraftDespatch.sender}" />
+						<p:spacer width="5px" />
+						<p:outputLabel
+							value="#{msg['app.portal.despatch.draftDespatchDataTable.column.receiver.title']}" />
+						<p:inputText
+							value="#{draftDespatchBean.selectedDraftDespatch.receiver}" />
+						<p:outputLabel
+							value="#{msg['app.portal.despatch.draftDespatchDataTable.column.despatchDate.title']}" />
+						<p:calendar
+							value="#{draftDespatchBean.selectedDraftDespatch.despatchDate}"
+							pattern="dd.MM.yyyy" mask="true" />
+					</p:panelGrid>
+					<p:outputPanel>
+						<p:commandButton
+							value="#{msg['app.portal.despatch.buttons.save.title']}"
+							action="#{draftDespatchBean.sendDraftDespatch()}" global="false"
+							oncomplete="(!args.validationFailed) PF('dlgSendDespatch').hide()"
+							process="@this,pnlSendDespatch"
+							update="pnlSendDespatch pnlDespatchDataTable" />
+						<p:commandButton
+							value="#{msg['app.portal.despatch.buttons.close.title']}"
+							onclick="PF('dlgSendDespatch').hide()" />
 					</p:outputPanel>
 				</p:outputPanel>
 			</p:dialog>

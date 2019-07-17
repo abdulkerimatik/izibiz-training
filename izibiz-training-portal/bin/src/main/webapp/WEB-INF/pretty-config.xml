@@ -1,0 +1,20 @@
+<pretty-config xmlns="http://ocpsoft.com/prettyfaces/3.3.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://ocpsoft.com/prettyfaces/3.3.2
+                                   		http://ocpsoft.com/xml/ns/prettyfaces/ocpsoft-pretty-faces-3.3.2.xsd">
+	
+	<url-mapping id="darft-invoice">
+		<pattern value="/darft-invoice" />
+		<view-id value="/pages/einvoice/draft-invoice.xhtml" />
+	</url-mapping>
+	
+	
+	<url-mapping id="invoice-inbox">
+		<pattern value="/invoice-inbox" />
+		<view-id value="/pages/einvoice/invoice-inbox.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="invoice-outbox">
+		<pattern value="/invoice-outbox" />
+		<view-id value="/pages/einvoice/invoice-outbox.xhtml" />
+	</url-mapping>
+</pretty-config>
