@@ -15,7 +15,7 @@
 
 	<application>
 		<locale-config>
-			<default-locale>tr_TR</default-locale>
+			<default-locale>en_EN</default-locale>
 		</locale-config>
 		<resource-bundle>
 			<base-name>com.izibiz.training.locale.messages</base-name>

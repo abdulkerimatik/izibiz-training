@@ -12,24 +12,25 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class HttpToHttpsFilter implements Filter {
-
-	@Override
-	public void destroy() {
+	
+	public void init(FilterConfig filterConfig) throws ServletException {
 		// TODO Auto-generated method stub
-
+		
 	}
 
-	@Override
-	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
+			throws IOException, ServletException {
 		servletRequest.setCharacterEncoding("UTF-8");
 		filterChain.doFilter(servletRequest, new HttpHeaderRedirect((HttpServletRequest) servletRequest, (HttpServletResponse) servletResponse));
 
+		
 	}
 
-	@Override
-	public void init(FilterConfig config) throws ServletException {
+	public void destroy() {
 		// TODO Auto-generated method stub
-
+		
 	}
+
+
 
 }

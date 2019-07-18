@@ -2,14 +2,13 @@ package com.izibiz.training.bean;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.swing.plaf.basic.BasicSplitPaneUI.KeyboardUpLeftHandler;
+import javax.faces.context.FacesContext;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -26,21 +25,25 @@ public class DraftDespatchBean extends GenericBean<DraftDespatchBean> {
 	private boolean validDespatch;
 	public List<String> despatchSeriesList;
 	public String selectedSeries;
+
 	public void openDraftDespatchPage() {
+		
+		FacesContext.getCurrentInstance()
+		.getViewRoot().setLocale(Locale.ENGLISH);
+		
 		selectedDraftDespatch = null;
-		selectedSeries="";
+		selectedSeries = "";
 		clearCurrentDraftDespatch();
 		draftDespatchList = new ArrayList<>();
-		for(DespatchDTO des : DataRepo.despatches) {
-			if(des.getStatus().equals(DespatchDTO.LOAD))
-				draftDespatchList.add(des);
+		for (DespatchDTO des : DataRepo.despatches) {
+			// if (des.getStatus().equals(DespatchDTO.LOAD))
+			draftDespatchList.add(des);
 		}
 		
-		/*DataRepo.despatches.forEach(x->{
-			if(x.getStatus().equals(DespatchDTO.LOAD)) {
-				draftDespatchList.add(x);
-			}
-		});*/
+		/*
+		 * DataRepo.despatches.forEach(x->{ if(x.getStatus().equals(DespatchDTO.LOAD)) {
+		 * draftDespatchList.add(x); } });
+		 */
 	}
 
 	public void saveDespatch() {
@@ -48,8 +51,12 @@ public class DraftDespatchBean extends GenericBean<DraftDespatchBean> {
 			clearCurrentDraftDespatch();
 			return;
 		}
+		this.currentDraftDespatch.setDespatchId(DespatchDTO.DEFAULT_SERIAL_ID
+				+ (DespatchDTO.seriesMap.get(DespatchDTO.DEFAULT_SERIAL_ID).add(BigDecimal.valueOf(1))));
 		DataRepo.despatches.add(currentDraftDespatch);
 		this.draftDespatchList.add(currentDraftDespatch);
+		DespatchDTO.seriesMap.put(DespatchDTO.DEFAULT_SERIAL_ID,
+				DespatchDTO.getSerialNoFromId(currentDraftDespatch.getDespatchId()));
 		clearCurrentDraftDespatch();
 	}
 
@@ -63,7 +70,7 @@ public class DraftDespatchBean extends GenericBean<DraftDespatchBean> {
 				DataRepo.despatches.add(selectedDraftDespatch);
 			}
 		}
-		addInfoMessage("Düzenleme baþarýlý");
+		addInfoMessage(getMsg("app.portal.despatch.draftDespatch.messages.crud.success.editDespatch.text"));
 		openDraftDespatchPage();
 	}
 
@@ -75,17 +82,19 @@ public class DraftDespatchBean extends GenericBean<DraftDespatchBean> {
 	public void sendDraftDespatch() {
 		if (validateDestapch(selectedDraftDespatch)) {
 			if (changeStatus(this.selectedDraftDespatch, DespatchDTO.SENT)) {
-				addInfoMessage("Ýrsaliye baþarýyla gönderildi");
+				DespatchDTO.seriesMap.put(selectedSeries, DespatchDTO.getSerialNoFromId(selectedDraftDespatch.getDespatchId()));
+				addInfoMessage(getMsg("app.portal.despatch.draftDespatch.messages.crud.success.sendDraftDespatch.text"));
 				openDraftDespatchPage();
 			}
 		}
-
 	}
 
 	public void clearCurrentDraftDespatch() {
 		this.currentDraftDespatch = new DespatchDTO();
 		this.currentDraftDespatch.setUuid(UUID.randomUUID().toString());
 		this.currentDraftDespatch.setStatus(DespatchDTO.LOAD);
+		this.currentDraftDespatch.setDespatchId(DespatchDTO.DEFAULT_SERIAL_ID
+				+ (DespatchDTO.seriesMap.get(DespatchDTO.DEFAULT_SERIAL_ID).add(BigDecimal.valueOf(1))));
 	}
 
 	public void deleteDespatch() {
@@ -94,42 +103,42 @@ public class DraftDespatchBean extends GenericBean<DraftDespatchBean> {
 		}
 		DataRepo.despatches.remove(selectedDraftDespatch);
 		openDraftDespatchPage();
-		addInfoMessage("Ýrsaliye silme iþlemi baþarýlý!");
+		addInfoMessage(getMsg("app.portal.despatch.draftDespatch.messages.crud.success.deleteDespatch.text"));
 	}
 
 	private boolean validateDestapch(DespatchDTO despatch) {
 		if (despatch == null) {
-			addErrorMessage("Ýrsaliye bulunamadý!");
+			addErrorMessage(getMsg("app.portal.despatch.draftDespatch.messages.validation.error.despatchNotFound.text"));
 			return false;
 		} else if (StringUtils.isEmpty(despatch.getUuid())) {
-			addErrorMessage("UUID boþ olamaz!");
+			addErrorMessage(getMsg("app.portal.despatch.draftDespatch.messages.validation.error.despatchUuidIsEmpty.text"));
 			return false;
 		} else if (StringUtils.isEmpty(despatch.getReceiver())) {
-			addErrorMessage("Alýcý bilgisi boþ geçilemez!");
+			addErrorMessage(getMsg("app.portal.despatch.draftDespatch.messages.validation.error.despatctReceiverIsEmpty.text"));
 			return false;
 		} else if (StringUtils.isEmpty(despatch.getSender())) {
-			addErrorMessage("Gönderici bilgisi boþ geçilemez!");
+			addErrorMessage(getMsg("app.portal.despatch.draftDespatch.messages.validation.error.despatctSenderIsEmpty.text"));
 			return false;
 		} else if (StringUtils.isEmpty(despatch.getDespatchId())) {
-			addErrorMessage("Ýrsaliye numarasý boþ geçilemez!");
+			addErrorMessage(getMsg("app.portal.despatch.draftDespatch.messages.validation.error.despatctIdIsEmpty.text"));
 			return false;
 		}
 		return true;
 	}
-	
+
 	public String statusToString(String status) {
 		switch (status) {
 		case DespatchDTO.LOAD:
-			return "Yüklendi";
+			return getMsg("app.portal.despatch.status.load.text");
 		case DespatchDTO.SENT:
-			return "Gönderildi";
+			return getMsg("app.portal.despatch.status.sent.text");
 		case DespatchDTO.RECEIVED:
-			return "Alýndý";
+			return getMsg("app.portal.despatch.status.received.text");
 		default:
-			return "Tanýmsýz";
+			return getMsg("app.portal.despatch.status.undefined.text");
 		}
 	}
-	
+
 	public String statusToColor(String status) {
 		switch (status) {
 		case DespatchDTO.LOAD:
@@ -171,8 +180,6 @@ public class DraftDespatchBean extends GenericBean<DraftDespatchBean> {
 		return validateDestapch(currentDraftDespatch);
 	}
 
-	
-	
 	public String getSelectedSeries() {
 		return selectedSeries;
 	}
@@ -183,9 +190,11 @@ public class DraftDespatchBean extends GenericBean<DraftDespatchBean> {
 
 	public List<String> getDespatchSeriesList() {
 		this.despatchSeriesList = new ArrayList<>();
-		this.despatchSeriesList.addAll(DataRepo.despatchSeriesList);
+		this.despatchSeriesList.addAll(DespatchDTO.despatchSeriesList);
 		return despatchSeriesList;
 	}
-	
-	
+
+	public void getDespatchIdFromSerial() {
+		this.selectedDraftDespatch.setDespatchId(DespatchDTO.getIdFromSerial(this.selectedSeries));
+	}
 }
