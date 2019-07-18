@@ -11,14 +11,28 @@ public class ArchiveDTO {
 	private String receiverName;
 	private String status;
 	private Date archiveDate;
+	private Date cDate;
+	private Date minDate = new Date(System.currentTimeMillis()-(7L * 24 * 3600 * 1000));
+	private Date uDate;
 	
-	
-	
-	public String getArchiveId() {
-		return archiveId;
+
+	public Date getuDate() {
+		return uDate;
 	}
-	public void setArchiveId(String archiveId) {
-		this.archiveId = archiveId;
+	public void setuDate(Date uDate) {
+		this.uDate = uDate;
+	}
+	public Date getMinDate() {
+		return minDate;
+	}
+	public void setMinDate(Date minDate) {
+		this.minDate = minDate;
+	}
+	public Date getcDate() {
+		return cDate;
+	}
+	public void setcDate(Date cDate) {
+		this.cDate = cDate;
 	}
 	public Date getArchiveDate() {
 		return archiveDate;
@@ -26,6 +40,13 @@ public class ArchiveDTO {
 	public void setArchiveDate(Date archiveDate) {
 		this.archiveDate = archiveDate;
 	}
+	public String getArchiveId() {
+		return archiveId;
+	}
+	public void setArchiveId(String archiveId) {
+		this.archiveId = archiveId;
+	}
+
 	private BigDecimal amount;
 	
 	

@@ -11,7 +11,9 @@
 		<h:form prependId="false">
 		
 		#{archiveBean.openViewArchivePage()}
-		<p:outputPanel id="buttonPanel">
+		
+		<!-- Top Button Panel-->
+			<p:outputPanel id="buttonPanel">
 				<p:commandButton value="#{msg['app.portal.archive.top.new']}"
 					update="dialogPAnel" global="false" process="@this"
 					onclick="PF('dlg2').show()">
@@ -19,8 +21,7 @@
 
 				<p:commandButton value="#{msg['app.portal.archive.top.edit']}"
 					onclick="PF('editArchiveWidget').show()" update=" editDialogPAnel"
-					process="@this"
-					rendered="#{archiveBean.earchiveEditAble}">
+					process="@this" rendered="#{archiveBean.earchiveEditAble}">
 				</p:commandButton>
 
 				<p:commandButton value="#{msg['app.portal.archive.top.delete']}"
@@ -32,7 +33,7 @@
 				<p:commandButton value="#{msg['app.portal.archive.top.queue']}"
 					action="#{archiveBean.changeStatus('QUEUE')}"
 					update="archives  buttonPanel" process="@this"
-					rendered="#{archiveBean.earchiveQueueAble}" >
+					rendered="#{archiveBean.earchiveQueueAble}">
 				</p:commandButton>
 
 				<p:commandButton value="#{msg['app.portal.archive.top.send']}"
@@ -43,7 +44,7 @@
 				</p:commandButton>
 			</p:outputPanel>
 
-
+			<!-- New Invoice Dialog-->
 			<p:dialog header="#{msg['app.portal.archive.dialog.title']}"
 				widgetVar="dlg2" minHeight="40">
 
@@ -58,17 +59,17 @@
 						<p:outputLabel value="#{msg['app.portal.archive.no']}" />
 						<p:inputText value="#{archiveBean.archiveDto.archiveId}"
 							required="true"
-							
 							validatorMessage="Arşiv numarası 7 ile 15 karakterden oluşmaktadır"
 							requiredMessage="Arşiv numarası boş geçilemez"
-							onkeyup="this.value = this.value.toUpperCase()">
-							<f:validateLength minimum="7" maximum="15"></f:validateLength>						
+							onkeyup="this.value = this.value.toUpperCase()" tabindex="1">
+							<f:validateLength minimum="7" maximum="15"></f:validateLength>
 						</p:inputText>
-
 
 						<p:outputLabel value="#{msg['app.portal.archive.date']}" />
 						<p:calendar value="#{archiveBean.archiveDto.archiveDate}"
-						disabledWeekends="true"/>
+							disabledWeekends="true"
+							mindate="#{archiveBean.archiveDto.minDate}"
+							maxdate="today"/>
 
 						<p:spacer width="5px" />
 
@@ -76,15 +77,14 @@
 							value="#{msg['app.portal.archive.amount']} " />
 						<p:inputNumber id="amount"
 							value="#{archiveBean.archiveDto.amount}" required="true"
-							requiredMessage="Tutar boş geçilemez"></p:inputNumber>
+							requiredMessage="Tutar boş geçilemez" tabindex="2"></p:inputNumber>
 
 						<p:outputLabel value="#{msg['app.portal.archive.sender']}"
 							for="sender" />
 						<p:inputText id="sender"
 							value="#{archiveBean.archiveDto.senderName}" required="true"
 							requiredMessage="Gönderici boş geçilemez"
-							onkeyup="this.value = this.value.toUpperCase()"
-							>
+							onkeyup="this.value = this.value.toUpperCase()" tabindex="3">
 						</p:inputText>
 
 						<p:spacer width="5px" />
@@ -92,122 +92,147 @@
 						<p:outputLabel value="#{msg['app.portal.archive.receiver']}" />
 						<p:inputText value="#{archiveBean.archiveDto.receiverName}"
 							required="true" requiredMessage="Alıcı boş geçilemez"
-							onkeyup="this.value = this.value.toUpperCase()"
-							></p:inputText>
+							onkeyup="this.value = this.value.toUpperCase()" tabindex="4"></p:inputText>
 
 					</h:panelGrid>
 					<div align="center">
 						<p:commandButton value="#{msg['app.portal.archive.dialog.save']}"
 							action="#{archiveBean.saveArchive}" global="false"
 							update="archives dialogPAnel " process="@this,dialogPAnel"
-							oncomplete="PF('dlg2').hide()" ></p:commandButton>
+							oncomplete="PF('dlg2').hide()" tabindex="5"></p:commandButton>
 						<p:commandButton value="#{msg['app.portal.archive.dialog.clear']}"
 							action="#{archiveBean.clearArchive()}"
-							process="@this,dialogPAnel">
+							process="@this,dialogPAnel" tabindex="6">
 						</p:commandButton>
 					</div>
 
 				</p:outputPanel>
 			</p:dialog>
 
+			<!-- Datatable for Viewing Invoices-->
 			<p:outputPanel id="archives">
 				<p:dataTable value="#{archiveBean.archiveDTOs}"
 					selection="#{archiveBean.selectedList}" var="arc"
 					rowKey="#{arc.uuid}" rendered="#{archiveBean.archiveDTOs.size()>0}">
 
 
-					<p:ajax event="rowSelect" update="buttonPanel" listener="#{archiveBean.rowSelect}" global="false"/>
-					<p:ajax event="rowUnselect" update="buttonPanel" listener="#{archiveBean.rowSelect}" global="false"/>
-					<p:ajax event="rowSelectCheckbox" update="buttonPanel" listener="#{archiveBean.rowSelect()}" global="false"/>
-					<p:ajax event="rowUnselectCheckbox" update="buttonPanel" listener="#{archiveBean.rowSelect()}" global="false"/>
-					<p:ajax event="toggleSelect" update="buttonPanel" listener="#{archiveBean.rowSelect}" global="false"/>
+					<p:ajax event="rowSelect" update="buttonPanel"
+						listener="#{archiveBean.rowSelect}" global="false" />
+					<p:ajax event="rowUnselect" update="buttonPanel"
+						listener="#{archiveBean.rowSelect}" global="false" />
+					<p:ajax event="rowSelectCheckbox" update="buttonPanel"
+						listener="#{archiveBean.rowSelect()}" global="false" />
+					<p:ajax event="rowUnselectCheckbox" update="buttonPanel"
+						listener="#{archiveBean.rowSelect()}" global="false" />
+					<p:ajax event="toggleSelect" update="buttonPanel"
+						listener="#{archiveBean.rowSelect}" global="false" />
 
 
 					<p:column selectionMode="multiple"
-						style="width:16px; text-align:center" >
+						style="width:16px; text-align:center">
 					</p:column>
 
 					<p:column headerText="#{msg['app.portal.archive.uuid']}"
-					style="text-align:center">
+						style="text-align:center">
 						<h:outputText value="#{arc.uuid}" />
 					</p:column>
-					
+
 					<p:column headerText="#{msg['app.portal.archive.no']}"
-					style="text-align:center">
+						style="text-align:center">
 						<h:outputText value="#{arc.archiveId}" />
 					</p:column>
 
 					<p:column headerText="#{msg['app.portal.archive.date']}"
-					style="text-align:center">
+						style="text-align:center">
 						<h:outputText value="#{arc.archiveDate}">
-						<f:convertDateTime pattern="dd/MM/yyyy" />
+							<f:convertDateTime pattern="dd/MM/yyyy" />
 						</h:outputText>
 					</p:column>
 
 
 					<p:column headerText="#{msg['app.portal.archive.sender']}"
-					style="text-align:center">
+						style="text-align:center">
 						<h:outputText value="#{arc.senderName}" />
 					</p:column>
 
 					<p:column headerText="#{msg['app.portal.archive.receiver']}"
-					style="text-align:center">
+						style="text-align:center">
 						<h:outputText value="#{arc.receiverName}" />
 					</p:column>
 					<p:column headerText="#{msg['app.portal.archive.amount']}"
-					style="text-align:center">
+						style="text-align:center">
 						<h:outputText value="#{arc.amount}" />
+					</p:column>
+
+					<p:column headerText="#{msg['app.portal.archive.cdate']}"
+						style="text-align:center">
+						<h:outputText value="#{arc.cDate}">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="#{msg['app.portal.archive.udate']}"
+						style="text-align:center">
+						<h:outputText value="#{arc.uDate}">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+						</h:outputText>
 					</p:column>
 
 					<p:column headerText="#{msg['app.portal.archive.status']}"
 						style="background-color:#{archiveBean.statusColor(arc.status)}; text-align:center">
 						<h:outputText value="#{archiveBean.statusDesc(arc.status)}" />
 					</p:column>
+
 				</p:dataTable>
 			</p:outputPanel>
 
+
+			<!-- Edit Invoice Dialog-->
 			<p:dialog header="#{msg['app.portal.archive.dialog.edit.title']}"
 				widgetVar="editArchiveWidget" minHeight="40">
 
 				<p:outputPanel id="editDialogPAnel">
 					<h:panelGrid columns="5">
 						<p:outputLabel value="#{msg['app.portal.archive.uuid']}" />
-						<p:inputText value="#{archiveBean.selectedArchiveDto.uuid}"
+						<p:inputText value="#{archiveBean.selectedList.get(0).uuid}"
 							readonly="true" />
 
 						<p:spacer width="5px" />
 
 						<p:outputLabel value="#{msg['app.portal.archive.no']}" />
-						<p:inputText value="#{archiveBean.selectedArchiveDto.archiveId}"
+						<p:inputText value="#{archiveBean.selectedList.get(0).archiveId}"
 							required="true"
 							validatorMessage="Arşiv numarası 5 ile 15 karakterden oluşmaktadır"
 							requiredMessage="Arşiv numarası boş geçilemez"
-							onkeyup="this.value = this.value.toUpperCase()">
+							onkeyup="this.value = this.value.toUpperCase()" tabindex="1">
 							<f:validateLength minimum="5" maximum="15"></f:validateLength>
 						</p:inputText>
 
 						<p:outputLabel value="#{msg['app.portal.archive.date']}" />
-						<p:calendar value="#{archiveBean.selectedArchiveDto.archiveDate}"
-							required="true" requiredMessage="Tarih boş geçilemez" />
+						<p:calendar value="#{archiveBean.selectedList.get(0).archiveDate}"
+							required="true" requiredMessage="Tarih boş geçilemez"
+							disabledWeekends="true"
+							mindate="#{archiveBean.archiveDto.minDate}" maxdate="today" />
 
 						<p:spacer width="5px" />
 
 						<p:outputLabel value="Tutar " />
-						<p:inputNumber value="#{archiveBean.selectedArchiveDto.amount}"
-							required="true" requiredMessage="Tutar boş geçilemez"></p:inputNumber>
+						<p:inputNumber value="#{archiveBean.selectedList.get(0).amount}"
+							required="true" requiredMessage="Tutar boş geçilemez"
+							tabindex="2"></p:inputNumber>
 
 						<p:outputLabel value="#{msg['app.portal.archive.sender']} " />
-						<p:inputText value="#{archiveBean.selectedArchiveDto.senderName}"
+						<p:inputText value="#{archiveBean.selectedList.get(0).senderName}"
 							required="true" requiredMessage="Gönderici boş geçilemez"
-							onkeyup="this.value = this.value.toUpperCase()"></p:inputText>
+							onkeyup="this.value = this.value.toUpperCase()" tabindex="3"></p:inputText>
 
 						<p:spacer width="5px" />
 
 						<p:outputLabel value="#{msg['app.portal.archive.receiver']}" />
 						<p:inputText
-							value="#{archiveBean.selectedArchiveDto.receiverName}"
+							value="#{archiveBean.selectedList.get(0).receiverName}"
 							required="true" requiredMessage="Alıcı boş geçilemez"
-							onkeyup="this.value = this.value.toUpperCase()"></p:inputText>
+							onkeyup="this.value = this.value.toUpperCase()" tabindex="4"></p:inputText>
 
 
 					</h:panelGrid>
@@ -216,9 +241,9 @@
 							action="#{archiveBean.editArchive}"
 							update="archives dialogPAnel buttonPanel"
 							process="@this,editDialogPAnel"
-							oncomplete="PF('editArchiveWidget').hide()"></p:commandButton>
+							oncomplete="PF('editArchiveWidget').hide()" tabindex="5"></p:commandButton>
 						<p:commandButton value="#{msg['app.portal.archive.dialog.close']}"
-							onclick="PF('editArchiveWidget').hide()" />
+							onclick="PF('editArchiveWidget').hide()" tabindex="6" />
 					</div>
 
 				</p:outputPanel>
