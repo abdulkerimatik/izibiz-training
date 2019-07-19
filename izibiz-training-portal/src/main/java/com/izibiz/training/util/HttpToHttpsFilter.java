@@ -18,10 +18,11 @@ public class HttpToHttpsFilter implements Filter {
 		
 	}
 
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
 			throws IOException, ServletException {
-		request.setCharacterEncoding("UTF-8");
-		chain.doFilter(request, new HttpHeaderRedirect((HttpServletRequest) request, (HttpServletResponse) response));
+		servletRequest.setCharacterEncoding("UTF-8");
+		filterChain.doFilter(servletRequest, new HttpHeaderRedirect((HttpServletRequest) servletRequest, (HttpServletResponse) servletResponse));
+
 		
 	}
 
@@ -30,6 +31,6 @@ public class HttpToHttpsFilter implements Filter {
 		
 	}
 
-	
+
 
 }

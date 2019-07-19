@@ -11,11 +11,18 @@
 				<p:menuitem value="#{msg['app.portal.menu.draft.invoice']}"  icon="ui-icon-mail-closed"  url="/darft-invoice"  />
 			</p:submenu>
 			
+
 			<p:submenu label="#{msg['app.portal.menu.archive.title']}" >
 				<p:menuitem value="#{msg['app.portal.menu.archive.invoice']}"  icon="ui-icon-mail-closed"  url="/earsiv/faturalar"/>
 				<p:menuitem value="#{msg['app.portal.menu.archive.report']}"  icon="ui-icon-mail-closed"   url="/earsiv/raporlar" />
 				<p:menuitem value="#{msg['app.portal.menu.archive.draft']}"  icon="ui-icon-mail-closed"  url="/earsiv/taslaklar"  />
 				<p:menuitem value="#{msg['app.portal.menu.archive.create']}"  icon="ui-icon-mail-closed"  url="/earsiv/olustur"  />
+			</p:submenu>
+			<p:submenu label="#{msg['app.portal.menu.despatch.title']}" >
+				<p:menuitem value="#{msg['app.portal.menu.despatch.inbox']}"  icon="ui-icon-mail-closed"  url="/despatch-inbox"/>
+				<p:menuitem value="#{msg['app.portal.menu.despatch.outbox']}"  icon="ui-icon-mail-closed"   url="/despatch-outbox" />
+				<p:menuitem value="#{msg['app.portal.menu.draft.despatch']}"  icon="ui-icon-mail-closed"  url="/draft-despatch"  />
+
 			</p:submenu>
 			
 		</p:menu>
