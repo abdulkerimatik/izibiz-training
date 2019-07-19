@@ -167,9 +167,8 @@
 							update="pnlNewDespatch pnlDespatchDataTable" />
 						<p:commandButton
 							value="#{msg['app.portal.despatch.buttons.clear.title']}"
-							action="#{draftDespatchBean.clearCurrentDraftDespatch()}"
-							process="@this,pnlNewDespatch" update="pnlNewDespatch"
-							type="button" />
+							action="#{draftDespatchBean.clearCurrentDraftDespatch()}" 
+							process="@this,pnlNewDespatch" update="pnlNewDespatch"/>
 					</p:outputPanel>
 				</p:outputPanel>
 			</p:dialog>
