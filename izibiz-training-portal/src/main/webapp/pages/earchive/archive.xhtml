@@ -58,32 +58,27 @@
 
 						<p:outputLabel value="#{msg['app.portal.archive.no']}" />
 						<p:inputText value="#{archiveBean.archiveDto.archiveId}"
-							required="true"
-							validatorMessage="Arşiv numarası 7 ile 15 karakterden oluşmaktadır"
-							requiredMessage="Arşiv numarası boş geçilemez"
 							onkeyup="this.value = this.value.toUpperCase()" tabindex="1">
-							<f:validateLength minimum="7" maximum="15"></f:validateLength>
 						</p:inputText>
 
 						<p:outputLabel value="#{msg['app.portal.archive.date']}" />
 						<p:calendar value="#{archiveBean.archiveDto.archiveDate}"
-							disabledWeekends="true"
-							mindate="#{archiveBean.archiveDto.minDate}"
-							maxdate="today"/>
+							pattern="dd/MM/YYYY" disabledWeekends="true"
+							mindate="#{archiveBean.archiveDto.minDate}" maxdate="today" />
 
 						<p:spacer width="5px" />
 
 						<p:outputLabel for="amount"
 							value="#{msg['app.portal.archive.amount']} " />
 						<p:inputNumber id="amount"
-							value="#{archiveBean.archiveDto.amount}" required="true"
-							requiredMessage="Tutar boş geçilemez" tabindex="2"></p:inputNumber>
+							value="#{archiveBean.archiveDto.amount}"
+							tabindex="2">
+						</p:inputNumber>
 
 						<p:outputLabel value="#{msg['app.portal.archive.sender']}"
 							for="sender" />
 						<p:inputText id="sender"
-							value="#{archiveBean.archiveDto.senderName}" required="true"
-							requiredMessage="Gönderici boş geçilemez"
+							value="#{archiveBean.archiveDto.senderName}"
 							onkeyup="this.value = this.value.toUpperCase()" tabindex="3">
 						</p:inputText>
 
@@ -91,18 +86,23 @@
 
 						<p:outputLabel value="#{msg['app.portal.archive.receiver']}" />
 						<p:inputText value="#{archiveBean.archiveDto.receiverName}"
-							required="true" requiredMessage="Alıcı boş geçilemez"
-							onkeyup="this.value = this.value.toUpperCase()" tabindex="4"></p:inputText>
+							 onkeyup="this.value = this.value.toUpperCase()"
+							tabindex="4">
+						</p:inputText>
 
 					</h:panelGrid>
 					<div align="center">
+					
 						<p:commandButton value="#{msg['app.portal.archive.dialog.save']}"
-							action="#{archiveBean.saveArchive}" global="false"
-							update="archives dialogPAnel " process="@this,dialogPAnel"
-							oncomplete="PF('dlg2').hide()" tabindex="5"></p:commandButton>
+							action="#{archiveBean.saveArchive}" global="true"
+							update="@this, archives, dialogPAnel" process="@this,dialogPAnel"
+							oncomplete="if (!args.validationFailed) PF('dlg2').hide()"
+							tabindex="5">
+						</p:commandButton>
+
 						<p:commandButton value="#{msg['app.portal.archive.dialog.clear']}"
-							action="#{archiveBean.clearArchive()}"
-							process="@this,dialogPAnel" tabindex="6">
+							action="#{archiveBean.clearArchive()}" update="dialogPAnel"
+							process="@this, dialogPAnel" tabindex="6">
 						</p:commandButton>
 					</div>
 
@@ -201,16 +201,11 @@
 
 						<p:outputLabel value="#{msg['app.portal.archive.no']}" />
 						<p:inputText value="#{archiveBean.selectedList.get(0).archiveId}"
-							required="true"
-							validatorMessage="Arşiv numarası 5 ile 15 karakterden oluşmaktadır"
-							requiredMessage="Arşiv numarası boş geçilemez"
 							onkeyup="this.value = this.value.toUpperCase()" tabindex="1">
-							<f:validateLength minimum="5" maximum="15"></f:validateLength>
 						</p:inputText>
 
 						<p:outputLabel value="#{msg['app.portal.archive.date']}" />
 						<p:calendar value="#{archiveBean.selectedList.get(0).archiveDate}"
-							required="true" requiredMessage="Tarih boş geçilemez"
 							disabledWeekends="true"
 							mindate="#{archiveBean.archiveDto.minDate}" maxdate="today" />
 
@@ -218,12 +213,10 @@
 
 						<p:outputLabel value="Tutar " />
 						<p:inputNumber value="#{archiveBean.selectedList.get(0).amount}"
-							required="true" requiredMessage="Tutar boş geçilemez"
 							tabindex="2"></p:inputNumber>
 
 						<p:outputLabel value="#{msg['app.portal.archive.sender']} " />
 						<p:inputText value="#{archiveBean.selectedList.get(0).senderName}"
-							required="true" requiredMessage="Gönderici boş geçilemez"
 							onkeyup="this.value = this.value.toUpperCase()" tabindex="3"></p:inputText>
 
 						<p:spacer width="5px" />
@@ -231,7 +224,6 @@
 						<p:outputLabel value="#{msg['app.portal.archive.receiver']}" />
 						<p:inputText
 							value="#{archiveBean.selectedList.get(0).receiverName}"
-							required="true" requiredMessage="Alıcı boş geçilemez"
 							onkeyup="this.value = this.value.toUpperCase()" tabindex="4"></p:inputText>
 
 
@@ -241,7 +233,10 @@
 							action="#{archiveBean.editArchive}"
 							update="archives dialogPAnel buttonPanel"
 							process="@this,editDialogPAnel"
-							oncomplete="PF('editArchiveWidget').hide()" tabindex="5"></p:commandButton>
+							oncomplete="if (!args.validationFailed) PF('editArchiveWidget').hide()"
+							tabindex="5">
+						</p:commandButton>
+
 						<p:commandButton value="#{msg['app.portal.archive.dialog.close']}"
 							onclick="PF('editArchiveWidget').hide()" tabindex="6" />
 					</div>

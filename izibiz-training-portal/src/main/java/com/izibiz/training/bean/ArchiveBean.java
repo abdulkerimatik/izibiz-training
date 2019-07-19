@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.UUID;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+
 import org.springframework.util.CollectionUtils;
 import com.izibiz.training.bean.base.GenericBean;
 import com.izibiz.training.entity.dto.ArchiveDTO;
@@ -19,6 +21,7 @@ public class ArchiveBean extends GenericBean<ArchiveDTO> {
 	private ArchiveDTO archiveDto;
 	private List<ArchiveDTO> archiveDTOs; // all invoices
 	private List<ArchiveDTO> selectedList; // selected invoices
+	
 
 	private boolean earchiveEditAble = false;
 	private boolean earchiveQueueAble = false;
@@ -67,23 +70,25 @@ public class ArchiveBean extends GenericBean<ArchiveDTO> {
 	public void clearArchive() {
 		archiveDto = new ArchiveDTO();
 		archiveDto.setUuid(UUID.randomUUID().toString());
-		//Date now = Calendar.getInstance().getTime();
+		// Date now = Calendar.getInstance().getTime();
 		Date now = new Date();
 		archiveDto.setArchiveDate(now);
 		archiveDto.setcDate(now);
-		archiveDto.setuDate(now);	
+		archiveDto.setuDate(now);
 	}
 
 	public void saveArchive() {
-		if (!validate(archiveDto)) {
-			addErrorMessage("E-arşiv faturası oluşturma işlemi başarısız");
+		validate(archiveDto);
+		if (FacesContext.getCurrentInstance().isValidationFailed()) {
+			//addErrorMessage(getMsg("app.portal.archive.messages.validation.create.error"));
+			//clearArchive();
 			return;
 		}
 		archiveDto.setStatus("LOAD");
 		getArchiveDTOs().add(archiveDto);
 		DataRepo.archive.add(archiveDto);
 		clearArchive();
-		addInfoMessage("E-arÅŸiv faturasÄ± oluÅŸturma iÅŸlemi baÅŸarÄ±lÄ±");
+		addInfoMessage(getMsg("app.portal.archive.messages.validation.create.success"));
 	}
 
 	public void deleteArchive() {
@@ -95,81 +100,80 @@ public class ArchiveBean extends GenericBean<ArchiveDTO> {
 					}
 			}
 			openViewArchivePage();
-			addInfoMessage("Silme iÅŸlemi baÅŸarÄ±lÄ± ÅŸekilde tamamlanmÄ±ÅŸtÄ±r.");
+			addInfoMessage(getMsg("app.portal.archive.messages.validation.create.success"));
 			setSelectedList(null);
 		}
 	}
 
 	public void editArchive() {
-
-		if (!validate(selectedList.get(0))) {
-			addErrorMessage("DÃ¼zenleme iÅŸlemi baÅŸarÄ±sÄ±z!");
+		validate(selectedList.get(0));
+		if (FacesContext.getCurrentInstance().isValidationFailed()) {
+			addErrorMessage(getMsg("app.portal.archive.messages.validation.edit.error"));
 			return;
 		}
 		for (ArchiveDTO archiveDTO : archiveDTOs) {
 			if (archiveDTO.getUuid().equals(selectedList.get(0).getUuid())) {
-				DataRepo.archive.remove(archiveDTO);		
+				DataRepo.archive.remove(archiveDTO);
 				Date now = new Date();
 				selectedList.get(0).setuDate(now);
 				DataRepo.archive.add(selectedList.get(0));
-				
+
 			}
 		}
 		openViewArchivePage();
-		addInfoMessage("DÃ¼zenleme iÅŸlemi baÅŸarÄ±lÄ± ÅŸekilde tamamlanmÄ±ÅŸtÄ±r.");
+		addInfoMessage(getMsg("app.portal.archive.messages.validation.edit.success"));
 		selectedList = null;
 	}
 
 	public String statusDesc(String status) {
 		if ("LOAD".equals(status)) {
-			return "YÜKLENDİ";
+			return getMsg("app.portal.archive.status.load");
 		} else if ("QUEUE".equals(status)) {
-			return "KUYRUĞA EKLENDİ";
+			return getMsg("app.portal.archive.status.queue");
 		} else if ("SEND".equals(status)) {
-			return "GÖNDERİLDİ";
+			return getMsg("app.portal.archive.status.send");
 		}
 		return "";
 	}
 
 	public String statusColor(String status) {
 		if ("LOAD".equals(status)) {
-			return "yellow";
+			return "grey";
 		} else if ("QUEUE".equals(status)) {
-			return "blue";
+			return "orange";
 		} else if ("SEND".equals(status)) {
 			return "green";
 		}
 		return "";
 	}
 
-	private boolean validate(ArchiveDTO archiveDto) {
+	private void validate(ArchiveDTO archiveDto) {
 		if (archiveDto == null) {
-			addErrorMessage("E-ArÅŸiv FaturasÄ± boÅŸ olamaz");
-			return false;
+			addErrorMessage(getMsg("app.portal.archive.messages.validation.error.invoiceEmpty"));
+			FacesContext.getCurrentInstance().validationFailed();
 		} else if (StringUtils.isBlank(archiveDto.getUuid())) {
-			addErrorMessage("Fatura IoD boÅŸ olamaz");
-			return false;
+			addErrorMessage(getMsg("app.portal.archive.messages.validation.error.invoiceIdEmpty"));
+			FacesContext.getCurrentInstance().validationFailed();
 		} else if (StringUtils.isBlank(archiveDto.getArchiveId())) {
-			addErrorMessage("Fatura numarasÄ± boÅŸ olamaz");
-			return false;
+			addErrorMessage(getMsg("app.portal.archive.messages.validation.error.invoiceNoEmpty"));
+			FacesContext.getCurrentInstance().validationFailed();
 		} else if (!org.apache.commons.lang3.math.NumberUtils.isCreatable(archiveDto.getArchiveId().substring(0, 2))
 				|| (archiveDto.getArchiveId().substring(3).matches(".*\\d.*"))) {
-			addErrorMessage("Fatura numarasÄ±nÄ±n ilk Ã¼Ã§ hanesi rakam, geri kalanÄ± harflerden oluÅŸmalÄ±dÄ±r");
-			return false;
+			addErrorMessage(getMsg("app.portal.archive.messages.validation.error.invoiceNoInvalid"));
+			FacesContext.getCurrentInstance().validationFailed();
 		} else if (StringUtils.isBlank(archiveDto.getSenderName())) {
-			addErrorMessage("GÃ¶nderici boÅŸ olamaz");
-			return false;
+			addErrorMessage(getMsg("app.portal.archive.messages.validation.error.invoiceSenderEmpty"));
+			FacesContext.getCurrentInstance().validationFailed();
 		} else if (StringUtils.isBlank(archiveDto.getReceiverName())) {
-			addErrorMessage("AlÄ±cÄ± boÅŸ olamaz");
-			return false;
+			addErrorMessage(getMsg("app.portal.archive.messages.validation.error.invoiceReceiverEmpty"));
+			FacesContext.getCurrentInstance().validationFailed();
 		} else if (StringUtils.isBlank(archiveDto.getAmount().toString())) {
-			addErrorMessage("Tutar boÅŸ olamaz");
-			return false;
+			addErrorMessage(getMsg("app.portal.archive.messages.validation.error.invoiceAmountEmpty"));
+			FacesContext.getCurrentInstance().validationFailed();
 		} else if (StringUtils.isBlank(archiveDto.getArchiveDate().toString())) {
-			addErrorMessage("Tarih boÅŸ olamaz");
-			return false;
+			addErrorMessage(getMsg("app.portal.archive.messages.validation.error.invoiceDateEmpty"));
+			FacesContext.getCurrentInstance().validationFailed();
 		}
-		return true;
 	}
 
 	public void changeStatus(String value) {
