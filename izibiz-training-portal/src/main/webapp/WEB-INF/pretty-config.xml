@@ -2,56 +2,61 @@
 	xmlns="http://ocpsoft.com/prettyfaces/3.3.2"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://ocpsoft.com/xml/ns/prettyfaces/ocpsoft-pretty-faces-3.3.2.xsd">
-
-		<url-mapping id="darft-invoice">
-			<pattern value="/darft-invoice" />
-			<view-id value="/pages/einvoice/draft-invoice.xhtml" />
-		</url-mapping>
-
-
-		<url-mapping id="invoice-inbox">
-			<pattern value="/invoice-inbox" />
-			<view-id value="/pages/einvoice/invoice-inbox.xhtml" />
-		</url-mapping>
-
-		<url-mapping id="invoice-outbox">
-			<pattern value="/invoice-outbox" />
-			<view-id value="/pages/einvoice/invoice-outbox.xhtml" />
-		</url-mapping>
+		
+	<url-mapping id="darft-invoice">
+		<pattern value="/darft-invoice" />
+		<view-id value="/pages/einvoice/draft-invoice.xhtml" />
+	</url-mapping>
 
 
-		<url-mapping id="earsiv-faturalar">
-			<pattern value="/earsiv/faturalar" />
-			<view-id value="/pages/earchive/archive.xhtml" />
-		</url-mapping>
+	<url-mapping id="invoice-inbox">
+		<pattern value="/invoice-inbox" />
+		<view-id value="/pages/einvoice/invoice-inbox.xhtml" />
+	</url-mapping>
 
-		<url-mapping id="earsiv-raporlar">
-			<pattern value="/earsiv/raporlar" />
-			<view-id value="/pages/earchive/archive.xhtml" />
-		</url-mapping>
-
-		<url-mapping id="earsiv-taslaklar">
-			<pattern value="/earsiv/taslaklar" />
-			<view-id value="/pages/earchive/archive.xhtml" />
-		</url-mapping>
-
-		<url-mapping id="earsiv-olustur">
-			<pattern value="/earsiv/olustur" />
-			<view-id value="/pages/earchive/create-earchive.xhtml" />
-		</url-mapping>
+	<url-mapping id="invoice-outbox">
+		<pattern value="/invoice-outbox" />
+		<view-id value="/pages/einvoice/invoice-outbox.xhtml" />
+	</url-mapping>
 
 
-		<url-mapping id="draft-despatch">
-			<pattern value="/draft-despatch" />
-			<view-id value="/pages/edespatch/draft-despatch.xhtml" />
-		</url-mapping>
-		<url-mapping id="despatch-inbox">
-			<pattern value="/despatch-inbox" />
-			<view-id value="/pages/edespatch/despatch-inbox.xhtml" />
-		</url-mapping>
-		<url-mapping id="despatch-outbox">
-			<pattern value="/despatch-outbox" />
-			<view-id value="/pages/edespatch/despatch-outbox.xhtml" />
-		</url-mapping>
+	<url-mapping id="earsiv-faturalar">
+		<pattern value="/earsiv/faturalar" />
+		<view-id value="/pages/earchive/archive.xhtml" />
+	</url-mapping>
 
-	</pretty-config>
+	<url-mapping id="earsiv-raporlar">
+		<pattern value="/earsiv/raporlar" />
+		<view-id value="/pages/earchive/archive.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="earsiv-taslaklar">
+		<pattern value="/earsiv/taslaklar" />
+		<view-id value="/pages/earchive/archive.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="earsiv-olustur">
+		<pattern value="/earsiv/olustur" />
+		<view-id value="/pages/earchive/create-earchive.xhtml" />
+	</url-mapping>
+
+
+	<url-mapping id="draft-despatch">
+		<pattern value="/draft-despatch" />
+		<view-id value="/pages/edespatch/draft-despatch.xhtml" />
+	</url-mapping>
+	<url-mapping id="despatch-inbox">
+		<pattern value="/despatch-inbox" />
+		<view-id value="/pages/edespatch/despatch-inbox.xhtml" />
+	</url-mapping>
+	<url-mapping id="despatch-outbox">
+		<pattern value="/despatch-outbox" />
+		<view-id value="/pages/edespatch/despatch-outbox.xhtml" />
+	</url-mapping>
+
+
+	<url-mapping id="create-new-user">
+		<pattern value="/create-new-user" />
+		<view-id value="/pages/user/create-new-user.xhtml" />
+	</url-mapping>
+</pretty-config>
