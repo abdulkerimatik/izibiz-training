@@ -55,6 +55,22 @@
 	</url-mapping>
 
 
+	<url-mapping id="e-reconciliation">
+		<pattern value="/e-reconciliation" />
+		<view-id value="/pages/ereconciliation/draft-reconciliation.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="e-reconciliation-formation">
+		<pattern value="/e-reconciliation-formation" />
+		<view-id value="/pages/ereconciliation/sent-invoice-reconciliation.xhtml" />
+	</url-mapping>	
+	
+	<url-mapping id="e-reconciliation-report">
+		<pattern value="/e-reconciliation-report" />
+		<view-id value="/pages/ereconciliation/report-reconciliation.xhtml" />
+	</url-mapping>
+
+
 	<url-mapping id="create-new-user">
 		<pattern value="/create-new-user" />
 		<view-id value="/pages/user/create-new-user.xhtml" />
