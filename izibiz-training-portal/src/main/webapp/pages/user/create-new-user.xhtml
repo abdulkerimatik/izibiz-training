@@ -13,50 +13,147 @@
 		#{createNewUserBean.openPage()}
 		<p:wizard flowListener="#{createNewUserBean.onFlowWizard}">
 				<p:tab id="tabBusinessPartner"
-					title="#{msg['app.portal.user.create-new-user.wizard.tabs.businessPartnet.title']}">
+					title="#{msg['app.portal.user.create-new-user.wizard.tabs.partner.title']}">
 					<p:outputPanel id="partnerPanel">
-					<h:panelGrid columns="2">
-						<p:outputLabel for="channelSelectOneMenu"
-							value="#{msg['app.portal.user.create-new-user.wizard.tabs.company.labels.channel.title']}" />
-					
-						<p:selectOneMenu value="#{createNewUserBean.selectedChannel}"
-							id="channelSelectOneMenu" required="true"
-							requiredMessage="#{msg['app.portal.user.create-new-user.wizard.tabs.company.inputs.channel.validation.error.channelIsEmpty.text']}">
-							<p:ajax event="change" golbal="false" update="partnerPanel" listener="#{createNewUserBean.getDealers()}">
-							</p:ajax>
-							<f:selectItem itemLabel="Seçiniz" itemValue="" />
-							<f:selectItems value="#{createNewUserBean.channelList}" />
-						</p:selectOneMenu>
+						<p:messages showDetail="true" closable="true">
+							<p:autoUpdate />
+						</p:messages>
+						<h:panelGrid columns="2">
+							<p:outputLabel for="channelSelectOneMenu"
+								value="#{msg['app.portal.user.create-new-user.wizard.tabs.partner.labels.channel.title']}" />
 
-						<p:outputLabel for="dealerSelectOneMenu"
-							value="#{msg['app.portal.user.create-new-user.wizard.tabs.company.labels.dealer.title']}" />
-						<p:selectOneMenu value="#{createNewUserBean.selectedDealer}"
-							id="dealerSelectOneMenu" required="true" disabled="#{createNewUserBean.dealerList eq null}"
-							requiredMessage="#{msg['app.portal.user.create-new-user.wizard.tabs.company.inputs.channel.validation.error.dealerIsEmpty.text']}">
-							<p:ajax event="change" global="false" update="partnerPanel"  listener="#{createNewUserBean.getAccounts()}">
-							</p:ajax>
-							<f:selectItem itemLabel="Seç" itemValue=""/>
-							<f:selectItems value="#{createNewUserBean.dealerList}" />
-						</p:selectOneMenu>
+							<p:selectOneMenu value="#{createNewUserBean.selectedChannel}"
+								id="channelSelectOneMenu" required="true"
+								requiredMessage="#{msg['app.portal.user.create-new-user.wizard.tabs.partner.inputs.channel.validation.error.channelIsEmpty.text']}">
+								<p:ajax event="change"
+									update="dealerSelectOneMenu accountSelectOneMenu"
+									process="@this" listener="#{createNewUserBean.getDealers}">
+								</p:ajax>
+								<f:selectItem itemLabel="Seçiniz" itemValue=""
+									noSelectionOption="true" />
+								<f:selectItems value="#{createNewUserBean.channelList}" />
+							</p:selectOneMenu>
 
-						<p:outputLabel for="accountSelectOneMenu"
-							value="#{msg['app.portal.user.create-new-user.wizard.tabs.company.labels.account.title']}" />
-						<p:selectOneMenu value="#{createNewUserBean.selectedAccount}" 
-							id="accountSelectOneMenu" autoWidth="false" required="true"  disabled="#{createNewUserBean.accountList eq null}"
-							requiredMessage="#{msg['app.portal.user.create-new-user.wizard.tabs.company.inputs.channel.validation.error.accountIsEmpty.text']}">
-							<f:selectItem itemLabel="choose" itemValue=""/>
-							<f:selectItems value="#{createNewUserBean.accountList}"/>
-						</p:selectOneMenu>
-						
-					</h:panelGrid>
+							<p:outputLabel for="dealerSelectOneMenu"
+								value="#{msg['app.portal.user.create-new-user.wizard.tabs.partner.labels.dealer.title']}" />
+							<p:selectOneMenu value="#{createNewUserBean.selectedDealer}"
+								id="dealerSelectOneMenu" required="true"
+								disabled="#{createNewUserBean.dealerList.size()==0}"
+								requiredMessage="#{msg['app.portal.user.create-new-user.wizard.tabs.partner.inputs.dealer.validation.error.dealerIsEmpty.text']}">
+								<p:ajax event="change" update="accountSelectOneMenu"
+									listener="#{createNewUserBean.getAccounts}">
+								</p:ajax>
+								<f:selectItem itemLabel="seçiniz" itemValue=""
+									noSelectionOption="true" />
+								<f:selectItems value="#{createNewUserBean.dealerList}" />
+							</p:selectOneMenu>
+
+							<p:outputLabel for="accountSelectOneMenu"
+								value="#{msg['app.portal.user.create-new-user.wizard.tabs.partner.labels.account.title']}" />
+							<p:selectOneMenu value="#{createNewUserBean.selectedAccount}"
+								id="accountSelectOneMenu" autoWidth="false" required="true"
+								disabled="#{createNewUserBean.accountList.size()==0}"
+								requiredMessage="#{msg['app.portal.user.create-new-user.wizard.tabs.partner.inputs.account.validation.error.accountIsEmpty.text']}">
+								<f:selectItem itemLabel="seçiniz" itemValue=""
+									noSelectionOption="true" />
+								<f:selectItems value="#{createNewUserBean.accountList}" />
+							</p:selectOneMenu>
+
+						</h:panelGrid>
 					</p:outputPanel>
 				</p:tab>
 
 				<p:tab id="tabCompany"
 					title="#{msg['app.portal.user.create-new-user.wizard.tabs.company.title']}">
+					<p:outputPanel id="companyPanel">
+						<p:messages showDetail="true" closable="true">
+							<p:autoUpdate />
+						</p:messages>
+						<h:panelGrid columns="2">
+							<p:outputLabel for="activationTypeSelectOneMenu"
+								value="#{msg['app.portal.user.create-new-user.wizard.tabs.company.labels.activationType.title']}" />
 
+							<p:selectOneMenu
+								value="#{createNewUserBean.selectedActivationType}"
+								id="activationTypeSelectOneMenu" required="true"
+								requiredMessage="#{msg['app.portal.user.create-new-user.wizard.tabs.company.inputs.activationType.validation.error.activationTypeIsEmpty.text']}">
+								<f:selectItem itemLabel="Seçiniz" itemValue=""
+									noSelectionOption="true" />
+								<f:selectItems value="#{createNewUserBean.activationTypeList}" />
+							</p:selectOneMenu>
+
+							<p:outputLabel for="companyTypeSelectOneMenu"
+								value="#{msg['app.portal.user.create-new-user.wizard.tabs.company.labels.companyType.title']}" />
+							<p:selectOneMenu value="#{createNewUserBean.selectedCompanyType}"
+								id="companyTypeSelectOneMenu" required="true"
+								disabled="#{createNewUserBean.dealerList.size()==0}"
+								requiredMessage="#{msg['app.portal.user.create-new-user.wizard.tabs.company.inputs.companyType.validation.error.companyTypeIsEmpty.text']}">
+								<f:selectItem itemLabel="seçiniz" itemValue=""
+									noSelectionOption="true" />
+								<f:selectItems value="#{createNewUserBean.companyTypeList}" />
+							</p:selectOneMenu>
+
+							<p:outputLabel for="customerTypeSelectOneMenu"
+								value="#{msg['app.portal.user.create-new-user.wizard.tabs.company.labels.customerType.title']}" />
+							<p:selectOneMenu
+								value="#{createNewUserBean.selectedCustomerType}"
+								id="customerTypeSelectOneMenu" autoWidth="false" required="true"
+								disabled="#{createNewUserBean.accountList.size()==0}"
+								requiredMessage="#{msg['app.portal.user.create-new-user.wizard.tabs.company.inputs.customerType.validation.error.customerTypeIsEmpty.text']}">
+								<f:selectItem itemLabel="seçiniz" itemValue=""
+									noSelectionOption="true" />
+								<f:selectItems value="#{createNewUserBean.customerTypeList}" />
+							</p:selectOneMenu>
+
+							<p:outputLabel for="identifierInput"
+								value="#{msg['app.portal.user.create-new-user.wizard.tabs.company.labels.identifier.title']}" />
+							<p:inputNumber id="identifierInput"
+								validatorMessage="#{msg['app.portal.user.create-new-user.wizard.tabs.company.inputs.customerType.validation.error.identifierLengthMismatch.text']}"
+								value="#{createNewUserBean.selectedIdentifier}"
+								decimalPlaces="0" required="true"
+								requiredMessage="#{msg['app.portal.user.create-new-user.wizard.tabs.company.inputs.customerType.validation.error.identifierIsEmpty.text']}">
+								<f:validateLength maximum="11" minimum="10" />
+							</p:inputNumber>
+						</h:panelGrid>
+					</p:outputPanel>
 				</p:tab>
 
+				<p:tab title="özet">
+					<p:outputPanel>
+						<h:panelGrid columns="8" title="#{msg['app.portal.user.create-new-user.wizard.tabs.partner.title']}">
+							<p:outputLabel
+								value="#{msg['app.portal.user.create-new-user.wizard.tabs.partner.labels.channel.title']}:" />
+							<p:outputLabel value="#{createNewUserBean.selectedChannel}" style="font-weight:bold"/>
+							<p:spacer width="5px"/>
+							<p:outputLabel
+								value="#{msg['app.portal.user.create-new-user.wizard.tabs.partner.labels.dealer.title']}:" />
+							<p:outputLabel value="#{createNewUserBean.selectedDealer}" style="font-weight:bold"/>
+							<p:spacer width="5px"/>
+							<p:outputLabel
+								value="#{msg['app.portal.user.create-new-user.wizard.tabs.partner.labels.account.title']}:" />
+							<p:outputLabel value="#{createNewUserBean.selectedAccount}" style="font-weight:bold"/>
+						</h:panelGrid>
+						<p:spacer height="10px"/>
+						<h:panelGrid columns="5" title="#{msg['app.portal.user.create-new-user.wizard.tabs.company.title']}">
+						<p:outputLabel
+								value="#{msg['app.portal.user.create-new-user.wizard.tabs.company.labels.activationType.title']}:" />
+							<p:outputLabel value="#{createNewUserBean.selectedActivationType}" style="font-weight:bold"/>
+							<p:spacer width="5px"/>
+							<p:outputLabel
+								value="#{msg['app.portal.user.create-new-user.wizard.tabs.company.labels.companyType.title']}:" />
+							<p:outputLabel value="#{createNewUserBean.selectedCompanyType}" style="font-weight:bold"/>
+							
+							<p:outputLabel
+								value="#{msg['app.portal.user.create-new-user.wizard.tabs.company.labels.customerType.title']}:" />
+							<p:outputLabel value="#{createNewUserBean.selectedCustomerType}" style="font-weight:bold"/>
+							<p:spacer width="5px"/>
+							<p:outputLabel
+								value="#{msg['app.portal.user.create-new-user.wizard.tabs.company.labels.identifier.title']}:" />
+							<p:outputLabel value="#{createNewUserBean.selectedIdentifier}" style="font-weight:bold"/>
+						</h:panelGrid>
+					</p:outputPanel>
+
+				</p:tab>
 			</p:wizard>
 
 		</h:form>
