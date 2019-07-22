@@ -25,6 +25,12 @@
 				<p:menuitem value="#{msg['app.portal.menu.draft.despatch']}"  icon="ui-icon-mail-closed"  url="/draft-despatch"  />
 			</p:submenu>
 			
+			<p:submenu label="#{msg['app.portal.menu.draft.reconciliation.title']}" >
+				<p:menuitem value="#{msg['app.portal.menu.draft.reconciliation']}"  icon="ui-icon-mail-closed"  url="/e-reconciliation"/>
+				<p:menuitem value="#{msg['app.portal.menu.draft.reconciliation.formation']}"  icon="ui-icon-mail-closed"   url="/e-reconciliation-formation" />
+				<p:menuitem value="#{msg['app.portal.menu.draft.reconciliation.report']}"  icon="ui-icon-mail-closed"  url="/e-reconciliation-report"  />
+			</p:submenu>
+			
 			<p:submenu label="#{msg['app.portal.menu.user.title']}" >
 				<p:menuitem value="#{msg['app.portal.user.create-new-user.pageHeader.title']}"  icon="ui-icon-mail-closed"  url="/create-new-user"/>
 			</p:submenu>

@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/layout/template-with-menu.xhtml">
+
+	<ui:define name="body">
+		<h:form prependId="false">
+		
+		#{reconciliationBean.openViewReconciPage()}
+		<!-- Button Bulunduğu kısım -->
+			<p:outputPanel id="buttonPanel">
+				 <!-- Fatura oluşturma -->
+				<p:commandButton value="#{msg['app.portal.menu.draft.reconci.formation']}" 
+								 process="@this" onclick="PF('dlg').show();"/>
+				<!-- Toplu Belge Alma -->				 
+				<p:commandButton value="#{msg['app.portal.menu.draft.reconci.collective.document.reice']}" id="ajax3"/> 
+				<!-- Düzenle -->	
+			 	<p:commandButton value="#{msg['app.portal.menu.draft.reconci.arrangement']}" process="@this"	
+			 					 onclick="PF('editReconciWidget').show()"  
+			 					 update="editDialogPAnel"
+			 					 rendered="#{reconciliationBean.selectedReconciDto!=null}"/>
+			 	<!-- Silme-->				 
+			 	<p:commandButton value="#{msg['app.portal.menu.draft.reconci.delete']}" 	
+			 					 action="#{reconciliationBean.deleteReconci}"
+			 		 			 update="reconcies buttonPanel" process="@this "
+			 					 rendered="#{reconciliationBean.selectedReconciDto!=null}"/>
+			 	<!-- Gönderme -->
+			 	<p:commandButton value="#{msg['app.portal.menu.draft.reconci.sent']}"
+			 					 action="#{reconciliationBean.sentReconci}"
+			 					 update="reconcies buttonPanel" process="@this"
+			 					 rendered="#{reconciliationBean.selectedReconciDto!=null}"></p:commandButton>
+			 	<!-- Kuyruğa Ekle -->
+			 	<p:commandButton value="#{msg['app.portal.menu.draft.reconci.addtoqueue']}" 
+			 					 action="#{reconciliationBean.changeStatus('NEW')}"
+			 					 update="reconcies buttonPanel" process="@this"
+			 					 rendered="#{reconciliationBean.selectedReconciDto!=null}">
+			 	</p:commandButton>	
+			</p:outputPanel>	
+			
+		<!-- Tabloların Bulunduğu kısım -->
+		
+			<p:outputLabel id="reconcies">
+				<p:dataTable var="list" editable="true"
+				value="#{reconciliationBean.reconciDTOs}" rowKey="#{list.fuId}" 
+				selection="#{reconciliationBean.selectedReconciDto}" 
+				selectionMode="single"><!--  rendered="#{reconciliationBean.reconciDTOs.size()>0}"-->
+				
+				<p:ajax event="rowSelect" update="buttonPanel" />
+				<p:ajax event="rowUnselect" update="buttonPanel" />
+				<!-- E-Mutabakat -->
+        		<f:facet name="header">
+            			#{msg['app.portal.menu.draft.reconci.table.title']}
+        		</f:facet>
+        		<!-- Fatura Numuarası -->
+        		<p:column headerText="#{msg['app.portal.menu.draft.reconci.table.invoice.number']}">
+            		<h:outputText value ="#{list.fuId}" rendered="true"/>
+        		</p:column>
+        		<!-- Yükleme Tarihi -->
+        		<p:column headerText="#{msg['app.portal.menu.draft.reconci.table.uploadate']}">
+            		<h:outputText value="#{list.loadingDate}" pattern="dd.MM.yyyy HH:mm" >
+            		<f:convertDateTime pattern="dd-MM-yyyy" />
+            		</h:outputText>
+        		</p:column>
+        		<!-- Ünvan -->
+        		<p:column headerText="#{msg['app.portal.menu.draft.reconci.table.invoice.customerName']}">
+            		<h:outputText value="#{list.customerName }"/>
+        		</p:column>
+        		<!-- VKN/TCKN -->
+        		<p:column headerText="#{msg['app.portal.menu.draft.reconci.table.VKN']}">
+            		<h:outputText value = "#{list.VKN_TCKNO}"/>
+        		</p:column>
+        		<!-- Tutar -->
+        		<p:column headerText="#{msg['app.portal.menu.draft.reconci.table.amount']}">
+        			<h:outputText value = "#{list.amount}"/>
+        		</p:column>
+        		<!-- Durum -->
+            	<p:column headerText="#{msg['app.portal.menu.draft.reconci.table.status']}" style="background-color:#{reconciliationBean.statusColor(list.status)}">	
+            		<h:outputText value = "#{reconciliationBean.statusDesc(list.status)}"/>
+        		</p:column>
+   	    		</p:dataTable>
+		 	</p:outputLabel>
+		 	
+		 <!-- Faturanın Oluşturuluduğu kısım -->
+		 	<!-- E-Mutabakat Oluşturma -->
+		 	<p:dialog header="#{msg['app.portal.menu.draft.reconci.add.title']}" widgetVar="dlg"  minheight="40">	
+				<p:outputPanel id="dialogPAnel">
+					<h:panelGrid columns="5" >
+						
+						<p:outputLabel value="#{msg['app.portal.menu.draft.reconci.add.fuId']}" />
+						<p:inputText value="#{reconciliationBean.reconciDto.fuId}" readonly="true"></p:inputText>
+						
+						<p:outputLabel value="#{msg['app.portal.menu.draft.reconci.add.loadingDate']}" />
+						<p:calendar value="#{reconciliationBean.reconciDto.loadingDate}" />
+						
+						<p:spacer width="5px" />
+						
+						<p:outputLabel value="#{msg['app.portal.menu.draft.reconci.add.customerName']}" />
+						<p:inputText value="#{reconciliationBean.reconciDto.customerName}" />
+						
+						<p:outputLabel value="#{msg['app.portal.menu.draft.reconci.add.VKN']}" for="sender1"/>
+						<p:inputText id="sender1" maxlength="12" value="#{reconciliationBean.reconciDto.VKN_TCKNO}" 
+						required="true" requiredMessage="Gönderici boş geçilemez" 
+						validatorMessage="Fatura numarası 10 ile 15 karakterden oluşmaktadır">
+						<f:validateLength minimum="1" maximum="12">
+						</f:validateLength><p:keyFilter for="sender1" mask="int" />
+						</p:inputText>
+						
+						<p:spacer width="5px" />
+						
+						<p:outputLabel value="#{msg['app.portal.menu.draft.reconci.add.amount']}" />
+						<p:inputNumber value="#{reconciliationBean.reconciDto.amount}"></p:inputNumber>
+						
+						<!-- <p:outputLabel value="Durum" />
+						<p:inputText value="#{reconciliationBean.reconciDto.status}" ></p:inputText> -->
+					</h:panelGrid>
+						<div align="center">
+							
+							<p:commandButton value="#{msg['app.portal.menu.draft.reconci.table.add.save']}" action="#{reconciliationBean.saveReconci}" 
+											 global="false" update="reconcies dialogPAnel " 
+											 process="@this,dialogPAnel" oncomplete="PF('dlg').hide()"/>
+							
+							<p:commandButton value="#{msg['app.portal.menu.draft.reconci.table.add.clean']}" action="#{reconciliationBean.clearReconci()}" 
+											 proces="@this,dialoPAnel" />
+						</div>
+				</p:outputPanel>
+		 	</p:dialog>
+		 		
+		 		<p:dialog header="#{msg['app.portal.menu.draft.table.reconci.update.title']}" widgetVar="editReconciWidget" minHeight="40">
+
+				<p:outputPanel id="editDialogPAnel">
+					<h:panelGrid columns="5" >
+						
+						<p:outputLabel value="#{msg['app.portal.menu.draft.table.reconci.update.fuId']}" />
+						<p:inputText value="#{reconciliationBean.selectedReconciDto.fuId}" readonly="true"></p:inputText>
+						
+						<p:outputLabel value="#{msg['app.portal.menu.draft.table.reconci.update.loadingDate']}" />
+						<p:calendar value="#{reconciliationBean.selectedReconciDto.loadingDate}" />
+						<p:spacer width="5px" />
+				
+						<p:outputLabel value="#{msg['app.portal.menu.draft.table.reconci.update.customerName']}" />
+						<p:inputText value="#{reconciliationBean.selectedReconciDto.customerName}" />
+					
+						<p:outputLabel value="#{msg['app.portal.menu.draft.table.reconci.update.VKN']}"/>
+						<p:inputText value="#{reconciliationBean.selectedReconciDto.VKN_TCKNO}" />	  
+						<p:spacer width="5px" />
+						
+						<p:outputLabel value="#{msg['app.portal.menu.draft.table.reconci.update.amount']}" />
+						<p:inputText value="#{reconciliationBean.selectedReconciDto.amount}"></p:inputText>
+						
+						<!-- <p:outputLabel value="Durum" />
+						<p:inputText value="#{reconciliationBean.selectedReconciDto.status}" ></p:inputText> -->
+						
+				</h:panelGrid>
+					<div align="center">
+					
+						<p:commandButton value="#{msg['app.portal.menu.draft.table.reconci.update.save']}"
+							action="#{reconciliationBean.editReconci}"
+							update="reconcies dialogPAnel buttonPanel"
+							process="@this editDialogPAnel"
+							oncomplete="PF('editReconciWidget').hide()"></p:commandButton>
+						
+						<p:commandButton value="#{msg['app.portal.menu.draft.table.reconci.update.close']}"
+							onclick="PF('editReconciWidget').hide()" />
+					</div>
+				</p:outputPanel>
+			</p:dialog> 	
+		</h:form>
+	</ui:define>
+</ui:composition>

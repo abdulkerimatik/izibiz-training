@@ -78,6 +78,7 @@
 			<artifactId>spring-web</artifactId>
 			<version>3.0.4.RELEASE</version>
 		</dependency>
+		
 		<!-- https://mvnrepository.com/artifact/com.ocpsoft/ocpsoft-pretty-faces -->
 		<dependency>
 			<groupId>org.ocpsoft.rewrite</groupId>

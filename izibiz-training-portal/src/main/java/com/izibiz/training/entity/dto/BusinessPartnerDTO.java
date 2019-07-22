@@ -3,7 +3,7 @@ package com.izibiz.training.entity.dto;
 public class BusinessPartnerDTO {
 
 	private String channel;//kanal
-	private String dealer;//dağıtıcı
+	private String dealer;//daÄŸÄ±tÄ±cÄ±
 	private String account;//bayi
 	public String getChannel() {
 		return channel;

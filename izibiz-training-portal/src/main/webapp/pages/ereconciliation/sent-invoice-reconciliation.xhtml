@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/layout/template-with-menu.xhtml">
+
+	<ui:define name="body">
+		<h:form prependId="false">
+		#{reconciliationBean.openViewReconciPageInsert()}
+		<p:outputLabel id="reconcisent">
+				<p:dataTable var="list" editable="true"
+				value="#{reconciliationBean.listDTOs}" rowKey="#{list.fuId}" 
+				selection="#{reconciliationBean.selectedReconciDto}" 
+				selectionMode="single">
+				
+				<!-- <p:ajax event="rowSelect" update="buttonPanel" />
+				<p:ajax event="rowUnselect" update="buttonPanel" /> -->
+				
+        		<f:facet name="header">
+            			#{msg['app.portal.menu.draft.reconci.table.title']}
+        		</f:facet>
+        		<!-- Fatura Numuarası -->
+        		<p:column headerText="#{msg['app.portal.menu.draft.reconci.table.invoice.number']}">
+            		<h:outputText value ="#{list.fuId}" rendered="true"/>
+        		</p:column>
+        		<!-- Yükleme Tarihi -->
+        		<p:column headerText="#{msg['app.portal.menu.draft.reconci.table.uploadate']}">
+            		<h:outputText value="#{list.loadingDate}" pattern="dd.MM.yyyy HH:mm" >
+            		<f:convertDateTime pattern="dd-MM-yyyy" />
+            		</h:outputText>
+        		</p:column>
+        		<!-- Ünvan -->
+        		<p:column headerText="#{msg['app.portal.menu.draft.reconci.table.invoice.customerName']}">
+            		<h:outputText value="#{list.customerName }"/>
+        		</p:column>
+        		<!-- VKN/TCKN -->
+        		<p:column headerText="#{msg['app.portal.menu.draft.reconci.table.VKN']}">
+            		<h:outputText value = "#{list.VKN_TCKNO}"/>
+        		</p:column>
+        		<!-- Tutar -->
+        		<p:column headerText="#{msg['app.portal.menu.draft.reconci.table.amount']}">
+        			<h:outputText value = "#{list.amount}"/>
+        		</p:column>
+        		<!-- Durum -->
+            	<p:column headerText="#{msg['app.portal.menu.draft.reconci.table.status']}" style="background-color:#{reconciliationBean.statusColor(list.status)}">	
+            		<h:outputText value = "#{reconciliationBean.statusDesc(list.status)}"/>
+        		</p:column>
+   	    		</p:dataTable>
+		 	</p:outputLabel>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

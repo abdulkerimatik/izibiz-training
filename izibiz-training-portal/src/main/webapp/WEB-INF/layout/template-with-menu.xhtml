@@ -18,7 +18,9 @@
 
 		<p:ajaxStatus onstart="PF('statusDialog').show();" onsuccess="PF('statusDialog').hide();" />
 
-		<p:growl id="growl" autoUpdate="true" showDetail="true" showSummary="true" redisplay="false" life="14000" />
+		<p:growl id="growl" showDetail="true" showSummary="true" redisplay="false" life="14000" >
+			<p:autoUpdate/>
+		</p:growl>
 
 	 <p:dialog id="stDlg" modal="true" widgetVar="statusDialog" draggable="false" closable="false" resizable="false">
 	 <h:panelGrid columns="1" style="width:100%;text-align:center;">
