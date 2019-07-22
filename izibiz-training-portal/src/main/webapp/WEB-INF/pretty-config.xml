@@ -75,4 +75,13 @@
 		<pattern value="/create-new-user" />
 		<view-id value="/pages/user/create-new-user.xhtml" />
 	</url-mapping>
+	
+	<url-mapping id="new-customer">
+		<pattern value="/new-customer" />
+		<view-id value="/pages/customer/create-new-customer-client.xhtml" />
+	</url-mapping>
+	<url-mapping id="customer-client-list">
+		<pattern value="/customer-client-list" />
+		<view-id value="/pages/customer/customer-client-list.xhtml" />
+	</url-mapping>
 </pretty-config>

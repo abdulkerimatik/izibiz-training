@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/layout/template-with-menu.xhtml">
+
+	<ui:define name="body">
+		<h:form prependId="false">
+	#{customerClientListBean.loadPage()}
+	<div>Müşteri Listesi</div>
+
+			<p:commandButton value="Yeni Müşteri"
+				action="/pages/customer/create-new-customer-client.xhtml?faces-redirect=true" />
+			<p:outputPanel id="customersDataTablePanel">
+				<p:dataTable value="#{customerClientListBean.customerList}"
+				rows="10"
+					widgetVar="customerListWidget"
+					filteredValue="#{customerClientListBean.filteredCustomerList}"
+					var="customer" paginator="true"
+					selection="#{customerClientListBean.selectedCustomerClient}"
+					rowsPerPageTemplate="5,15,25" selectionMode="single"
+					rowKey="#{customer.clientCode}" lazy="false"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+					<f:facet name="header">
+						<p:outputPanel>
+							<h:outputText value="Bütün kolonlarda ara:" />
+							<p:inputText id="globalFilter"
+								onkeyup="PF('customerListWidget').filter()" style="width:150px"
+								placeholder="Aranacak" />
+						</p:outputPanel>
+					</f:facet>
+					<p:column headerText="Cari Kodu" sortBy="#{customer.clientCode}"
+						filterBy="#{customer.clientCode}" filterMatchMode="contains">
+						<p:outputLabel value="#{customer.clientCode}"></p:outputLabel>
+					</p:column>
+					<p:column headerText="Şube Tipi" sortBy="#{customer.branchType}"
+						filterBy="#{customer.branchType}" filterMatchMode="contains">
+						<p:outputLabel value="#{customer.branchType}"></p:outputLabel>
+					</p:column> toggleable="true"
+					<p:column headerText="Unvan" sortBy="#{customer.title}"
+						filterBy="#{customer.title}" filterMatchMode="contains">
+						<p:outputLabel value="#{customer.title}"></p:outputLabel>
+					</p:column>
+					<p:column headerText="VKN/TCKN" sortBy="#{customer.identifier}"
+						filterBy="#{customer.identifier}" filterMatchMode="contains">
+						<p:outputLabel value="#{customer.identifier}"></p:outputLabel>
+					</p:column>
+					<p:column headerText="Vergi Dairesi" sortBy="#{customer.taxOffice}"
+						filterBy="#{customer.taxOffice}" filterMatchMode="contains">
+						<p:outputLabel value="#{customer.taxOffice}"></p:outputLabel>
+					</p:column>
+					<p:column headerText="E-Posta" sortBy="#{customer.eMail}"
+						filterBy="#{customer.eMail}" filterMatchMode="contains">
+						<p:outputLabel value="#{customer.eMail}"></p:outputLabel>
+					</p:column>
+					<p:column headerText="Telefon" sortBy="#{customer.telephone}"
+						filterBy="#{customer.telephone}" filterMatchMode="contains">
+						<p:outputLabel value="#{customer.telephone}"></p:outputLabel>
+					</p:column>
+					<p:column headerText="İl" sortBy="#{customer.city}"
+						filterBy="#{customer.city}" filterMatchMode="contains">
+						<p:outputLabel value="#{customer.city}"></p:outputLabel>
+					</p:column>
+					<p:column headerText="İlçe" sortBy="#{customer.region}"
+						filterBy="#{customer.region}" filterMatchMode="contains">
+						<p:outputLabel value="#{customer.region}"></p:outputLabel>
+					</p:column>
+					<p:column headerText="Adres" sortBy="#{customer.address}"
+						filterBy="#{customer.address}" filterMatchMode="contains">
+						<p:outputLabel value="#{customer.address}"></p:outputLabel>
+					</p:column>
+					<p:column headerText="Durum" sortBy="#{customer.status}"
+						filterBy="#{customer.status}" filterMatchMode="contains">
+						<p:inputSwitch value="#{customer.status}">
+							<p:ajax listener="#{customerClientListBean.updateStatus}"
+								update="customersDataTablePanel" />
+						</p:inputSwitch>
+					</p:column>
+				</p:dataTable>
+			</p:outputPanel>
+		</h:form>
+
+	</ui:define>
+</ui:composition>
