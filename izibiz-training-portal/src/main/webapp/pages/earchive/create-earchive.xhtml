@@ -9,10 +9,26 @@
 
 	<ui:define name="body">
 		<h:form prependId="false">
-	
+
+			<p:outputPanel id="CreatePanel">
 		
-		E-Arşiv Create
-		
+				E-Arşiv Create
+				<br /><br />
+				
+				<form>
+					<p:outputLabel value="MÜŞTERİ" for="acCustomer"
+						style="margin-right: 10px" />
+					<p:autoComplete id="acCustomer" value="#{archiveCreateBean.query}"
+						completeMethod="#{archiveCreateBean.complete}"
+						forceSelection="true">
+						<p:ajax event="itemSelect"
+							listener="#{archiveCreateBean.onSelect}" update="CreatePanel" />
+						<!-- <p:ajax event="change" listener="#{bean.action}" process="@form"/> -->
+					</p:autoComplete>
+				</form>
+
+			</p:outputPanel>
+
 
 		</h:form>
 	</ui:define>
