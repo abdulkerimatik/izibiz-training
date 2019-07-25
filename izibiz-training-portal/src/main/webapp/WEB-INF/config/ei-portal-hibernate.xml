@@ -13,31 +13,6 @@ http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 	<!-- Enable the configuration of transactional behavior based on annotations -->
 	<tx:annotation-driven transaction-manager="txManager" />
 
-<!-- 	<bean id="eFaturaSource" class = "com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close"> -->
-<!--         <property name="driverClass" value="oracle.jdbc.driver.OracleDriver" /> -->
-<!--         <property name="jdbcUrl" value="jdbc:oracle:thin:@192.168.1.200:1521:G11R2" /> -->
-<!--         <property name="user" value="EFATURADEV" /> -->
-<!--         <property name="password" value="IZIBIZDEV" />  -->
-
-<!--         these are C3P0 properties -->
-<!--         <property name="acquireIncrement" value="1" /> -->
-<!--         <property name="minPoolSize" value="1" /> -->
-<!--         <property name="maxPoolSize" value="10" /> -->
-<!--         <property name="maxIdleTime" value="10" /> -->
-<!--  	</bean> -->
-<!--  	<bean id="eFaturaArchiveSource" class = "com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close"> -->
-<!--         <property name="driverClass" value="oracle.jdbc.driver.OracleDriver" /> -->
-<!--         <property name="jdbcUrl" value="jdbc:oracle:thin:@192.168.1.200:1521:G11R2" /> -->
-<!--         <property name="user" value="EFATURADEV" /> -->
-<!--         <property name="password" value="IZIBIZDEV" />  -->
-
-<!--         these are C3P0 properties -->
-<!--         <property name="acquireIncrement" value="1" /> -->
-<!--         <property name="minPoolSize" value="1" /> -->
-<!--         <property name="maxPoolSize" value="10" /> -->
-<!--         <property name="maxIdleTime" value="10" /> -->
-<!--  	</bean> -->
-
 	<bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
 <!-- 		<property name="dataSource" ref="eFaturaSource" /> -->
 		<property name="configLocation"><value>file:ormmapping/EFATURA.cfg.xml</value></property>
