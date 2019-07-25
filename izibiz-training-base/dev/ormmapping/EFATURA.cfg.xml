@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+ "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+		<property name="dialect">org.hibernate.dialect.Oracle10gDialect</property>
+		<property name="connection.driver_class">oracle.jdbc.OracleDriver</property>
+		<property name="connection.url">jdbc:oracle:thin:@[ip_addres]:[port]/[ServiceName]</property>
+		<property name="connection.username">[username]</property>
+		<property name="connection.password">[password]</property>
+		<property name="show_sql">false</property>
+		<property name="format_sql">false</property>
+		<property name="order_inserts">true</property>
+		<property name="query.substitutions">true 1, false 0, yes 'Y', no 'N'</property>
+
+		<!-- CACHE CONFIG -->
+		<property name="hibernate.cache.use_second_level_cache">false</property>
+
+		<!-- CONNECTION POOL -->
+		<property name="hibernate.connection.provider_class">org.hibernate.hikaricp.internal.HikariCPConnectionProvider</property>
+		<property name="hibernate.hikari.minimumIdle">1</property>
+		<property name="hibernate.hikari.maximumPoolSize">15</property>
+		<property name="hibernate.hikari.idleTimeout">30000</property>
+
+		<!-- MAPPING FILES
+		<mapping resource="ormmapping/efaturadev/ACCOUNT.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/ACCOUNT_CONTACT.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/ACCT_BILL.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/ACCT_BILL_INFO.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/ADDRESS.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/APPLICATION_RESPONSE.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/APP_LOG.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/APP_QUEUE.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/ARCH_INVOICE.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/BUNDLE.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/BUNDLE_VERSION.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/BUNDLE_VERSION_COMMITMENT.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/BUNDLE_VERSION_PRODUCT.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/BUSINESS_UNIT.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/CF_CHAR_SPEC.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/CF_DATA_TYPE_SPEC.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/CF_LOV.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/CF_LOV_RELATION.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/CF_LOV_VALUE.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/CF_LOV_VALUE_LANG.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/CF_PRIVILEGE.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/CF_RELATION_TYPE.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/CF_ROLE.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/CF_ROLE_PRIVILEGES.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/CF_SCREEN.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/CF_SCREEN_OBJECTS.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/COMMITMENT.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/CONFIG.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/CONFIG_BILLING.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/CONTACT_LIST.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/CUSTOMER.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/CUSTOMER_ADDITIONAL_TARIFF.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/CUSTOMER_ADDRESS.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/CUSTOMER_CONTACT.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/DOCUMENT_SET.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/EILOCK.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/ENTITY_PARAMS.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/ENVELOPE.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/EVENT_DATA_RECORD.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/EXTERNAL_INVOICE.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/FILESET.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/GEN_ARCHIVE.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/GEN_ARCHIVE_DEF.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/GEN_ARCHIVE_PARAM.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/GIB_USER_LIST.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/INVOICE.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/INVOICE_ITEMS.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/INVOICE_ITEMS_INFO.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/LOG_ACCESS.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/MSG_NOTIFY_LNK.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/MSG_NOTIFY_QUEUE.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/MSG_NOTIFY_TEMPLATE.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/PARTNER.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/PARTNER_CONTACT.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/PARTY.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/PARTY_MAIL_HIST.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/PARTY_MAIL_MAP.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/PERSON.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/PRODUCT.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/SIGN_CONFIG.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/STATUS_LOG.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/TARIFF.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/TAX_INFO.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/TXN.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/USERS.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/USER_PRIVILEGES.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/USER_ROLES.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/USER_SESSION.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/XSLT.hbm.xml" />
+		<mapping resource="ormmapping/efaturadev/XSLT_LNK.hbm.xml" />
+		-->
+	</session-factory>
+</hibernate-configuration>
