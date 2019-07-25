@@ -9,7 +9,7 @@ import javax.faces.context.FacesContext;
 
 public class GenericBean<T> implements Serializable{
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 7218542753188528290L;
 	private static ResourceBundle msgBundle;
 	private static ResourceBundle getMsgBundle() {
 		if(msgBundle==null) {

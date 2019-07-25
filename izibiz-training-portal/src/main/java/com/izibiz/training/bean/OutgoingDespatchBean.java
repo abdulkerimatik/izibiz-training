@@ -3,21 +3,24 @@ package com.izibiz.training.bean;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import org.apache.commons.lang3.StringUtils;
 
 import com.izibiz.training.bean.base.GenericBean;
+import com.izibiz.training.entity.dto.DataRepo;
 import com.izibiz.training.entity.dto.DespatchDTO;
 import com.izibiz.training.service.DespatchService;
 import com.izibiz.training.service.base.DespatchServiceImpl;
 
 @ManagedBean
 @ViewScoped
-public class DraftDespatchBean extends GenericBean<DraftDespatchBean> {
+public class OutgoingDespatchBean extends GenericBean<OutgoingDespatchBean> {
 	private DespatchDTO currentDraftDespatch;
 	private DespatchDTO selectedDraftDespatch;
 	private DespatchService service;
@@ -33,7 +36,7 @@ public class DraftDespatchBean extends GenericBean<DraftDespatchBean> {
 		selectedSeries = "";
 		clearCurrentDraftDespatch();
 		draftDespatchList = new ArrayList<>();
-		for (DespatchDTO des : service.getAllDespatchesWithType(DespatchDTO.LOAD)) {
+		for (DespatchDTO des : service.getAllDespatchesWithType(DespatchDTO.SENT)) {
 			// if (des.getStatus().equals(DespatchDTO.LOAD))
 			draftDespatchList.add(des);
 		}

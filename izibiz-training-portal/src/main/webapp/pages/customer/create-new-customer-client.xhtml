@@ -8,11 +8,32 @@
 	template="/WEB-INF/layout/template-with-menu.xhtml">
 
 	<ui:define name="body">
-	<h:form prependId="false">
-	
-		<div>Yeni Müşteri</div>
-		
-		</h:form>
+		<h:form prependId="false">
+		#{newCustomerBean.loadPage()}
+			<div>Yeni Müşteri</div>
+			<p:outputPanel id="newCustomerPanel">
+				<p:autoComplete value="#{newCustomerBean.selectedCustomer}"
+					completeMethod="#{newCustomerBean.completeIdentifier}"
+					var="customer"
+					itemLabel="#{customer.title} #{customer.identifier} "
+					itemValue="#{customer}" forceSelection="true">
+					
+				</p:autoComplete>
+				<p:outputPanel id="customerDataPanel">
+					<p:outputLabel value="Client Code" />
+					<p:inputText value="#{newCustomerBean.selectedCustomer.clientCode}" />
+					<p:outputLabel value="Identifier" />
+					<p:inputText value="#{newCustomerBean.selectedCustomer.identifier}" />
+					<p:outputLabel value="Title" />
+					<p:inputText value="#{newCustomerBean.selectedCustomer.title}" />
+					<p:selectBooleanCheckbox
+						value="#{newCustomerBean.selectedCustomer.status}"
+						itemLabel="Status" />
+					<p:commandButton value="Kaydet"
+						action="#{newCustomerBean.saveCustomer}" update="newCustomerPanel" />
+				</p:outputPanel>
 
+			</p:outputPanel>
+		</h:form>
 	</ui:define>
 </ui:composition>

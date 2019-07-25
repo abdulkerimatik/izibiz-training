@@ -80,6 +80,10 @@
 		<pattern value="/new-customer" />
 		<view-id value="/pages/customer/create-new-customer-client.xhtml" />
 	</url-mapping>
+	<url-mapping id="edit-customer">
+		<pattern value="/edit-customer" />
+		<view-id value="/pages/customer/edit-customer-client.xhtml" />
+	</url-mapping>
 	<url-mapping id="customer-client-list">
 		<pattern value="/customer-client-list" />
 		<view-id value="/pages/customer/customer-client-list.xhtml" />

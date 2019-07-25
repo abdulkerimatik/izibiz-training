@@ -16,8 +16,7 @@
 				action="/pages/customer/create-new-customer-client.xhtml?faces-redirect=true" />
 			<p:outputPanel id="customersDataTablePanel">
 				<p:dataTable value="#{customerClientListBean.customerList}"
-				rows="10"
-					widgetVar="customerListWidget"
+					rows="10" widgetVar="customerListWidget"
 					filteredValue="#{customerClientListBean.filteredCustomerList}"
 					var="customer" paginator="true"
 					selection="#{customerClientListBean.selectedCustomerClient}"
@@ -78,6 +77,12 @@
 							<p:ajax listener="#{customerClientListBean.updateStatus}"
 								update="customersDataTablePanel" />
 						</p:inputSwitch>
+					</p:column>
+					<p:column headerText="Düzenle">
+						<p:commandButton value="Düzenle" onclick="window.location.href='http://localhost:8080/izibiz-training-portal/edit-customer';return false;"
+							icon="pi pi-star" style="margin-right:20px;">
+							<f:param name="identifierParam" value="#{customer.identifier}"/>
+						</p:commandButton>
 					</p:column>
 				</p:dataTable>
 			</p:outputPanel>

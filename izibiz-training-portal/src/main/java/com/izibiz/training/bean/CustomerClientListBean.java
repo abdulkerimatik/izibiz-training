@@ -10,6 +10,8 @@ import javax.faces.bean.ViewScoped;
 import com.izibiz.training.bean.base.GenericBean;
 import com.izibiz.training.entity.dto.CustomerClientDTO;
 import com.izibiz.training.entity.dto.DataRepo;
+import com.izibiz.training.service.CustomerClientService;
+import com.izibiz.training.service.base.CustomerClientServiceImpl;
 
 @ManagedBean
 @ViewScoped
@@ -18,11 +20,13 @@ public class CustomerClientListBean extends GenericBean<CustomerClientDTO>{
 	private List<CustomerClientDTO> customerList;
 	private List<CustomerClientDTO> filteredCustomerList;
 	private CustomerClientDTO selectedCustomerClient;
-	
+	private CustomerClientService customerClientService;
 	public void loadPage() {
+		if(customerClientService==null)
+			customerClientService = new CustomerClientServiceImpl();
 		customerList = new ArrayList<>();
 		filteredCustomerList = new ArrayList<>();
-		customerList.addAll(DataRepo.customerClientList);
+		customerList.addAll(customerClientService.getAll());
 		//filteredCustomerList.addAll(customerList);
 	}
 
@@ -31,17 +35,8 @@ public class CustomerClientListBean extends GenericBean<CustomerClientDTO>{
 			addErrorMessage("Hata!");
 			return;
 		}
-		for(CustomerClientDTO customer : customerList) {
-			try {
-				if(customer.getClientCode().equals(selectedCustomerClient.getClientCode())){
-					DataRepo.customerClientList.remove(customer);
-					DataRepo.customerClientList.add(selectedCustomerClient);
-					addInfoMessage(selectedCustomerClient.getTitle()+" firmasının durumu güncellendi!");
-				}	
-			}catch (Exception e) {
-				System.out.println(e.getLocalizedMessage());
-			}
-			
+		if(customerClientService.updateCustomerClient(selectedCustomerClient)) {
+			addInfoMessage(selectedCustomerClient.getTitle()+" firmasının durumu güncellendi!");
 		}
 		loadPage();
 	}
