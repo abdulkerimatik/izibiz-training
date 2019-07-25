@@ -58,6 +58,7 @@
 			<artifactId>jstl</artifactId>
 			<version>${javax.servlet.version}</version>
 		</dependency>
+	
 		<dependency>
 			<groupId>com.oracle.jdbc</groupId>
 			<artifactId>ojdbc</artifactId>
