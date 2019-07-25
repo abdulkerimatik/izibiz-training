@@ -172,7 +172,6 @@
 			<artifactId>commons-lang3</artifactId>
 			<version>3.8.1</version>
 		</dependency>
-
 	</dependencies>
 
 	<build>
@@ -191,6 +190,28 @@
 					<source>1.8</source>
 					<target>1.8</target>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-install-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>vtd-xml</id>
+						<phase>clean</phase>
+						<configuration>
+							<file>../izibiz-training-base/lib/thirdparty/ojdbc7-12.1.0.2.jar</file>
+							<repositoryLayout>default</repositoryLayout>
+							<groupId>com.oracle.jdbc</groupId>
+							<artifactId>ojdbc</artifactId>
+							<version>${oracle.ojdbc.version}</version>
+							<packaging>jar</packaging>
+							<generatePom>true</generatePom>
+						</configuration>
+						<goals>
+							<goal>install-file</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
