@@ -3,25 +3,24 @@ package com.izibiz.training.bean;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import org.apache.commons.lang3.StringUtils;
 
 import com.izibiz.training.bean.base.GenericBean;
+import com.izibiz.training.entity.dto.DataRepo;
 import com.izibiz.training.entity.dto.DespatchDTO;
 import com.izibiz.training.service.DespatchService;
 import com.izibiz.training.service.base.DespatchServiceImpl;
 
 @ManagedBean
 @ViewScoped
-public class DraftDespatchBean extends GenericBean<DraftDespatchBean> {
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 676708930015358326L;
+public class OutgoingDespatchBean extends GenericBean<OutgoingDespatchBean> {
 	private DespatchDTO currentDraftDespatch;
 	private DespatchDTO selectedDraftDespatch;
 	private DespatchService service;
@@ -37,11 +36,11 @@ public class DraftDespatchBean extends GenericBean<DraftDespatchBean> {
 		selectedSeries = "";
 		clearCurrentDraftDespatch();
 		draftDespatchList = new ArrayList<>();
-		for (DespatchDTO des : service.getAllDespatchesWithType(DespatchDTO.LOAD)) {
+		for (DespatchDTO des : service.getAllDespatchesWithType(DespatchDTO.SENT)) {
 			// if (des.getStatus().equals(DespatchDTO.LOAD))
 			draftDespatchList.add(des);
 		}
-
+		
 		/*
 		 * DataRepo.despatches.forEach(x->{ if(x.getStatus().equals(DespatchDTO.LOAD)) {
 		 * draftDespatchList.add(x); } });
@@ -69,7 +68,6 @@ public class DraftDespatchBean extends GenericBean<DraftDespatchBean> {
 		if(service.updateDespatch(selectedDraftDespatch)) {
 			addInfoMessage(getMsg("app.portal.despatch.draftDespatch.messages.crud.success.editDespatch.text"));
 		}
-		addInfoMessage(getResourceBundleMessage("app.portal.despatch.draftDespatch.messages.crud.success.editDespatch.text"));
 		openDraftDespatchPage();
 	}
 
@@ -81,8 +79,11 @@ public class DraftDespatchBean extends GenericBean<DraftDespatchBean> {
 	public void sendDraftDespatch() {
 		if (validateDestapch(selectedDraftDespatch)) {
 			if (changeStatus(this.selectedDraftDespatch, DespatchDTO.SENT)) {
-				DespatchDTO.seriesMap.put(selectedSeries, DespatchDTO.getSerialNoFromId(selectedDraftDespatch.getDespatchId()));
-				addInfoMessage(getResourceBundleMessage("app.portal.despatch.draftDespatch.messages.crud.success.sendDraftDespatch.text"));
+				if(service.updateDespatch(this.selectedDraftDespatch)) {
+					DespatchDTO.seriesMap.put(selectedSeries, DespatchDTO.getSerialNoFromId(selectedDraftDespatch.getDespatchId()));
+					addInfoMessage(getMsg("app.portal.despatch.draftDespatch.messages.crud.success.sendDraftDespatch.text"));					
+				}
+				
 				openDraftDespatchPage();
 			}
 		}
@@ -104,24 +105,23 @@ public class DraftDespatchBean extends GenericBean<DraftDespatchBean> {
 			addInfoMessage(getMsg("app.portal.despatch.draftDespatch.messages.crud.success.deleteDespatch.text"));
 		}
 		openDraftDespatchPage();
-		addInfoMessage(getResourceBundleMessage("app.portal.despatch.draftDespatch.messages.crud.success.deleteDespatch.text"));
 	}
 
 	private boolean validateDestapch(DespatchDTO despatch) {
 		if (despatch == null) {
-			addErrorMessage(getResourceBundleMessage("app.portal.despatch.draftDespatch.messages.validation.error.despatchNotFound.text"));
+			addErrorMessage(getMsg("app.portal.despatch.draftDespatch.messages.validation.error.despatchNotFound.text"));
 			return false;
 		} else if (StringUtils.isEmpty(despatch.getUuid())) {
-			addErrorMessage(getResourceBundleMessage("app.portal.despatch.draftDespatch.messages.validation.error.despatchUuidIsEmpty.text"));
+			addErrorMessage(getMsg("app.portal.despatch.draftDespatch.messages.validation.error.despatchUuidIsEmpty.text"));
 			return false;
 		} else if (StringUtils.isEmpty(despatch.getReceiver())) {
-			addErrorMessage(getResourceBundleMessage("app.portal.despatch.draftDespatch.messages.validation.error.despatctReceiverIsEmpty.text"));
+			addErrorMessage(getMsg("app.portal.despatch.draftDespatch.messages.validation.error.despatctReceiverIsEmpty.text"));
 			return false;
 		} else if (StringUtils.isEmpty(despatch.getSender())) {
-			addErrorMessage(getResourceBundleMessage("app.portal.despatch.draftDespatch.messages.validation.error.despatctSenderIsEmpty.text"));
+			addErrorMessage(getMsg("app.portal.despatch.draftDespatch.messages.validation.error.despatctSenderIsEmpty.text"));
 			return false;
 		} else if (StringUtils.isEmpty(despatch.getDespatchId())) {
-			addErrorMessage(getResourceBundleMessage("app.portal.despatch.draftDespatch.messages.validation.error.despatctIdIsEmpty.text"));
+			addErrorMessage(getMsg("app.portal.despatch.draftDespatch.messages.validation.error.despatctIdIsEmpty.text"));
 			return false;
 		}
 		return true;
@@ -130,13 +130,13 @@ public class DraftDespatchBean extends GenericBean<DraftDespatchBean> {
 	public String statusToString(String status) {
 		switch (status) {
 		case DespatchDTO.LOAD:
-			return getResourceBundleMessage("app.portal.despatch.status.load.text");
+			return getMsg("app.portal.despatch.status.load.text");
 		case DespatchDTO.SENT:
-			return getResourceBundleMessage("app.portal.despatch.status.sent.text");
+			return getMsg("app.portal.despatch.status.sent.text");
 		case DespatchDTO.RECEIVED:
-			return getResourceBundleMessage("app.portal.despatch.status.received.text");
+			return getMsg("app.portal.despatch.status.received.text");
 		default:
-			return getResourceBundleMessage("app.portal.despatch.status.undefined.text");
+			return getMsg("app.portal.despatch.status.undefined.text");
 		}
 	}
 

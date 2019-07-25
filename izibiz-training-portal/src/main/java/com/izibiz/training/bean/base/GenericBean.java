@@ -16,10 +16,10 @@ public class GenericBean<T> implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private static final String bundleName = "com.izibiz.training.locale.messages";
 
-	
+
 	@ManagedProperty(value = "#{userService}")
 	private UserService userService;
-	
+
 	public String getResourceBundleMessage(String key) {
 		if (StringUtils.isEmpty(key)) {
 			return "";
@@ -30,7 +30,7 @@ public class GenericBean<T> implements Serializable{
 	private ResourceBundle getResourceBundle() {
 		return ResourceBundle.getBundle(bundleName, FacesContext.getCurrentInstance().getApplication().getDefaultLocale());
 	}
-	
+
 	public void addInfoMessage(String summary) {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null);
 		FacesContext.getCurrentInstance().addMessage(null, message);
