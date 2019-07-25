@@ -19,6 +19,10 @@ import com.izibiz.training.entity.dto.DespatchDTO;
 @ManagedBean
 @ViewScoped
 public class DraftDespatchBean extends GenericBean<DraftDespatchBean> {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 676708930015358326L;
 	private DespatchDTO currentDraftDespatch;
 	private DespatchDTO selectedDraftDespatch;
 	private List<DespatchDTO> draftDespatchList = new ArrayList<>();
@@ -70,7 +74,7 @@ public class DraftDespatchBean extends GenericBean<DraftDespatchBean> {
 				DataRepo.despatches.add(selectedDraftDespatch);
 			}
 		}
-		addInfoMessage(getMsg("app.portal.despatch.draftDespatch.messages.crud.success.editDespatch.text"));
+		addInfoMessage(getResourceBundleMessage("app.portal.despatch.draftDespatch.messages.crud.success.editDespatch.text"));
 		openDraftDespatchPage();
 	}
 
@@ -83,7 +87,7 @@ public class DraftDespatchBean extends GenericBean<DraftDespatchBean> {
 		if (validateDestapch(selectedDraftDespatch)) {
 			if (changeStatus(this.selectedDraftDespatch, DespatchDTO.SENT)) {
 				DespatchDTO.seriesMap.put(selectedSeries, DespatchDTO.getSerialNoFromId(selectedDraftDespatch.getDespatchId()));
-				addInfoMessage(getMsg("app.portal.despatch.draftDespatch.messages.crud.success.sendDraftDespatch.text"));
+				addInfoMessage(getResourceBundleMessage("app.portal.despatch.draftDespatch.messages.crud.success.sendDraftDespatch.text"));
 				openDraftDespatchPage();
 			}
 		}
@@ -103,24 +107,24 @@ public class DraftDespatchBean extends GenericBean<DraftDespatchBean> {
 		}
 		DataRepo.despatches.remove(selectedDraftDespatch);
 		openDraftDespatchPage();
-		addInfoMessage(getMsg("app.portal.despatch.draftDespatch.messages.crud.success.deleteDespatch.text"));
+		addInfoMessage(getResourceBundleMessage("app.portal.despatch.draftDespatch.messages.crud.success.deleteDespatch.text"));
 	}
 
 	private boolean validateDestapch(DespatchDTO despatch) {
 		if (despatch == null) {
-			addErrorMessage(getMsg("app.portal.despatch.draftDespatch.messages.validation.error.despatchNotFound.text"));
+			addErrorMessage(getResourceBundleMessage("app.portal.despatch.draftDespatch.messages.validation.error.despatchNotFound.text"));
 			return false;
 		} else if (StringUtils.isEmpty(despatch.getUuid())) {
-			addErrorMessage(getMsg("app.portal.despatch.draftDespatch.messages.validation.error.despatchUuidIsEmpty.text"));
+			addErrorMessage(getResourceBundleMessage("app.portal.despatch.draftDespatch.messages.validation.error.despatchUuidIsEmpty.text"));
 			return false;
 		} else if (StringUtils.isEmpty(despatch.getReceiver())) {
-			addErrorMessage(getMsg("app.portal.despatch.draftDespatch.messages.validation.error.despatctReceiverIsEmpty.text"));
+			addErrorMessage(getResourceBundleMessage("app.portal.despatch.draftDespatch.messages.validation.error.despatctReceiverIsEmpty.text"));
 			return false;
 		} else if (StringUtils.isEmpty(despatch.getSender())) {
-			addErrorMessage(getMsg("app.portal.despatch.draftDespatch.messages.validation.error.despatctSenderIsEmpty.text"));
+			addErrorMessage(getResourceBundleMessage("app.portal.despatch.draftDespatch.messages.validation.error.despatctSenderIsEmpty.text"));
 			return false;
 		} else if (StringUtils.isEmpty(despatch.getDespatchId())) {
-			addErrorMessage(getMsg("app.portal.despatch.draftDespatch.messages.validation.error.despatctIdIsEmpty.text"));
+			addErrorMessage(getResourceBundleMessage("app.portal.despatch.draftDespatch.messages.validation.error.despatctIdIsEmpty.text"));
 			return false;
 		}
 		return true;
@@ -129,13 +133,13 @@ public class DraftDespatchBean extends GenericBean<DraftDespatchBean> {
 	public String statusToString(String status) {
 		switch (status) {
 		case DespatchDTO.LOAD:
-			return getMsg("app.portal.despatch.status.load.text");
+			return getResourceBundleMessage("app.portal.despatch.status.load.text");
 		case DespatchDTO.SENT:
-			return getMsg("app.portal.despatch.status.sent.text");
+			return getResourceBundleMessage("app.portal.despatch.status.sent.text");
 		case DespatchDTO.RECEIVED:
-			return getMsg("app.portal.despatch.status.received.text");
+			return getResourceBundleMessage("app.portal.despatch.status.received.text");
 		default:
-			return getMsg("app.portal.despatch.status.undefined.text");
+			return getResourceBundleMessage("app.portal.despatch.status.undefined.text");
 		}
 	}
 

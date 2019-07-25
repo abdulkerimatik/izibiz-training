@@ -7,17 +7,30 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 
+import org.apache.commons.lang3.StringUtils;
+
+import com.izibiz.training.service.base.UserService;
+
 public class GenericBean<T> implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-	private static ResourceBundle msgBundle;
-	private static ResourceBundle getMsgBundle() {
-		if(msgBundle==null) {
-			FacesContext context = FacesContext.getCurrentInstance();
-			msgBundle = context.getApplication().evaluateExpressionGet(context, "#{msg}", ResourceBundle.class);
+	private static final String bundleName = "com.izibiz.training.locale.messages";
+
+	
+	@ManagedProperty(value = "#{userService}")
+	private UserService userService;
+	
+	public String getResourceBundleMessage(String key) {
+		if (StringUtils.isEmpty(key)) {
+			return "";
 		}
-		return msgBundle;
+		return getResourceBundle().getString(key);
 	}
+
+	private ResourceBundle getResourceBundle() {
+		return ResourceBundle.getBundle(bundleName, FacesContext.getCurrentInstance().getApplication().getDefaultLocale());
+	}
+	
 	public void addInfoMessage(String summary) {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null);
 		FacesContext.getCurrentInstance().addMessage(null, message);
@@ -32,10 +45,13 @@ public class GenericBean<T> implements Serializable{
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, summary, null);
 		FacesContext.getCurrentInstance().addMessage(null, message);
 	}
-	
-	public String getMsg(String prop) {
-		
-		return getMsgBundle().getString(prop);
+
+	public UserService getUserService() {
+		return userService;
+	}
+
+	public void setUserService(UserService userService) {
+		this.userService = userService;
 	}
 
 }

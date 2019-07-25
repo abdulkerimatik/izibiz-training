@@ -21,6 +21,10 @@ import com.izibiz.training.entity.dto.UserDTO;
 @ViewScoped
 public class CreateNewUserBean extends GenericBean<CreateNewUserBean> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4425063431806021504L;
 	private BusinessPartnerDTO businessPartnerDTO;
 	private CompanyDTO companyDTO;
 	private UserDTO userDTO;
@@ -74,7 +78,7 @@ public class CreateNewUserBean extends GenericBean<CreateNewUserBean> {
 			dealerList.addAll(DataRepo.getDealers(selectedChannel));
 		}else {
 			FacesContext.getCurrentInstance().validationFailed();
-			addErrorMessage(getMsg("app.portal.user.create-new-user.wizard.tabs.company.inputs.channel.validation.error.channelIsEmpty.text"));
+			addErrorMessage(getResourceBundleMessage("app.portal.user.create-new-user.wizard.tabs.company.inputs.channel.validation.error.channelIsEmpty.text"));
 		}
 		return dealerList;
 	}
@@ -85,7 +89,7 @@ public class CreateNewUserBean extends GenericBean<CreateNewUserBean> {
 		if(selectedDealer!=null && StringUtils.isNotEmpty(selectedDealer.trim())) {
 			accountList.addAll(DataRepo.getAccounts(selectedDealer));
 		}else {
-			addErrorMessage(getMsg("app.portal.user.create-new-user.wizard.tabs.company.inputs.channel.validation.error.dealerIsEmpty.text"));
+			addErrorMessage(getResourceBundleMessage("app.portal.user.create-new-user.wizard.tabs.company.inputs.channel.validation.error.dealerIsEmpty.text"));
 		}
 		
 		return accountList;
@@ -94,15 +98,15 @@ public class CreateNewUserBean extends GenericBean<CreateNewUserBean> {
 	private boolean validatetabCompany() {
 		if(StringUtils.isEmpty(selectedChannel)) {
 			FacesContext.getCurrentInstance().validationFailed();
-			addErrorMessage(getMsg("app.portal.user.create-new-user.wizard.tabs.company.inputs.channel.validation.error.channelIsEmpty.text"));
+			addErrorMessage(getResourceBundleMessage("app.portal.user.create-new-user.wizard.tabs.company.inputs.channel.validation.error.channelIsEmpty.text"));
 			return false;
 		}else if(StringUtils.isEmpty(selectedDealer)) {
 			FacesContext.getCurrentInstance().validationFailed();
-			addErrorMessage(getMsg("app.portal.user.create-new-user.wizard.tabs.company.inputs.channel.validation.error.dealerIsEmpty.text"));
+			addErrorMessage(getResourceBundleMessage("app.portal.user.create-new-user.wizard.tabs.company.inputs.channel.validation.error.dealerIsEmpty.text"));
 			return false;
 		}else if(StringUtils.isEmpty(selectedAccount)) {
 			FacesContext.getCurrentInstance().validationFailed();
-			addErrorMessage(getMsg("app.portal.user.create-new-user.wizard.tabs.company.inputs.channel.validation.error.accountIsEmpty.text"));
+			addErrorMessage(getResourceBundleMessage("app.portal.user.create-new-user.wizard.tabs.company.inputs.channel.validation.error.accountIsEmpty.text"));
 			return false;
 		}
 		return true;

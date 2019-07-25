@@ -6,6 +6,7 @@ import java.util.UUID;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import com.izibiz.training.bean.base.GenericBean;
+import com.izibiz.training.entity.User;
 import com.izibiz.training.entity.dto.DataRepo;
 import com.izibiz.training.entity.dto.ReconciDTO;
 
@@ -14,6 +15,10 @@ import com.izibiz.training.entity.dto.ReconciDTO;
 @ManagedBean
 public class ReconciliationBean extends GenericBean<ReconciDTO> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6588126907002293123L;
 	private ReconciDTO reconciDto;
 	private List<ReconciDTO> reconciDTOs;
 	private List<ReconciDTO> listDTOs;
@@ -25,6 +30,9 @@ public class ReconciliationBean extends GenericBean<ReconciDTO> {
 		clearReconci();
 	}
 	public void openViewReconciPageInsert() {
+		User user = getUserService().findByUsernanme("izibiz-dev");
+		System.out.println(user!=null ? user.toString() :" could not found user");
+		
 		setListDTOs(new ArrayList<ReconciDTO>());
 		listDTOs.addAll(DataRepo.reconcisent);
 		
@@ -49,19 +57,19 @@ public class ReconciliationBean extends GenericBean<ReconciDTO> {
 		selectedReconciDto.setStatus("LOAD");
 		openViewReconciPage();
 		openViewReconciPageInsert();
-		addInfoMessage("Fatura Baþarýlýyla Gönderildi");
+		addInfoMessage("Fatura BaÅŸarÅŸlÅŸyla GÅŸnderildi");
 	}
 	public void saveReconci() {
 		reconciDto.setStatus("SUCCED");
 		getReconciDTOs().add(reconciDto);
 		DataRepo.reconci.add(reconciDto);
 		clearReconci();
-		addInfoMessage("E-arsiv oluþturma iþlemi baþarýlý");
+		addInfoMessage("E-arsiv oluÅŸturma iÅŸlemi baÅŸarÅŸlÅŸ");
 	}
 
 	private boolean validationFailed(ReconciDTO selectedReconciDto2) {
 		if (selectedReconciDto2 == null) {
-			addErrorMessage("InvoiceDTO boþ olamaz");
+			addErrorMessage("InvoiceDTO boÅŸ olamaz");
 			return false;
 		} else {
 
@@ -79,7 +87,7 @@ public class ReconciliationBean extends GenericBean<ReconciDTO> {
 			}
 		}
 		openViewReconciPage();
-		addInfoMessage("Düzenleme iþleme baþarýlý");
+		addInfoMessage("DÅŸzenleme iÅŸleme baÅŸarÅŸlÅŸ");
 		selectedReconciDto = null;
 	}
 	public void changeStatus(String value) {
@@ -99,11 +107,11 @@ public class ReconciliationBean extends GenericBean<ReconciDTO> {
 	}
 	public String statusDesc(String status) {
 		if("LOAD".equals(status)) {
-			return "Yüklendi";
+			return "YÅŸklendi";
 		}else if("NEW".equals(status)) {
 			return "Kuyruga eklendi";
 		}else if("SUCCED".equals(status)) {
-			return "Baþarýlý";
+			return "BaÅŸarÅŸlÅŸ";
 		}
 		return "";
 	}
@@ -116,7 +124,7 @@ public class ReconciliationBean extends GenericBean<ReconciDTO> {
 				}
 			}
 			openViewReconciPage();
-			addInfoMessage("Silme iþlemi baþarýlý þekilde tamamlanmýþtýr.");
+			addInfoMessage("Silme iÅŸlemi baÅŸarÅŸlÅŸ ÅŸekilde tamamlanmÅŸÅŸtÅŸr.");
 			selectedReconciDto = null;
 		}
 	}

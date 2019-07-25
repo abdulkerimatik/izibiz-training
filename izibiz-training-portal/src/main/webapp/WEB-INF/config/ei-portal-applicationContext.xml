@@ -5,6 +5,8 @@ http://www.springframework.org/schema/context
 http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
 
+	<import resource="ei-portal-hibernate.xml" />
+	<import resource="ei-portal-beans.xml" />
 
 	<!-- Activates various annotations to be detected in bean classes -->
 	<context:annotation-config />

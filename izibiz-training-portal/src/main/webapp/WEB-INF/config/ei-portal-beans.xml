@@ -1,0 +1,24 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<!-- **************************** Dao Declaration *************************** -->
+
+	<bean id="genericHibernateDao" class="com.izibiz.training.dao.common.GenericDaoHibernateImpl" abstract="true">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<bean id="userDao" class="com.izibiz.training.dao.UserDaoImpl" parent="genericHibernateDao">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	
+
+	<!-- **************************** Service Declaration *************************** -->
+
+	<bean id="userService" class="com.izibiz.training.service.UserServiceImpl" />
+	
+	
+	
+	
+	<!-- **************************** Util Declaration *************************** -->
+</beans>

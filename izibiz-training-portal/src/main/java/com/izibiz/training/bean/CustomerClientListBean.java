@@ -15,6 +15,10 @@ import com.izibiz.training.entity.dto.DataRepo;
 @ViewScoped
 public class CustomerClientListBean extends GenericBean<CustomerClientDTO>{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1199092583254331116L;
 	private List<CustomerClientDTO> customerList;
 	private List<CustomerClientDTO> filteredCustomerList;
 	private CustomerClientDTO selectedCustomerClient;

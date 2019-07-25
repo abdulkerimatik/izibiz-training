@@ -15,6 +15,10 @@ import com.izibiz.training.entity.dto.InvoiceDTO;
 @ManagedBean
 public class InvoiceBean extends GenericBean<InvoiceDTO> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8468861310432827431L;
 	private InvoiceDTO invoiceDto;
 	private List<InvoiceDTO> invoiceDTOs;
 	private InvoiceDTO selectedInvoiceDto;

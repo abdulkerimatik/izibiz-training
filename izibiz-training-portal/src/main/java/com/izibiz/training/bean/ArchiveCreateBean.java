@@ -12,6 +12,10 @@ import com.izibiz.training.entity.dto.ArchiveDTO;
 @ManagedBean
 public class ArchiveCreateBean extends GenericBean<ArchiveDTO>{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2359326844732178610L;
 	private String query;
 	private boolean itemSelected= false;
 	

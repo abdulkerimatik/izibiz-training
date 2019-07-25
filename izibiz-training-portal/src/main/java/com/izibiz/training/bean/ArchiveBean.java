@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.springframework.util.CollectionUtils;
+
 import com.izibiz.training.bean.base.GenericBean;
 import com.izibiz.training.entity.dto.ArchiveDTO;
 import com.izibiz.training.entity.dto.DataRepo;
@@ -18,6 +20,10 @@ import com.ocpsoft.pretty.faces.util.StringUtils;
 @ManagedBean
 public class ArchiveBean extends GenericBean<ArchiveDTO> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3119471616006645229L;
 	private ArchiveDTO archiveDto;
 	private List<ArchiveDTO> archiveDTOs; // all invoices
 	private List<ArchiveDTO> selectedList; // selected invoices
@@ -80,7 +86,7 @@ public class ArchiveBean extends GenericBean<ArchiveDTO> {
 	public void saveArchive() {
 		validate(archiveDto);
 		if (FacesContext.getCurrentInstance().isValidationFailed()) {
-			//addErrorMessage(getMsg("app.portal.archive.messages.validation.create.error"));
+			//addErrorMessage(getResourceBundleMessage("app.portal.archive.messages.validation.create.error"));
 			//clearArchive();
 			return;
 		}
@@ -88,7 +94,7 @@ public class ArchiveBean extends GenericBean<ArchiveDTO> {
 		getArchiveDTOs().add(archiveDto);
 		DataRepo.archive.add(archiveDto);
 		clearArchive();
-		addInfoMessage(getMsg("app.portal.archive.messages.validation.create.success"));
+		addInfoMessage(getResourceBundleMessage("app.portal.archive.messages.validation.create.success"));
 	}
 
 	public void deleteArchive() {
@@ -100,7 +106,7 @@ public class ArchiveBean extends GenericBean<ArchiveDTO> {
 					}
 			}
 			openViewArchivePage();
-			addInfoMessage(getMsg("app.portal.archive.messages.validation.create.success"));
+			addInfoMessage(getResourceBundleMessage("app.portal.archive.messages.validation.create.success"));
 			setSelectedList(null);
 		}
 	}
@@ -108,7 +114,7 @@ public class ArchiveBean extends GenericBean<ArchiveDTO> {
 	public void editArchive() {
 		validate(selectedList.get(0));
 		if (FacesContext.getCurrentInstance().isValidationFailed()) {
-			addErrorMessage(getMsg("app.portal.archive.messages.validation.edit.error"));
+			addErrorMessage(getResourceBundleMessage("app.portal.archive.messages.validation.edit.error"));
 			return;
 		}
 		for (ArchiveDTO archiveDTO : archiveDTOs) {
@@ -121,17 +127,17 @@ public class ArchiveBean extends GenericBean<ArchiveDTO> {
 			}
 		}
 		openViewArchivePage();
-		addInfoMessage(getMsg("app.portal.archive.messages.validation.edit.success"));
+		addInfoMessage(getResourceBundleMessage("app.portal.archive.messages.validation.edit.success"));
 		selectedList = null;
 	}
 
 	public String statusDesc(String status) {
 		if ("LOAD".equals(status)) {
-			return getMsg("app.portal.archive.status.load");
+			return getResourceBundleMessage("app.portal.archive.status.load");
 		} else if ("QUEUE".equals(status)) {
-			return getMsg("app.portal.archive.status.queue");
+			return getResourceBundleMessage("app.portal.archive.status.queue");
 		} else if ("SEND".equals(status)) {
-			return getMsg("app.portal.archive.status.send");
+			return getResourceBundleMessage("app.portal.archive.status.send");
 		}
 		return "";
 	}
@@ -149,29 +155,29 @@ public class ArchiveBean extends GenericBean<ArchiveDTO> {
 
 	private void validate(ArchiveDTO archiveDto) {
 		if (archiveDto == null) {
-			addErrorMessage(getMsg("app.portal.archive.messages.validation.error.invoiceEmpty"));
+			addErrorMessage(getResourceBundleMessage("app.portal.archive.messages.validation.error.invoiceEmpty"));
 			FacesContext.getCurrentInstance().validationFailed();
 		} else if (StringUtils.isBlank(archiveDto.getUuid())) {
-			addErrorMessage(getMsg("app.portal.archive.messages.validation.error.invoiceIdEmpty"));
+			addErrorMessage(getResourceBundleMessage("app.portal.archive.messages.validation.error.invoiceIdEmpty"));
 			FacesContext.getCurrentInstance().validationFailed();
 		} else if (StringUtils.isBlank(archiveDto.getArchiveId())) {
-			addErrorMessage(getMsg("app.portal.archive.messages.validation.error.invoiceNoEmpty"));
+			addErrorMessage(getResourceBundleMessage("app.portal.archive.messages.validation.error.invoiceNoEmpty"));
 			FacesContext.getCurrentInstance().validationFailed();
 		} else if (!org.apache.commons.lang3.math.NumberUtils.isCreatable(archiveDto.getArchiveId().substring(0, 2))
 				|| (archiveDto.getArchiveId().substring(3).matches(".*\\d.*"))) {
-			addErrorMessage(getMsg("app.portal.archive.messages.validation.error.invoiceNoInvalid"));
+			addErrorMessage(getResourceBundleMessage("app.portal.archive.messages.validation.error.invoiceNoInvalid"));
 			FacesContext.getCurrentInstance().validationFailed();
 		} else if (StringUtils.isBlank(archiveDto.getSenderName())) {
-			addErrorMessage(getMsg("app.portal.archive.messages.validation.error.invoiceSenderEmpty"));
+			addErrorMessage(getResourceBundleMessage("app.portal.archive.messages.validation.error.invoiceSenderEmpty"));
 			FacesContext.getCurrentInstance().validationFailed();
 		} else if (StringUtils.isBlank(archiveDto.getReceiverName())) {
-			addErrorMessage(getMsg("app.portal.archive.messages.validation.error.invoiceReceiverEmpty"));
+			addErrorMessage(getResourceBundleMessage("app.portal.archive.messages.validation.error.invoiceReceiverEmpty"));
 			FacesContext.getCurrentInstance().validationFailed();
 		} else if (StringUtils.isBlank(archiveDto.getAmount().toString())) {
-			addErrorMessage(getMsg("app.portal.archive.messages.validation.error.invoiceAmountEmpty"));
+			addErrorMessage(getResourceBundleMessage("app.portal.archive.messages.validation.error.invoiceAmountEmpty"));
 			FacesContext.getCurrentInstance().validationFailed();
 		} else if (StringUtils.isBlank(archiveDto.getArchiveDate().toString())) {
-			addErrorMessage(getMsg("app.portal.archive.messages.validation.error.invoiceDateEmpty"));
+			addErrorMessage(getResourceBundleMessage("app.portal.archive.messages.validation.error.invoiceDateEmpty"));
 			FacesContext.getCurrentInstance().validationFailed();
 		}
 	}
