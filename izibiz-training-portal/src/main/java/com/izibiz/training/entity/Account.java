@@ -1,18 +1,24 @@
 package com.izibiz.training.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="ACCOUNT")
-public class Account {
+public class Account implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private long id;
 	private String accountName;
 	
@@ -34,7 +40,7 @@ public class Account {
 		this.accountName = accountName;
 	}
 	
-	@OneToMany(mappedBy = "account",cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "account",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	public List<User> getUsers() {
 		return users;
 	}

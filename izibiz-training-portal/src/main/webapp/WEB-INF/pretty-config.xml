@@ -88,4 +88,8 @@
 		<pattern value="/customer-client-list" />
 		<view-id value="/pages/customer/customer-client-list.xhtml" />
 	</url-mapping>
+	<url-mapping id="user-account">
+		<pattern value="/user-account" />
+		<view-id value="/pages/user/user-account-relation.xhtml" />
+	</url-mapping>
 </pretty-config>
