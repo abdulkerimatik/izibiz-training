@@ -1,63 +1,52 @@
 package com.izibiz.training.service.base;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.izibiz.training.dao.base.DespatchDao;
+import com.izibiz.training.entity.Despatch;
 import com.izibiz.training.entity.dto.DataRepo;
 import com.izibiz.training.entity.dto.DespatchDTO;
 import com.izibiz.training.service.DespatchService;
 
+@Transactional
 public class DespatchServiceImpl implements DespatchService {
 
+	@Autowired
+	private DespatchDao despatchDao;
 	@Override
-	public List<DespatchDTO> getAllDespatchesWithType(String type) {
-		List<DespatchDTO> list = new ArrayList<>();
-		for(DespatchDTO despatch:DataRepo.despatches) {
-			if(despatch.getStatus().equals(type)) {
-				list.add(despatch);
-			}
-		}
-		return list;
+	public List<Despatch> getAllDespatchesWithType(String type) {
+		return despatchDao.getAllDespatchesWithType(type);
 	}
 
 	@Override
-	public List<DespatchDTO> getAll() {
-		List<DespatchDTO> list = new ArrayList<>();
-		list.addAll(DataRepo.despatches);
-		return list;
+	public List<Despatch> getAll() {
+		return despatchDao.getAll();
 	}
+
+	public List<Despatch> findByStatus(String status){
+		Map<String,Object> mapFilter = new HashMap<>();
+		mapFilter.put("status", status);
+		return despatchDao.getOrderedMatchingDesc(mapFilter, "id");
+	}
+
+	@Override
+	public void saveOrUpdate(Despatch despatchDTO) {
+		despatchDao.saveOrUpdate(despatchDTO);
+	}
+
+
+
+	@Override
+	public Despatch findDespatchByUuid(String uuid) {
+		return despatchDao.findDespatchByUuid(uuid);
+	}
+
 	
-	@Override
-	public boolean updateDespatch(DespatchDTO despatchDTO) {
-		for (DespatchDTO despatch : getAllDespatchesWithType(DespatchDTO.LOAD)) {
-			if (despatchDTO.getUuid().equals(despatch.getUuid())) {
-				DataRepo.despatches.remove(despatch);
-				DataRepo.despatches.add(despatchDTO);
-				return true;
-			}
-		}
-		return false;
-	}
-
-	@Override
-	public boolean saveDespatch(DespatchDTO despatchDTO) {
-		return DataRepo.despatches.add(despatchDTO);
-	}
-
-	@Override
-	public boolean deleteDespatch(DespatchDTO despatchDTO) {
-		return DataRepo.despatches.remove(despatchDTO);
-	}
-
-	@Override
-	public DespatchDTO findDespatchByUuid(String uuid) {
-		DespatchDTO dto = null;
-		for(DespatchDTO despatchDTO : DataRepo.despatches) {
-			if(despatchDTO.getUuid().equals(uuid)) {
-				dto = despatchDTO;
-			}
-		}
-		return dto;
-	}
 
 }

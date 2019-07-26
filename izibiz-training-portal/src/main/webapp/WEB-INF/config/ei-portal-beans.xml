@@ -10,13 +10,16 @@ http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 	<bean id="userDao" class="com.izibiz.training.dao.UserDaoImpl" parent="genericHibernateDao">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
+	<bean id="despatchDao" class="com.izibiz.training.dao.DespatchDaoImpl" parent="genericHibernateDao">
+	<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
 
 	
 
 	<!-- **************************** Service Declaration *************************** -->
 
 	<bean id="userService" class="com.izibiz.training.service.UserServiceImpl" />
-	
+	<bean id="despatchService" class="com.izibiz.training.service.base.DespatchServiceImpl" />
 	
 	
 	

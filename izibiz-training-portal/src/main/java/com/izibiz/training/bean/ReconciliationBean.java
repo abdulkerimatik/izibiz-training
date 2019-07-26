@@ -30,7 +30,7 @@ public class ReconciliationBean extends GenericBean<ReconciDTO> {
 		clearReconci();
 	}
 	public void openViewReconciPageInsert() {
-		User user = getUserService().findByUsernanme("izibiz-dev");
+		User user = getUserService().findByUsernanme("admin");
 		System.out.println(user!=null ? user.toString() :" could not found user");
 		
 		setListDTOs(new ArrayList<ReconciDTO>());

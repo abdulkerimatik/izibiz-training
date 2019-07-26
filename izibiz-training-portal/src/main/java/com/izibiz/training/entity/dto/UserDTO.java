@@ -1,6 +1,9 @@
 package com.izibiz.training.entity.dto;
 
 public class UserDTO {
+	
+	private long id;
+	
 	private String firstname;
 
 	private String lastname;
@@ -18,6 +21,15 @@ public class UserDTO {
 	private String email;
 
 	private String phone;
+
+	
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
 
 	public String getFirstname() {
 		return firstname;

@@ -9,6 +9,7 @@ import javax.faces.context.FacesContext;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.izibiz.training.service.DespatchService;
 import com.izibiz.training.service.base.UserService;
 
 public class GenericBean<T> implements Serializable{
@@ -20,6 +21,9 @@ public class GenericBean<T> implements Serializable{
 	@ManagedProperty(value = "#{userService}")
 	private UserService userService;
 
+	@ManagedProperty(value="#{despatchService}")
+	private DespatchService despatchService;
+	
 	public String getResourceBundleMessage(String key) {
 		if (StringUtils.isEmpty(key)) {
 			return "";
@@ -52,6 +56,14 @@ public class GenericBean<T> implements Serializable{
 
 	public void setUserService(UserService userService) {
 		this.userService = userService;
+	}
+
+	public DespatchService getDespatchService() {
+		return despatchService;
+	}
+
+	public void setDespatchService(DespatchService despatchService) {
+		this.despatchService = despatchService;
 	}
 
 }

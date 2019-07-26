@@ -15,7 +15,7 @@ public class DespatchDTO {
 	public static final String SENT="SENT";
 	public static final String RECEIVED="RECEIVED";
 	public static final String DEFAULT_SERIAL_ID="IZI";
-	
+	private long id;
 	private String uuid;
 	private String despatchId;
 	private String sender;
@@ -59,6 +59,8 @@ public static List<String> despatchSeriesList = Arrays.asList("IRS","ABC","XY1")
 		}
 	}
 	
+	
+	
 	public static String getIdFromSerial(String serial) {
 		BigDecimal serialNo = seriesMap.get(serial);
 		if(serialNo!=null) {
@@ -68,6 +70,16 @@ public static List<String> despatchSeriesList = Arrays.asList("IRS","ABC","XY1")
 		return null;
 	}
 	
+	
+	
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
 	public String getUuid() {
 		return uuid;
 	}

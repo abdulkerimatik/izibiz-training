@@ -1,16 +1,14 @@
-package com.izibiz.training.service;
+package com.izibiz.training.dao.base;
 
 import java.util.List;
 
+import com.izibiz.training.dao.common.GenericDao;
 import com.izibiz.training.entity.Despatch;
 
-public interface DespatchService {
+public interface DespatchDao extends GenericDao<Despatch>{
 	List getAllDespatchesWithType(String type);
 
 	List getAll();
-
-	void saveOrUpdate(Despatch despatchDTO);
-
 
 	Despatch findDespatchByUuid(String uuid);
 }

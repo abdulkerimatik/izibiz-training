@@ -33,7 +33,6 @@ public class UserDaoImpl extends GenericDaoHibernateImpl<User> implements UserDa
 		sqlQuery.setParameter("username", username);
 		User user=(User) sqlQuery.uniqueResult();
 		return user;
-		
 	}
 	
 	@Override
