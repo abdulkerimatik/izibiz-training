@@ -25,7 +25,14 @@
 		<hibernate.entitymanager.version>5.1.0.Final</hibernate.entitymanager.version>
 		<hibernate.validator.version>5.2.4.Final</hibernate.validator.version>
 		<spring.security.version>4.1.0.RELEASE</spring.security.version>
-
+		<org.ocpsoft.rewrite.version>2.0.12.Final</org.ocpsoft.rewrite.version>
+		<com.ocpsoft.version>3.3.3</com.ocpsoft.version>
+		<spring-core.version>4.3.5.RELEASE</spring-core.version>
+		<commons-lang3.version>3.8.1</commons-lang3.version>
+		<jetty-maven-plugin.version>9.4.18-SNAPSHOT</jetty-maven-plugin.version>
+		<maven-compiler-plugin.version>2.3.2</maven-compiler-plugin.version>
+		<maven-compiler-plugin.source.version>1.8</maven-compiler-plugin.source.version>
+		<maven-compiler-plugin.target.version>1.8</maven-compiler-plugin.target.version>
 	</properties>
 
 	<dependencies>
@@ -69,12 +76,12 @@
 		<dependency>
 			<groupId>org.ocpsoft.rewrite</groupId>
 			<artifactId>rewrite-servlet</artifactId>
-			<version>2.0.12.Final</version>
+			<version>${org.ocpsoft.rewrite.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ocpsoft</groupId>
 			<artifactId>prettyfaces-jsf2</artifactId>
-			<version>3.3.3</version>
+			<version>${com.ocpsoft.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.glassfish</groupId>
@@ -164,13 +171,13 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
-			<version>4.3.5.RELEASE</version>
+			<version>${spring-core.version}</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>3.8.1</version>
+			<version>${commons-lang3.version}</version>
 		</dependency>
 	</dependencies>
 
@@ -179,16 +186,16 @@
 			<plugin>
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
-				<version>9.4.18-SNAPSHOT</version>
+				<version>${jetty-maven-plugin.version}</version>
 			</plugin>
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
+				<version>${maven-compiler-plugin.version}</version>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
+					<source>${maven-compiler-plugin.target.version}</source>
+					<target>${maven-compiler-plugin.source.version}</target>
 				</configuration>
 			</plugin>
 			<plugin>
