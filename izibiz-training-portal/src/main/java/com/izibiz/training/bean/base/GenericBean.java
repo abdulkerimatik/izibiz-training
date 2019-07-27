@@ -10,6 +10,7 @@ import javax.faces.context.FacesContext;
 import org.apache.commons.lang3.StringUtils;
 
 import com.izibiz.training.service.DespatchService;
+import com.izibiz.training.service.InvoiceService;
 import com.izibiz.training.service.base.AccountService;
 import com.izibiz.training.service.base.UserService;
 
@@ -27,6 +28,9 @@ public class GenericBean<T> implements Serializable{
 	
 	@ManagedProperty( value="#{accountService}")
 	private AccountService accountService;
+	
+	@ManagedProperty( value="#{invoiceService}")
+	private InvoiceService invoiceService;
 	
 	public String getResourceBundleMessage(String key) {
 		if (StringUtils.isEmpty(key)) {
@@ -76,6 +80,14 @@ public class GenericBean<T> implements Serializable{
 
 	public void setAccountService(AccountService accountService) {
 		this.accountService = accountService;
+	}
+
+	public InvoiceService getInvoiceService() {
+		return invoiceService;
+	}
+
+	public void setInvoiceService(InvoiceService invoiceService) {
+		this.invoiceService = invoiceService;
 	}
 
 }

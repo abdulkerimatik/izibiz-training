@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class DataRepo {
 
-	public static List<InvoiceDTO> invoice = new ArrayList<InvoiceDTO>();
+
 	public static List<DespatchDTO> despatches = new ArrayList<>();
 
 	public static List<ArchiveDTO> archive = new ArrayList<ArchiveDTO>();

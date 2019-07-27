@@ -9,4 +9,6 @@ public interface UserDao extends GenericDao<User>{
 
 	User findByUsernanmeHqlType(String username);
 
+	
+
 }

@@ -1,15 +1,16 @@
 package com.izibiz.training.bean;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 import com.izibiz.training.bean.base.GenericBean;
-import com.izibiz.training.entity.dto.DataRepo;
 import com.izibiz.training.entity.dto.InvoiceDTO;
+import com.izibiz.training.lazy.model.InvoiceDtoLazyModel;
 
 @ViewScoped
 @ManagedBean
@@ -22,12 +23,17 @@ public class InvoiceBean extends GenericBean<InvoiceDTO> {
 	private InvoiceDTO invoiceDto;
 	private List<InvoiceDTO> invoiceDTOs;
 	private InvoiceDTO selectedInvoiceDto;
+	private InvoiceDtoLazyModel invoiceDtoLazyModel;
 	
 	
 	public void openViewInvoicePage() {
-		setInvoiceDTOs(new ArrayList<InvoiceDTO>());
-		invoiceDTOs.addAll(DataRepo.invoice);
-		clearInvoice();
+		Map<String, Object> filter=new HashMap<String, Object>();
+		filter.put("accountId", 504);
+		invoiceDtoLazyModel=new InvoiceDtoLazyModel(getInvoiceService());
+		invoiceDtoLazyModel.setFiltermap(filter);
+	
+		
+
 	}
 	
 	
@@ -37,7 +43,6 @@ public class InvoiceBean extends GenericBean<InvoiceDTO> {
 		
 		invoiceDto.setStatus("LOAD");
 		getInvoiceDTOs().add(invoiceDto);
-		DataRepo.invoice.add(invoiceDto);
 		clearInvoice();
 		addInfoMessage("Efatura oluştruma işelmi bşarılı");
 	}
@@ -53,10 +58,7 @@ public class InvoiceBean extends GenericBean<InvoiceDTO> {
 		} else if (invDto.getInvoiceId() == null || invDto.getInvoiceId().length() == 0) {
 			addErrorMessage("InvoiceId boş olamaz");
 			return false;
-		} else if (invDto.getSenderName() == null || invDto.getSenderName().length() == 0) {
-			addErrorMessage("Gönderici boş olamaz");
-			return false;
-		} else if (invDto.getReceiverName() == null || invDto.getReceiverName().length() == 0) {
+		}  else if (invDto.getReceiverName() == null || invDto.getReceiverName().length() == 0) {
 			addErrorMessage("Alıcı boş olamaz");
 			return false;
 		}
@@ -67,7 +69,6 @@ public class InvoiceBean extends GenericBean<InvoiceDTO> {
 		if(selectedInvoiceDto!=null) {
 			for (InvoiceDTO invoiceDTO : invoiceDTOs) {
 				if(invoiceDTO.getUuid().equals(selectedInvoiceDto.getUuid())) {
-					DataRepo.invoice.remove(invoiceDTO);
 				}
 			}
 			openViewInvoicePage();
@@ -118,8 +119,6 @@ public class InvoiceBean extends GenericBean<InvoiceDTO> {
 		
 		for (InvoiceDTO invoiceDTO : invoiceDTOs) {
 			if(invoiceDTO.getUuid().equals(selectedInvoiceDto.getUuid())) {
-				DataRepo.invoice.remove(invoiceDTO);
-				DataRepo.invoice.add(selectedInvoiceDto);
 			}
 		}
 		openViewInvoicePage();
@@ -153,6 +152,16 @@ public class InvoiceBean extends GenericBean<InvoiceDTO> {
 
 	public void setSelectedInvoiceDto(InvoiceDTO selectedInvoiceDto) {
 		this.selectedInvoiceDto = selectedInvoiceDto;
+	}
+
+
+	public InvoiceDtoLazyModel getInvoiceDtoLazyModel() {
+		return invoiceDtoLazyModel;
+	}
+
+
+	public void setInvoiceDtoLazyModel(InvoiceDtoLazyModel invoiceDtoLazyModel) {
+		this.invoiceDtoLazyModel = invoiceDtoLazyModel;
 	}
 	
 	

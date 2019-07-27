@@ -5,36 +5,33 @@ http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<!-- **************************** Dao Declaration *************************** -->
 
-	<bean id="genericHibernateDao"
-		class="com.izibiz.training.dao.common.GenericDaoHibernateImpl"
-		abstract="true">
+	<bean id="genericHibernateDao" class="com.izibiz.training.dao.common.GenericDaoHibernateImpl" abstract="true">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
-	<bean id="userDao" class="com.izibiz.training.dao.UserDaoImpl"
-		parent="genericHibernateDao">
+	<bean id="userDao" class="com.izibiz.training.dao.UserDaoImpl" parent="genericHibernateDao">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
-	<bean id="despatchDao"
-		class="com.izibiz.training.dao.DespatchDaoImpl"
-		parent="genericHibernateDao">
+	<bean id="despatchDao" class="com.izibiz.training.dao.DespatchDaoImpl" parent="genericHibernateDao">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
-	<bean id="accountDao"
-		class="com.izibiz.training.dao.AccountDaoImpl"
-		parent="genericHibernateDao">
+	<bean id="accountDao" class="com.izibiz.training.dao.AccountDaoImpl" parent="genericHibernateDao">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
+	
+	
+	<bean id="invoiceDao" class="com.izibiz.training.dao.InvoiceDaoImpl" parent="genericHibernateDao">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
 
 
 	<!-- **************************** Service Declaration *************************** -->
 
-	<bean id="userService"
-		class="com.izibiz.training.service.UserServiceImpl" />
-	<bean id="despatchService"
-		class="com.izibiz.training.service.base.DespatchServiceImpl" />
-	<bean id="accountService"
-		class="com.izibiz.training.service.AccountServiceImpl" />
+	<bean id="userService" class="com.izibiz.training.service.UserServiceImpl" />
+	<bean id="despatchService" class="com.izibiz.training.service.base.DespatchServiceImpl" />
+	<bean id="accountService" class="com.izibiz.training.service.AccountServiceImpl" />
+	<bean id="invoiceService" class="com.izibiz.training.service.base.InvoiceServiceImpl" />
 
 
 

@@ -39,11 +39,16 @@
 
 
 			<p:outputPanel id="invoices">
-				<p:dataTable var="car" editable="true"
-					value="#{invoiceBean.invoiceDTOs}" rowKey="#{car.uuid}}"
-					selection="#{invoiceBean.selectedInvoiceDto}"
-					selectionMode="single"
-					rendered="#{invoiceBean.invoiceDTOs.size()>0}">
+					
+					<p:dataTable id="car" value="#{invoiceBean.invoiceDtoLazyModel}"
+							var="car" rowKey="#{car.id}"
+							selection="#{invoiceBean.selectedInvoiceDto}" lazy="true"
+							paginator="true" rows="15"
+							paginatorTemplate="{CurrentPageReport} &nbsp; {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} &nbsp; Fatura/Sayfa: {RowsPerPageDropdown}"
+							currentPageReportTemplate="{startRecord}-{endRecord} (Toplam: {totalRecords}) Sayfa: {currentPage}/{totalPages}"
+							rowsPerPageTemplate="10,25,50"
+							emptyMessage="Data not found"
+							tableStyle="table-layout:auto" reflow="true">
 
 					<p:ajax event="rowSelect" update="buttonPanel" />
 					<p:ajax event="rowUnselect" update="buttonPanel" />
@@ -53,7 +58,7 @@
 					</p:column>
 
 					<p:column headerText="Fatura Tarihi">
-						<h:outputText value="#{car.invoiceDate}">
+						<h:outputText value="#{car.createDate}">
 							<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" />
 						</h:outputText>
 					</p:column>
@@ -70,15 +75,17 @@
 						</p:cellEditor>
 					</p:column>
 
-					<p:column headerText="Gönderici">
-						<h:outputText value="#{car.senderName}" />
-					</p:column>
-
 					<p:column headerText="Alıcı">
 						<h:outputText value="#{car.receiverName}" />
 					</p:column>
+						<p:column headerText="VKN &amp; TCKNO">
+						<h:outputText value="#{car.receiverIdentifier}" />
+					</p:column>
+					
+					
+					
 					<p:column headerText="Tutar">
-						<h:outputText value="#{car.amount}" />
+						<h:outputText value="#{car.payableAmount}" />
 					</p:column>
 
 					<p:column headerText="Durum"
