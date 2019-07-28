@@ -1,0 +1,283 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/layout/template-with-menu.xhtml">
+
+
+	<ui:define name="body">
+		<h:form prependId="false">
+
+
+			<!-- buton panel -->
+			
+ 		#{archiveBeanG.openViewArchivePage()}	
+		<p:outputPanel id="buttonPanel">
+
+				<p:commandButton value="Yeni Fatura" update="dialogPanel"
+					global="false" process="@this" onclick="PF('dlg1').show()"
+					style=" 
+						border-radius:9px;
+						border:1px solid #83c41a;
+						display:inline-block;
+						color:#ffffff !important;
+						font-weight:bold;
+						padding:8px 8px ;
+						margin: 7px;
+						text-shadow:1px 1px 0px #689324; 
+						background-color: pink !important;">
+				</p:commandButton>
+
+				<p:commandButton value="Fatura Sil"
+					action="#{archiveBeanG.deleteArchive}"
+					update="archives  buttonPanel" process="@this"
+					rendered="#{archiveBeanG.selectedArchiveDto!=null}"
+					style=" 
+						border-radius:9px;
+						border:1px solid #83c41a;
+						display:inline-block;
+						color:#ffffff !important;
+						font-weight:bold;
+						padding:8px 8px ;
+						margin: 7px;
+						text-shadow:1px 1px 0px #689324; 
+						background-color: red !important;">
+				</p:commandButton>
+
+				<p:commandButton value="Düzenle"
+					onclick="PF('editArchiveWidget').show()" update="editDialogPanel"
+					process="@this" rendered="#{archiveBeanG.selectedArchiveDto!=null}"
+					style=" 
+						border-radius:9px;
+						border:1px solid #83c41a;
+						display:inline-block;
+						color:#ffffff !important;
+						font-weight:bold;
+						padding:8px 8px ;
+						margin: 7px;
+						text-shadow:1px 1px 0px #689324; 
+						background-color:#4486bf !important;">
+				</p:commandButton>
+
+				<p:commandButton value="Kuyruga Ekle"
+					action="#{archiveBeanG.changeStatus('NEW')}"
+					update="archives  buttonPanel" process="@this"
+					rendered="#{archiveBeanG.selectedArchiveDto!=null}"
+					style=" 
+						border-radius:9px;
+						border:1px solid #83c41a;
+						display:inline-block;
+						color:#ffffff !important;
+						font-weight:bold;
+						padding:8px 8px ;
+						margin: 7px;
+						text-shadow:1px 1px 0px #689324; 
+						background-color: plum !important;">
+				</p:commandButton>
+
+				<p:commandButton value="Gönder"
+					action="#{archiveBeanG.sendArchive()}" update="archives buttonPanel"
+					process="@this" rendered="#{archiveBeanG.selectedArchiveDto!=null}"
+					style=" 
+						border-radius:9px;
+						border:1px solid #83c41a;
+						display:inline-block;
+						color:#ffffff !important;
+						font-weight:bold;
+						padding:8px 8px ;
+						margin: 7px;
+						text-shadow:1px 1px 0px #689324; 
+						background-color: darkseagreen !important;">
+				</p:commandButton>
+
+			</p:outputPanel>
+
+
+
+
+			<!-- datatable  -->
+
+			<p:outputPanel id="archives">
+				<p:dataTable var="arc"
+					value="#{archiveBeanG.getArchivesFromDirection('DRAFT')}"
+					rowKey="#{arc.uuid}" selection="#{archiveBeanG.selectedArchiveDto}"
+					selectionMode="single"
+					rendered="#{archiveBeanG.getArchivesFromDirection('DRAFT').size()>0}">
+
+					<p:ajax event="rowSelect" update="buttonPanel" />
+					<p:ajax event="rowUnselect" update="buttonPanel" />
+
+					<p:column headerText="uuid">
+						<h:outputText value="#{arc.uuid}" />
+					</p:column>
+
+					<p:column headerText="Fatura Tarihi">
+						<h:outputText value="#{arc.archiveDate}">
+							<f:convertDateTime pattern="dd-MM-yyyy" />
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Fatura NO">
+						<h:outputText value="#{arc.archiveId}" />
+					</p:column>
+
+					<p:column headerText="Gönderici">
+						<h:outputText value="#{arc.senderName}" />
+					</p:column>
+
+					<p:column headerText="Alıcı">
+						<h:outputText value="#{arc.receiverTcVkn}" />
+					</p:column>
+
+					<p:column headerText="Tutar">
+						<h:outputText value="#{arc.amount}" />
+					</p:column>
+
+					<p:column headerText="Durum"
+						style="background-color:#{archiveBeanG.statusColor(arc.status)}">
+						<h:outputText value="#{archiveBeanG.statusDesc(arc.status)}" />
+					</p:column>
+					<p:column style="width:35px">
+						<p:rowEditor />
+					</p:column>
+				</p:dataTable>
+
+			</p:outputPanel>
+
+
+
+
+
+
+
+			<!-- yenı fatura diolog -->
+
+			<p:dialog header="Yeni Fatura Oluştur" widgetVar="dlg1"
+				minHeight="40">
+
+				<p:outputPanel id="dialogPanel">
+
+					<h:panelGrid columns="5">
+						<p:outputLabel value="UUID" />
+						<p:inputText value="#{archiveBeanG.archiveDto.uuid}"
+							readonly="true" />
+						<p:spacer width="5px" />
+
+						<p:outputLabel value="Fatura Seri Ad" for="archiveid" />
+						<p:inputText id="archiveid"
+							value="#{archiveBeanG.archiveDto.archiveId}" maxlength="3"
+							required="true"
+							validatorMessage="Fatura seri 3 karakterden oluşmaktadır"
+							requiredMessage="Fatura seri ad boş geçeilemez">
+							<f:validateLength minimum="3"></f:validateLength>
+						</p:inputText>
+
+						<p:outputLabel value="Fatura Tarihi" for="date" />
+						<p:calendar id="date"
+							value="#{archiveBeanG.archiveDto.archiveDate}" required="true"	
+							requiredMessage="Fatura tarıhı boş geçeilemez"
+							readonlyInput="true" disabledWeekends="true"
+							mindate="#{archiveBeanG.minDate}" maxdate="#{archiveBeanG.today}" />
+
+						<p:spacer width="5px" />
+
+						<p:outputLabel for="amount" value="Tutar " />
+						<p:inputNumber id="amount"
+							value="#{archiveBeanG.archiveDto.amount}" required="true"
+							requiredMessage="tutar  boş geçeilemez"></p:inputNumber>
+
+
+						<p:outputLabel value="Gönderici " for="sender" />
+						<p:inputText id="sender"
+							value="#{archiveBeanG.archiveDto.senderName}" required="true"
+							requiredMessage="Gönderici  boş geçeilemez">
+						</p:inputText>
+						<p:spacer width="5px" />
+						<p:outputLabel value="Alıcı " />
+						<p:inputText value="#{archiveBeanG.archiveDto.receiverTcVkn}"
+							required="true" requiredMessage="Gönderici  boş geçeilemez"></p:inputText>
+
+						<!--yenı fatura butonlar  -->
+					</h:panelGrid>
+					<div align="center">
+						<p:commandButton value="Kaydet"
+							action="#{archiveBeanG.saveArchive}"
+							update="archives dialogPanel " process="@this,dialogPanel"
+							oncomplete="if (!args.validationFailed) PF('dlg1').hide()"></p:commandButton>
+						<p:commandButton value="Temizle"
+							action="#{archiveBeanG.clearArchive()}" update="dialogPanel"
+							process="@this ">
+						</p:commandButton>
+						<p:commandButton value="Kapat"
+							action="#{archiveBeanG.clearArchive()}"
+							oncomplete="PF('dlg1').hide()" update="dialogPanel"
+							process="@this ">
+						</p:commandButton>
+					</div>
+
+				</p:outputPanel>
+			</p:dialog>
+
+
+
+
+			<!-- FATURA DUZENLE DIALOG -->
+
+			<p:dialog header="Arsiv Düzenle" widgetVar="editArchiveWidget"
+				minHeight="40">
+
+				<p:outputPanel id="editDialogPanel">
+					<h:panelGrid columns="5">
+						<p:outputLabel value="UUID" />
+						<p:inputText value="#{archiveBeanG.selectedArchiveDto.uuid}"
+							readonly="true" />
+						<p:spacer width="5px" />
+						<p:outputLabel value="Fatura No" />
+						<p:inputText value="#{archiveBeanG.selectedArchiveDto.archiveId}"></p:inputText>
+
+						<p:outputLabel value="Fatura Tarihi" />
+						<p:calendar value="#{archiveBeanG.selectedArchiveDto.archiveDate}" />
+						<p:spacer width="5px" />
+					
+						<p:outputLabel value="Tutar " />
+						<p:inputNumber value="#{archiveBeanG.selectedArchiveDto.amount}"></p:inputNumber>
+
+
+						<p:outputLabel value="Gönderici " />
+						<p:inputText value="#{archiveBeanG.selectedArchiveDto.senderName}"></p:inputText>
+						<p:spacer width="5px" />
+
+						<p:outputLabel value="Alıcı " />
+						<p:inputText
+							value="#{archiveBeanG.selectedArchiveDto.receiverTcVkn}"></p:inputText>
+
+					</h:panelGrid>
+
+					<div align="center">
+						<p:commandButton value="Kaydet"
+							action="#{archiveBeanG.editArchive}"
+							update="archives dialogPanel buttonPanel"
+							process="@this,editDialogPanel"
+							oncomplete="if (!args.validationFailed) PF('editArchiveWidget').hide()"></p:commandButton>
+
+						<p:commandButton value="Kapat" process="@this"
+							onclick="PF('editArchiveWidget').hide()" />
+					</div>
+
+				</p:outputPanel>
+			</p:dialog>
+
+
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>
+
+
+
+

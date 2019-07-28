@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/layout/template-with-menu.xhtml">
+
+
+	<ui:define name="body">
+		<h:form prependId="false">
+
+
+
+	#{archiveBean.clearArchive()}	
+			
+			<!-- yeni arsiv -->
+
+			<p:outputPanel id="newArchive">
+
+				<h:panelGrid columns="3">
+					<p:outputLabel value="Alıcı Vkn/tckn" for="receiverVkn" />
+					<p:spacer width="5px" />
+
+					<p:inputText value="#{archiveBean.archiveDto.receiverTcVkn}"
+						id="receiverVkn" maxlength="11" required="true"
+						converter="javax.faces.Double" converterMessage="sayı olmalı"
+						validatorMessage="Alıcı Vkn/tckn en az 10 karakterden oluşmaktadır"
+						requiredMessage="Alıcı Vkn/tckn boş geçeilemez">
+						<f:validateLength minimum="10" maximum="11" for="receiverVkn"></f:validateLength>
+						<p:ajax event="blur" listener="#{archiveBean.validateVknTckn}" update="newArchive"></p:ajax>
+					</p:inputText>
+				</h:panelGrid>
+
+
+				<h:panelGrid id="panel2" columns="5" style="margin-top: 55px;" >
+					<p:spacer width="5px" />
+
+					<p:outputLabel value="Senaryo" />
+					<h:selectOneMenu id="profileId"
+						value="#{archiveBean.archiveDto.profileId}"
+						style=" width: 231px ;height: 27px;font-size: 40px ; font-size: 15px !important;">
+						<f:selectItem itemValue="ARCHIVE" itemLabel="E-Arsiv Fatura" />
+					</h:selectOneMenu>
+
+
+					<p:outputLabel value="Fatura Tarihi" for="date" />
+					<p:calendar id="date" value="#{archiveBean.archiveDto.archiveDate}"
+						required="true" requiredMessage="Fatura tarıhı boş geçeilemez"
+						readonlyInput="true" disabledWeekends="true"
+						mindate="#{archiveBean.minDate}" maxdate="#{archiveBean.today}" />
+
+					<p:spacer width="5px" />
+
+					<p:outputLabel for="sendingType" value="Gönderim Sekli " />
+					<h:selectOneMenu id="sendingType"
+						value="#{archiveBean.archiveDto.sendingType}"
+						style=" width: 231px ;height: 27px;font-size: 40px ; font-size: 15px !important;">
+						<f:selectItem itemValue="PAPER" itemLabel="Kagıt" />
+						<f:selectItem itemValue="ELECTRONIC" itemLabel="Elektronik" />
+					</h:selectOneMenu>
+
+
+
+					<p:outputLabel value="Arsiv Tip " for="archiveType" />
+					<h:selectOneMenu id="archiveType"
+						value="#{archiveBean.archiveDto.archiveType}"
+						style=" width: 231px ;height: 27px;font-size: 40px ; font-size: 15px !important;">
+						<f:selectItem itemValue="SALES" itemLabel="satıs" />
+						<f:selectItem itemValue="RETURN" itemLabel="iade" />
+						<f:selectItem itemValue="WITHHOLDING" itemLabel="tevkifat" />
+					</h:selectOneMenu>
+					
+					<p:spacer width="5px" />
+
+					<h:selectBooleanCheckbox value="#{archiveBean.archiveDto.sendMail}" />mail gonder							
+					<h:selectBooleanCheckbox value="#{archiveBean.archiveDto.sendSms}" />sms gonder
+				
+				</h:panelGrid>
+
+
+			</p:outputPanel>
+
+
+
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>
