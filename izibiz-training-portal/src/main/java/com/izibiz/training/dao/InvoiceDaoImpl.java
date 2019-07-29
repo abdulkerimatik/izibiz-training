@@ -47,7 +47,7 @@ public class InvoiceDaoImpl extends GenericDaoHibernateImpl<InvoiceDTO> implemen
     				"	p.IDENTIFIER AS receiverIdentifier, " + 
     				"	i.cdate AS createDate, " + 
     				"	i.payable_amount AS payableAmount " + 
-    				" FROM INVOICE i, party p " + 
+    				" FROM EFATURADEV.INVOICE i, EFATURADEV.party p " + 
     				" WHERE  i.CUSTOMER_PARTY_ID = p.id";
     		
     		StringBuilder sqlBuilder=new StringBuilder(sql);
@@ -101,7 +101,7 @@ public class InvoiceDaoImpl extends GenericDaoHibernateImpl<InvoiceDTO> implemen
     	logger.debug("start InvoiceDaoImpl.getInvoiceDtos with params ");
     	long resultCount=0;
     	String sql="SELECT count(*) "+
-    				" FROM INVOICE i, party p " + 
+    				" FROM EFATURADEV.INVOICE i, EFATURADEV.party p " + 
     				" WHERE  i.CUSTOMER_PARTY_ID = p.id";
     		
     		StringBuilder sqlBuilder=new StringBuilder(sql);

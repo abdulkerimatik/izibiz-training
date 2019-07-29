@@ -18,7 +18,7 @@ public class DataRepo {
 	public static List<ReconciDTO> reconci=new ArrayList<ReconciDTO>();
 	public static List<ReconciDTO> reconcisent=new ArrayList<ReconciDTO>();
 
-	public static List<String> channels = Arrays.asList("İZİBİZ", "ITM", "AQVILA", "CANVAS");
+	public static List<String> channels = Arrays.asList("Kanal-1", "Kanal-2", "Kanal-3", "Kanal-4");
 	public static List<String> activationTypeList = Arrays.asList("Başka entegratörden geçiş yapan müşteri",
 			"GİB den geçiş yapam müşteri", "Nevi değişikliği", "Yeni müşteri");
 	public static List<String> companyTypeList = Arrays.asList("ÖZEL","KAMU");
@@ -28,14 +28,14 @@ public class DataRepo {
 	public static List<CustomerClientDTO> customerClientList = new ArrayList<CustomerClientDTO>();
 	static {
 		for (String c : channels) {
-			dealers.put(c, Arrays.asList(c + " Ana Dağıtıcı", c + " Yedek Dağıtıcı", c + " Rastgele Dağıtıcı"));
+			dealers.put(c, Arrays.asList(c + " Dağıtıcı-1", c + " Dağıtıcı-2", c + " Dağıtıcı-3"));
 			for (String d : dealers.get(c)) {
 				accounts.put(d,
-						Arrays.asList(d + " -Ana Bayi" + d + " -Bayi 2", d + " -Yedek Bayi", d + " -torpilli bayi"));
+						Arrays.asList(d + " -Bayi-1" + d + " -Bayi 2", d + " -Bayi-3", d + " -Bayi-4"));
 			}
 		}
 		for(int i=0;i<100;i++) {
-			customerClientList.add(new CustomerClientDTO("izi00"+i, "MERKEZ", "İzibiz A.Ş."+i,"48408472"+i,true));	
+			customerClientList.add(new CustomerClientDTO("izi00"+i, "MERKEZ", "İzibiz A.Ş."+i,"4840847211"+i,true));	
 		}
 		
 	}
