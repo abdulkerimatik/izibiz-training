@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collector;
 
-public class ArchiveDTO {
+public class ArchiveGDTO {
 
 	private String uuid;
 	private String archiveId;

@@ -13,6 +13,7 @@ public class DataRepo {
 	public static List<DespatchDTO> despatches = new ArrayList<>();
 
 	public static List<ArchiveDTO> archive = new ArrayList<ArchiveDTO>();
+	public static List<ArchiveGDTO> archiveG = new ArrayList<ArchiveGDTO>();
 	
 	public static List<ReconciDTO> reconci=new ArrayList<ReconciDTO>();
 	public static List<ReconciDTO> reconcisent=new ArrayList<ReconciDTO>();

@@ -12,25 +12,26 @@ import javax.faces.context.FacesContext;
 
 import com.izibiz.training.bean.base.GenericBean;
 import com.izibiz.training.entity.dto.ArchiveDTO;
+import com.izibiz.training.entity.dto.ArchiveGDTO;
 import com.izibiz.training.entity.dto.DataRepo;
 
 
 @ViewScoped
 @ManagedBean(name = "archiveBeanG")
-public class ArchiveBeanG extends GenericBean<ArchiveDTO> {
+public class ArchiveBeanG extends GenericBean<ArchiveGDTO> {
 
-	private ArchiveDTO archiveDto;
-	private List<ArchiveDTO> archiveDTOs;
-	private ArchiveDTO selectedArchiveDto;
+	private ArchiveGDTO archiveDto;
+	private List<ArchiveGDTO> archiveDTOs;
+	private ArchiveGDTO selectedArchiveDto;
 	private Date minDate = new Date(System.currentTimeMillis() - (7L * 24 * 3600 * 1000));
 	private Date today = new Date(System.currentTimeMillis());
 
 	public void editArchive() {
 
-		for (ArchiveDTO ArchiveDTO : archiveDTOs) {
+		for (ArchiveGDTO ArchiveDTO : archiveDTOs) {
 			if (ArchiveDTO.getUuid().equals(selectedArchiveDto.getUuid())) {
-				DataRepo.archive.remove(ArchiveDTO);
-				DataRepo.archive.add(selectedArchiveDto);
+				DataRepo.archiveG.remove(ArchiveDTO);
+				DataRepo.archiveG.add(selectedArchiveDto);
 			}
 		}
 		openViewArchivePage();
@@ -45,12 +46,12 @@ public class ArchiveBeanG extends GenericBean<ArchiveDTO> {
 		archiveDto.setStatus("LOAD");
 		archiveDto.setDirection("DRAFT");
 		getArchiveDTOs().add(archiveDto);
-		DataRepo.archive.add(archiveDto);
+		DataRepo.archiveG.add(archiveDto);
 		clearArchive();
 		addInfoMessage("Efatura oluştruma işelmi bşarılı");
 	}
 
-	private boolean validationFailed(ArchiveDTO arcDto) {
+	private boolean validationFailed(ArchiveGDTO arcDto) {
 		if (arcDto == null) {
 			addErrorMessage("InvoiceDTO boş olamaz ");
 			return false;
@@ -106,16 +107,16 @@ public class ArchiveBeanG extends GenericBean<ArchiveDTO> {
 
 	
 	public void openViewArchivePage() {
-		setArchiveDTOs(new ArrayList<ArchiveDTO>());
-		archiveDTOs.addAll(DataRepo.archive);
+		setArchiveDTOs(new ArrayList<ArchiveGDTO>());
+		archiveDTOs.addAll(DataRepo.archiveG);
 		clearArchive();
 	}
 
-	public List<ArchiveDTO> getArchivesFromDirection(String direction) {
+	public List<ArchiveGDTO> getArchivesFromDirection(String direction) {
 
-		List<ArchiveDTO> liste = new ArrayList<ArchiveDTO>();
+		List<ArchiveGDTO> liste = new ArrayList<ArchiveGDTO>();
 
-		for (ArchiveDTO archiveDto : archiveDTOs) {
+		for (ArchiveGDTO archiveDto : archiveDTOs) {
 			if (archiveDto.getDirection().equals(direction)) {
 
 				liste.add(archiveDto);
@@ -127,15 +128,15 @@ public class ArchiveBeanG extends GenericBean<ArchiveDTO> {
 	}
 
 	public void clearArchive() {
-		archiveDto = new ArchiveDTO();
+		archiveDto = new ArchiveGDTO();
 		archiveDto.setUuid(UUID.randomUUID().toString());
 	}
 
 	public void deleteArchive() {
 		if (selectedArchiveDto != null) {
-			for (ArchiveDTO archiveDto : archiveDTOs) {
+			for (ArchiveGDTO archiveDto : archiveDTOs) {
 				if (archiveDto.getUuid().equals(selectedArchiveDto.getUuid())) {
-					DataRepo.archive.remove(archiveDto);
+					DataRepo.archiveG.remove(archiveDto);
 				}
 			}
 			openViewArchivePage();
@@ -146,11 +147,11 @@ public class ArchiveBeanG extends GenericBean<ArchiveDTO> {
 
 	public void changeStatus(String value) {
 		if (selectedArchiveDto != null) {
-			for (ArchiveDTO archiveDto : archiveDTOs) {
+			for (ArchiveGDTO archiveDto : archiveDTOs) {
 				if (archiveDto.getUuid().equals(selectedArchiveDto.getUuid())) {
 					selectedArchiveDto.setStatus(value);
-					DataRepo.archive.remove(archiveDto);
-					DataRepo.archive.add(selectedArchiveDto);
+					DataRepo.archiveG.remove(archiveDto);
+					DataRepo.archiveG.add(selectedArchiveDto);
 				}
 			}
 		}
@@ -163,12 +164,12 @@ public class ArchiveBeanG extends GenericBean<ArchiveDTO> {
 			 * archiveDTOs.stream() .filter(arc ->
 			 * arc.getUuid().equals(selectedArchiveDto.getUuid())).findAny().orElse(null);
 			 */
-			for (ArchiveDTO archiveDto : archiveDTOs) {
+			for (ArchiveGDTO archiveDto : archiveDTOs) {
 				if (archiveDto.getUuid().equals(selectedArchiveDto.getUuid())) {
-					DataRepo.archive.remove(archiveDto);
+					DataRepo.archiveG.remove(archiveDto);
 					archiveDto.setStatus("SEND");
 					archiveDto.setDirection("OUT");
-					DataRepo.archive.add(archiveDto);
+					DataRepo.archiveG.add(archiveDto);
 					addInfoMessage("gönderme işlemi basarılı");
 				}
 			}
@@ -206,28 +207,28 @@ public class ArchiveBeanG extends GenericBean<ArchiveDTO> {
 		return "";
 	}
 
-	public ArchiveDTO getArchiveDto() {
+	public ArchiveGDTO getArchiveDto() {
 		return archiveDto;
 	}
 
-	public void setArchiveDto(ArchiveDTO archiveDto) {
+	public void setArchiveDto(ArchiveGDTO archiveDto) {
 		this.archiveDto = archiveDto;
 	}
 
-	public List<ArchiveDTO> getArchiveDTOs() {
+	public List<ArchiveGDTO> getArchiveDTOs() {
 		return archiveDTOs;
 	}
 
-	public void setArchiveDTOs(List<ArchiveDTO> archiceDTOs) {
+	public void setArchiveDTOs(List<ArchiveGDTO> archiceDTOs) {
 		this.archiveDTOs = archiceDTOs;
 	}
 
-	public ArchiveDTO getSelectedArchiveDto() {
+	public ArchiveGDTO getSelectedArchiveDto() {
 		System.out.print("kjlkjlkjlj     "+selectedArchiveDto);
 		return selectedArchiveDto;
 	}
 
-	public void setSelectedArchiveDto(ArchiveDTO selectedArchiveDto) {
+	public void setSelectedArchiveDto(ArchiveGDTO selectedArchiveDto) {
 		System.out.print("kjlkjlkjlj     "+selectedArchiveDto);
 		this.selectedArchiveDto = selectedArchiveDto;
 	}
