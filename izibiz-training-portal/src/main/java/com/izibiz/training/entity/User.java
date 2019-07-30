@@ -13,8 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "USERS")
-public class User  implements Serializable{
-
+public class User implements Serializable {
 
 	/**
 	 * 
@@ -23,9 +22,9 @@ public class User  implements Serializable{
 	private Long id;
 	private String username;
 	private String password;
-	
+
 	private Account account;
-	
+
 	@Id
 	@GeneratedValue(generator = "user_gen")
 	@SequenceGenerator(name = "user_gen", sequenceName = "SEQ_USERS")
@@ -69,6 +68,5 @@ public class User  implements Serializable{
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", password=" + password + "]";
 	}
-	
-	
+
 }

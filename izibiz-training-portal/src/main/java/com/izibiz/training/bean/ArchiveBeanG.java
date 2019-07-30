@@ -17,15 +17,26 @@ import com.izibiz.training.entity.dto.DataRepo;
 
 
 @ViewScoped
-@ManagedBean(name = "archiveBeanG")
+@ManagedBean(name="archiveBeanG")
 public class ArchiveBeanG extends GenericBean<ArchiveGDTO> {
 
+	
+	private static final long serialVersionUID = 1L;
 	private ArchiveGDTO archiveDto;
 	private List<ArchiveGDTO> archiveDTOs;
 	private ArchiveGDTO selectedArchiveDto;
 	private Date minDate = new Date(System.currentTimeMillis() - (7L * 24 * 3600 * 1000));
 	private Date today = new Date(System.currentTimeMillis());
 
+	
+	public void openViewArchivePage() {
+		setArchiveDTOs(new ArrayList<ArchiveGDTO>());
+		archiveDTOs.addAll(DataRepo.archiveG);
+		clearArchive();
+	}
+	
+	
+	
 	public void editArchive() {
 
 		for (ArchiveGDTO ArchiveDTO : archiveDTOs) {
@@ -106,11 +117,7 @@ public class ArchiveBeanG extends GenericBean<ArchiveGDTO> {
 	}
 
 	
-	public void openViewArchivePage() {
-		setArchiveDTOs(new ArrayList<ArchiveGDTO>());
-		archiveDTOs.addAll(DataRepo.archiveG);
-		clearArchive();
-	}
+	
 
 	public List<ArchiveGDTO> getArchivesFromDirection(String direction) {
 
@@ -223,13 +230,11 @@ public class ArchiveBeanG extends GenericBean<ArchiveGDTO> {
 		this.archiveDTOs = archiceDTOs;
 	}
 
-	public ArchiveGDTO getSelectedArchiveDto() {
-		System.out.print("kjlkjlkjlj     "+selectedArchiveDto);
+	public ArchiveGDTO getSelectedArchiveDto() {		
 		return selectedArchiveDto;
 	}
 
 	public void setSelectedArchiveDto(ArchiveGDTO selectedArchiveDto) {
-		System.out.print("kjlkjlkjlj     "+selectedArchiveDto);
 		this.selectedArchiveDto = selectedArchiveDto;
 	}
 

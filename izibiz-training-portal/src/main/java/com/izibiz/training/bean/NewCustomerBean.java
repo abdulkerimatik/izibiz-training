@@ -11,8 +11,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.izibiz.training.bean.base.GenericBean;
 import com.izibiz.training.entity.dto.CustomerClientDTO;
-import com.izibiz.training.service.CustomerClientService;
-import com.izibiz.training.service.base.CustomerClientServiceImpl;
+import com.izibiz.training.service.CustomerClientServiceImpl;
+import com.izibiz.training.service.base.CustomerClientService;
 
 @ManagedBean
 @ViewScoped

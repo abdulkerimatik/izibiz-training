@@ -6,7 +6,7 @@ import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
 import com.izibiz.training.entity.dto.InvoiceDTO;
-import com.izibiz.training.service.InvoiceService;
+import com.izibiz.training.service.base.InvoiceService;
 
 public class InvoiceDtoLazyModel extends LazyDataModel<InvoiceDTO> {
      

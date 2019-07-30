@@ -14,8 +14,8 @@ import org.apache.commons.lang3.StringUtils;
 import com.izibiz.training.bean.base.GenericBean;
 import com.izibiz.training.entity.Despatch;
 import com.izibiz.training.entity.dto.DespatchDTO;
-import com.izibiz.training.service.DespatchService;
-import com.izibiz.training.service.base.DespatchServiceImpl;
+import com.izibiz.training.service.DespatchServiceImpl;
+import com.izibiz.training.service.base.DespatchService;
 
 @ManagedBean
 @ViewScoped

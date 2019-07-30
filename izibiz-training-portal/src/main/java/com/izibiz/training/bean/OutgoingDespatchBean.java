@@ -16,8 +16,8 @@ import com.izibiz.training.bean.base.GenericBean;
 import com.izibiz.training.entity.Despatch;
 import com.izibiz.training.entity.dto.DataRepo;
 import com.izibiz.training.entity.dto.DespatchDTO;
-import com.izibiz.training.service.DespatchService;
-import com.izibiz.training.service.base.DespatchServiceImpl;
+import com.izibiz.training.service.DespatchServiceImpl;
+import com.izibiz.training.service.base.DespatchService;
 
 @ManagedBean
 @ViewScoped

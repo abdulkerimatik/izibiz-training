@@ -1,11 +1,11 @@
-package com.izibiz.training.service.base;
+package com.izibiz.training.service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.izibiz.training.entity.dto.CustomerClientDTO;
 import com.izibiz.training.entity.dto.DataRepo;
-import com.izibiz.training.service.CustomerClientService;
+import com.izibiz.training.service.base.CustomerClientService;
 
 public class CustomerClientServiceImpl implements CustomerClientService {
 

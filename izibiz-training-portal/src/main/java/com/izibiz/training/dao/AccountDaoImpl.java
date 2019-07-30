@@ -20,4 +20,8 @@ public class AccountDaoImpl extends GenericDaoHibernateImpl<Account> implements 
 	 */
 	private static final long serialVersionUID = 1L;
 
+	public static void main(String[] args) {
+		
+	}
+
 }

@@ -10,8 +10,8 @@ import javax.faces.bean.ViewScoped;
 import com.izibiz.training.bean.base.GenericBean;
 import com.izibiz.training.entity.dto.CustomerClientDTO;
 import com.izibiz.training.entity.dto.DataRepo;
-import com.izibiz.training.service.CustomerClientService;
-import com.izibiz.training.service.base.CustomerClientServiceImpl;
+import com.izibiz.training.service.CustomerClientServiceImpl;
+import com.izibiz.training.service.base.CustomerClientService;
 
 @ManagedBean
 @ViewScoped

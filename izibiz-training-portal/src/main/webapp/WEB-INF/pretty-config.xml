@@ -92,4 +92,28 @@
 		<pattern value="/user-account" />
 		<view-id value="/pages/user/user-account-relation.xhtml" />
 	</url-mapping>
+	
+	
+	<!-- gamze archive -->
+	
+	<url-mapping id="earsiv-faturalar">
+		<pattern value="/earsiv/faturalarG" />
+		<view-id value="/pages/earchiveGamze/earchiveG-outbox.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="earsiv-taslaklar">
+		<pattern value="/earsiv/taslaklarG" />
+		<view-id value="/pages/earchiveGamze/earchiveG-draft.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="earsiv-olustur">
+		<pattern value="/earsiv/olusturG" />
+		<view-id value="/pages/earchiveGamze/earchiveG-new.xhtml" />
+	</url-mapping>
+	
+	
+	
+	
+	
+	
 </pretty-config>

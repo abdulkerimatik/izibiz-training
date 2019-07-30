@@ -9,9 +9,9 @@ import javax.faces.context.FacesContext;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.izibiz.training.service.DespatchService;
-import com.izibiz.training.service.InvoiceService;
 import com.izibiz.training.service.base.AccountService;
+import com.izibiz.training.service.base.DespatchService;
+import com.izibiz.training.service.base.InvoiceService;
 import com.izibiz.training.service.base.UserService;
 
 public class GenericBean<T> implements Serializable{

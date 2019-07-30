@@ -1,4 +1,4 @@
-package com.izibiz.training.service.base;
+package com.izibiz.training.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,7 +12,7 @@ import com.izibiz.training.dao.base.DespatchDao;
 import com.izibiz.training.entity.Despatch;
 import com.izibiz.training.entity.dto.DataRepo;
 import com.izibiz.training.entity.dto.DespatchDTO;
-import com.izibiz.training.service.DespatchService;
+import com.izibiz.training.service.base.DespatchService;
 
 @Transactional
 public class DespatchServiceImpl implements DespatchService {

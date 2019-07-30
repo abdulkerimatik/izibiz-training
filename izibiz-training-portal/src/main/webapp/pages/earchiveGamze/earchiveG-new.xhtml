@@ -13,7 +13,7 @@
 
 
 
-	#{archiveBean.clearArchive()}	
+	#{archiveBeanG.clearArchive()}	
 			
 			<!-- yeni arsiv -->
 
@@ -23,13 +23,13 @@
 					<p:outputLabel value="Alıcı Vkn/tckn" for="receiverVkn" />
 					<p:spacer width="5px" />
 
-					<p:inputText value="#{archiveBean.archiveDto.receiverTcVkn}"
+					<p:inputText value="#{archiveBeanG.archiveDto.receiverTcVkn}"
 						id="receiverVkn" maxlength="11" required="true"
 						converter="javax.faces.Double" converterMessage="sayı olmalı"
 						validatorMessage="Alıcı Vkn/tckn en az 10 karakterden oluşmaktadır"
 						requiredMessage="Alıcı Vkn/tckn boş geçeilemez">
 						<f:validateLength minimum="10" maximum="11" for="receiverVkn"></f:validateLength>
-						<p:ajax event="blur" listener="#{archiveBean.validateVknTckn}" update="newArchive"></p:ajax>
+						<p:ajax event="blur" listener="#{archiveBeanG.validateVknTckn}" update="newArchive"></p:ajax>
 					</p:inputText>
 				</h:panelGrid>
 
@@ -39,23 +39,23 @@
 
 					<p:outputLabel value="Senaryo" />
 					<h:selectOneMenu id="profileId"
-						value="#{archiveBean.archiveDto.profileId}"
+						value="#{archiveBeanG.archiveDto.profileId}"
 						style=" width: 231px ;height: 27px;font-size: 40px ; font-size: 15px !important;">
 						<f:selectItem itemValue="ARCHIVE" itemLabel="E-Arsiv Fatura" />
 					</h:selectOneMenu>
 
 
 					<p:outputLabel value="Fatura Tarihi" for="date" />
-					<p:calendar id="date" value="#{archiveBean.archiveDto.archiveDate}"
+					<p:calendar id="date" value="#{archiveBeanG.archiveDto.archiveDate}"
 						required="true" requiredMessage="Fatura tarıhı boş geçeilemez"
 						readonlyInput="true" disabledWeekends="true"
-						mindate="#{archiveBean.minDate}" maxdate="#{archiveBean.today}" />
+						mindate="#{archiveBeanG.minDate}" maxdate="#{archiveBeanG.today}" />
 
 					<p:spacer width="5px" />
 
 					<p:outputLabel for="sendingType" value="Gönderim Sekli " />
 					<h:selectOneMenu id="sendingType"
-						value="#{archiveBean.archiveDto.sendingType}"
+						value="#{archiveBeanG.archiveDto.sendingType}"
 						style=" width: 231px ;height: 27px;font-size: 40px ; font-size: 15px !important;">
 						<f:selectItem itemValue="PAPER" itemLabel="Kagıt" />
 						<f:selectItem itemValue="ELECTRONIC" itemLabel="Elektronik" />
@@ -65,7 +65,7 @@
 
 					<p:outputLabel value="Arsiv Tip " for="archiveType" />
 					<h:selectOneMenu id="archiveType"
-						value="#{archiveBean.archiveDto.archiveType}"
+						value="#{archiveBeanG.archiveDto.archiveType}"
 						style=" width: 231px ;height: 27px;font-size: 40px ; font-size: 15px !important;">
 						<f:selectItem itemValue="SALES" itemLabel="satıs" />
 						<f:selectItem itemValue="RETURN" itemLabel="iade" />
@@ -74,8 +74,8 @@
 					
 					<p:spacer width="5px" />
 
-					<h:selectBooleanCheckbox value="#{archiveBean.archiveDto.sendMail}" />mail gonder							
-					<h:selectBooleanCheckbox value="#{archiveBean.archiveDto.sendSms}" />sms gonder
+					<h:selectBooleanCheckbox value="#{archiveBeanG.archiveDto.sendMail}" />mail gonder							
+					<h:selectBooleanCheckbox value="#{archiveBeanG.archiveDto.sendSms}" />sms gonder
 				
 				</h:panelGrid>
 

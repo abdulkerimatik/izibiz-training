@@ -1,4 +1,4 @@
-package com.izibiz.training.service;
+package com.izibiz.training.service.base;
 
 import java.util.List;
 

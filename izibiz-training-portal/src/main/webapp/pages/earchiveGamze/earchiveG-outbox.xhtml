@@ -12,14 +12,14 @@
 	<ui:define name="body">
 		<h:form prependId="false">
 
-	#{archiveBean.openViewArchivePage()}	
+	#{archiveBeanG.openViewArchivePage()}	
 	<!-- datatable  -->
 
 			<p:outputPanel id="archives">
-				<p:dataTable var="arc" value="#{archiveBean.getArchivesFromDirection('OUT')}"
-					rowKey="#{arc.uuid}" selection="#{archiveBean.selectedArchiveDto}"
+				<p:dataTable var="arc" value="#{archiveBeanG.getArchivesFromDirection('OUT')}"
+					rowKey="#{arc.uuid}" selection="#{archiveBeanG.selectedArchiveDto}"
 					selectionMode="single"
-					rendered="#{archiveBean.getArchivesFromDirection('OUT').size()>0}">
+					rendered="#{archiveBeanG.getArchivesFromDirection('OUT').size()>0}">
 				
 				
 					<p:column headerText="uuid">
@@ -49,8 +49,8 @@
 					</p:column>
 
 					<p:column headerText="Durum"
-						style="background-color:#{archiveBean.statusColor(arc.status)}">
-						<h:outputText value="#{archiveBean.statusDesc(arc.status)}" />
+						style="background-color:#{archiveBeanG.statusColor(arc.status)}">
+						<h:outputText value="#{archiveBeanG.statusDesc(arc.status)}" />
 					</p:column>
 					<p:column style="width:35px">
 						<p:rowEditor />

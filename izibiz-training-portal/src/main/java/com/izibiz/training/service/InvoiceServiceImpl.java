@@ -1,4 +1,4 @@
-package com.izibiz.training.service.base;
+package com.izibiz.training.service;
 
 import java.util.List;
 import java.util.Map;
@@ -10,7 +10,7 @@ import org.springframework.util.CollectionUtils;
 
 import com.izibiz.training.dao.base.InvoiceDao;
 import com.izibiz.training.entity.dto.InvoiceDTO;
-import com.izibiz.training.service.InvoiceService;
+import com.izibiz.training.service.base.InvoiceService;
 
 @Transactional
 public class InvoiceServiceImpl  implements InvoiceService{
