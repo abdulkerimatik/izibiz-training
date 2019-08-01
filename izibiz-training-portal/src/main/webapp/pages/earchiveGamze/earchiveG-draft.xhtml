@@ -14,7 +14,11 @@
 
 			<!-- buton panel -->
 			
- 		#{archiveBeanG.openViewArchivePage()}	
+	#{archiveBeanG.directionSet('DRAFT')}		
+  	#{archiveBeanG.openViewArchivePage()}	
+ 		
+ 		
+ 		
 		<p:outputPanel id="buttonPanel">
 
 				<p:commandButton value="Yeni Fatura" update="dialogPanel"
@@ -34,7 +38,7 @@
 				<p:commandButton value="Fatura Sil"
 					action="#{archiveBeanG.deleteArchive}"
 					update="archives  buttonPanel" process="@this"
-					rendered="#{archiveBeanG.selectedArchiveDto!=null}"
+					rendered="#{archiveBeanG.selectedArchive !=null}"
 					style=" 
 						border-radius:9px;
 						border:1px solid #83c41a;
@@ -49,7 +53,7 @@
 
 				<p:commandButton value="Düzenle"
 					onclick="PF('editArchiveWidget').show()" update="editDialogPanel"
-					process="@this" rendered="#{archiveBeanG.selectedArchiveDto!=null}"
+					process="@this" rendered="#{archiveBeanG.selectedArchive!=null}"
 					style=" 
 						border-radius:9px;
 						border:1px solid #83c41a;
@@ -65,7 +69,7 @@
 				<p:commandButton value="Kuyruga Ekle"
 					action="#{archiveBeanG.changeStatus('NEW')}"
 					update="archives  buttonPanel" process="@this"
-					rendered="#{archiveBeanG.selectedArchiveDto!=null}"
+					rendered="#{archiveBeanG.selectedArchive!=null}"
 					style=" 
 						border-radius:9px;
 						border:1px solid #83c41a;
@@ -79,8 +83,8 @@
 				</p:commandButton>
 
 				<p:commandButton value="Gönder"
-					action="#{archiveBeanG.sendArchive()}" update="archives buttonPanel"
-					process="@this" rendered="#{archiveBeanG.selectedArchiveDto!=null}"
+					action="#{archiveBeanG.sendArchive}" update="archives buttonPanel"
+					process="@this" rendered="#{archiveBeanG.selectedArchive!=null}"
 					style=" 
 						border-radius:9px;
 						border:1px solid #83c41a;
@@ -101,11 +105,12 @@
 			<!-- datatable  -->
 
 			<p:outputPanel id="archives">
+			
 				<p:dataTable var="arc"
-					value="#{archiveBeanG.getArchivesFromDirection('DRAFT')}"
-					rowKey="#{arc.uuid}" selection="#{archiveBeanG.selectedArchiveDto}"
+					value="#{archiveBeanG.archivesFromDirection}"
+					rowKey="#{arc.uuid}" selection="#{archiveBeanG.selectedArchive}"
 					selectionMode="single"
-					rendered="#{archiveBeanG.getArchivesFromDirection('DRAFT').size()>0}">
+					rendered="#{archiveBeanG.archivesFromDirection.size()>0}">
 
 					<p:ajax event="rowSelect" update="buttonPanel" />
 					<p:ajax event="rowUnselect" update="buttonPanel" />
@@ -125,11 +130,11 @@
 					</p:column>
 
 					<p:column headerText="Gönderici">
-						<h:outputText value="#{arc.senderName}" />
+						<h:outputText value="#{arc.sender}" />
 					</p:column>
 
 					<p:column headerText="Alıcı">
-						<h:outputText value="#{arc.receiverTcVkn}" />
+						<h:outputText value="#{arc.receiver}" />
 					</p:column>
 
 					<p:column headerText="Tutar">
@@ -162,13 +167,13 @@
 
 					<h:panelGrid columns="5">
 						<p:outputLabel value="UUID" />
-						<p:inputText value="#{archiveBeanG.archiveDto.uuid}"
+						<p:inputText value="#{archiveBeanG.newArchive.uuid}"
 							readonly="true" />
 						<p:spacer width="5px" />
 
 						<p:outputLabel value="Fatura Seri Ad" for="archiveid" />
 						<p:inputText id="archiveid"
-							value="#{archiveBeanG.archiveDto.archiveId}" maxlength="3"
+							value="#{archiveBeanG.newArchive.archiveId}" maxlength="3"
 							required="true"
 							validatorMessage="Fatura seri 3 karakterden oluşmaktadır"
 							requiredMessage="Fatura seri ad boş geçeilemez">
@@ -177,7 +182,7 @@
 
 						<p:outputLabel value="Fatura Tarihi" for="date" />
 						<p:calendar id="date"
-							value="#{archiveBeanG.archiveDto.archiveDate}" required="true"	
+							value="#{archiveBeanG.newArchive.archiveDate}" required="true"	
 							requiredMessage="Fatura tarıhı boş geçeilemez"
 							readonlyInput="true" disabledWeekends="true"
 							mindate="#{archiveBeanG.minDate}" maxdate="#{archiveBeanG.today}" />
@@ -186,18 +191,18 @@
 
 						<p:outputLabel for="amount" value="Tutar " />
 						<p:inputNumber id="amount"
-							value="#{archiveBeanG.archiveDto.amount}" required="true"
+							value="#{archiveBeanG.newArchive.amount}" required="true"
 							requiredMessage="tutar  boş geçeilemez"></p:inputNumber>
 
 
 						<p:outputLabel value="Gönderici " for="sender" />
 						<p:inputText id="sender"
-							value="#{archiveBeanG.archiveDto.senderName}" required="true"
+							value="#{archiveBeanG.newArchive.sender}" required="true"
 							requiredMessage="Gönderici  boş geçeilemez">
 						</p:inputText>
 						<p:spacer width="5px" />
 						<p:outputLabel value="Alıcı " />
-						<p:inputText value="#{archiveBeanG.archiveDto.receiverTcVkn}"
+						<p:inputText value="#{archiveBeanG.newArchive.receiver}"
 							required="true" requiredMessage="Gönderici  boş geçeilemez"></p:inputText>
 
 						<!--yenı fatura butonlar  -->
@@ -208,11 +213,11 @@
 							update="archives dialogPanel " process="@this,dialogPanel"
 							oncomplete="if (!args.validationFailed) PF('dlg1').hide()"></p:commandButton>
 						<p:commandButton value="Temizle"
-							action="#{archiveBeanG.clearArchive()}" update="dialogPanel"
+							action="#{archiveBeanG.clearNewArchive}" update="dialogPanel"
 							process="@this ">
 						</p:commandButton>
 						<p:commandButton value="Kapat"
-							action="#{archiveBeanG.clearArchive()}"
+							action="#{archiveBeanG.clearNewArchive}"
 							oncomplete="PF('dlg1').hide()" update="dialogPanel"
 							process="@this ">
 						</p:commandButton>
@@ -232,27 +237,27 @@
 				<p:outputPanel id="editDialogPanel">
 					<h:panelGrid columns="5">
 						<p:outputLabel value="UUID" />
-						<p:inputText value="#{archiveBeanG.selectedArchiveDto.uuid}"
+						<p:inputText value="#{archiveBeanG.selectedArchive.uuid}"
 							readonly="true" />
 						<p:spacer width="5px" />
 						<p:outputLabel value="Fatura No" />
-						<p:inputText value="#{archiveBeanG.selectedArchiveDto.archiveId}"></p:inputText>
+						<p:inputText value="#{archiveBeanG.selectedArchive.archiveId}"></p:inputText>
 
 						<p:outputLabel value="Fatura Tarihi" />
-						<p:calendar value="#{archiveBeanG.selectedArchiveDto.archiveDate}" />
+						<p:calendar value="#{archiveBeanG.selectedArchive.archiveDate}" />
 						<p:spacer width="5px" />
 					
 						<p:outputLabel value="Tutar " />
-						<p:inputNumber value="#{archiveBeanG.selectedArchiveDto.amount}"></p:inputNumber>
+						<p:inputNumber value="#{archiveBeanG.selectedArchive.amount}"></p:inputNumber>
 
 
 						<p:outputLabel value="Gönderici " />
-						<p:inputText value="#{archiveBeanG.selectedArchiveDto.senderName}"></p:inputText>
+						<p:inputText value="#{archiveBeanG.selectedArchive.sender}"></p:inputText>
 						<p:spacer width="5px" />
 
 						<p:outputLabel value="Alıcı " />
 						<p:inputText
-							value="#{archiveBeanG.selectedArchiveDto.receiverTcVkn}"></p:inputText>
+							value="#{archiveBeanG.selectedArchive.receiver}"></p:inputText>
 
 					</h:panelGrid>
 

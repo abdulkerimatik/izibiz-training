@@ -123,16 +123,16 @@
 
 
 						<p:outputLabel value="Fatura Tarihi" />
-						<p:calendar value="#{invoiceBean.invoiceDto.invoiceDate}" />
+						<p:calendar value="#{invoiceBean.invoiceDto.createDate}" />
 						<p:spacer width="5px" />
 						<p:outputLabel for="amount" value="Tutar " />
-						<p:inputNumber id="amount" value="#{invoiceBean.invoiceDto.amount}" required="true"
+						<p:inputNumber id="amount" value="#{invoiceBean.invoiceDto.payableAmount}" required="true"
 							requiredMessage="tutar  boş geçeilemez"></p:inputNumber>
 
 
 						<p:outputLabel value="Gönderici " for="sender" />
 						<p:inputText id="sender"
-							value="#{invoiceBean.invoiceDto.senderName}" required="true"
+							value="#{invoiceBean.invoiceDto.sender}" required="true"
 							requiredMessage="Gönderici  boş geçeilemez">
 						</p:inputText>
 						<p:spacer width="5px" />

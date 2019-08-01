@@ -9,93 +9,100 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-
 import com.izibiz.training.bean.base.GenericBean;
-import com.izibiz.training.entity.dto.ArchiveDTO;
-import com.izibiz.training.entity.dto.ArchiveGDTO;
-import com.izibiz.training.entity.dto.DataRepo;
-
+import com.izibiz.training.entity.Archive;
 
 @ViewScoped
-@ManagedBean(name="archiveBeanG")
-public class ArchiveBeanG extends GenericBean<ArchiveGDTO> {
+@ManagedBean(name = "archiveBeanG")
+public class ArchiveBeanG extends GenericBean<Archive> {
 
-	
 	private static final long serialVersionUID = 1L;
-	private ArchiveGDTO archiveDto;
-	private List<ArchiveGDTO> archiveDTOs;
-	private ArchiveGDTO selectedArchiveDto;
+
+	private List<Archive> archives;
+	private Archive selectedArchive ;
+	private Archive newArchive;
+
+	public String direction;
+
 	private Date minDate = new Date(System.currentTimeMillis() - (7L * 24 * 3600 * 1000));
 	private Date today = new Date(System.currentTimeMillis());
 
-	
 	public void openViewArchivePage() {
-		setArchiveDTOs(new ArrayList<ArchiveGDTO>());
-		archiveDTOs.addAll(DataRepo.archiveG);
-		clearArchive();
+
+		setArchives(new ArrayList<Archive>());
+		archives.addAll(getArchiveService().getAllArchiveWithDirection(direction));
+		clearNewArchive();
 	}
-	
-	
-	
+
+	public List<Archive> getArchivesFromDirection() {
+
+		return getArchiveService().getAllArchiveWithDirection(direction);
+		/*
+		 * for (ArchiveGDTO archiveDto : archiveDTOs) { if
+		 * (archiveDto.getDirection().equals(direction)) {
+		 * 
+		 * liste.add(archiveDto); } }
+		 */
+
+		// return archiveDTOs.stream().filter(arc
+		// ->arc.getDirection().equals(direction)).collect(Collectors.toList());
+	}
+
 	public void editArchive() {
 
-		for (ArchiveGDTO ArchiveDTO : archiveDTOs) {
-			if (ArchiveDTO.getUuid().equals(selectedArchiveDto.getUuid())) {
-				DataRepo.archiveG.remove(ArchiveDTO);
-				DataRepo.archiveG.add(selectedArchiveDto);
-			}
+				getArchiveService().saveOrUpdate(selectedArchive);
+				openViewArchivePage();
+				addInfoMessage("Düzenleme işlemi başarılı şekilde tamamlanmıştrı.");
+				selectedArchive = null;
 		}
-		openViewArchivePage();
-		addInfoMessage("Düzenleme işlemi başarılı şekilde tamamlanmıştrı.");
-		selectedArchiveDto = null;
-	}
+
+	
 
 	public void saveArchive() {
-		if (!validationFailed(archiveDto))
+		if (!validationFailed(newArchive))
 			return;
 
-		archiveDto.setStatus("LOAD");
-		archiveDto.setDirection("DRAFT");
-		getArchiveDTOs().add(archiveDto);
-		DataRepo.archiveG.add(archiveDto);
-		clearArchive();
+		newArchive.setStatus("LOAD");
+		newArchive.setDirection("DRAFT");
+		getArchives().add(newArchive);
+		getArchiveService().saveOrUpdate(newArchive);
+		clearNewArchive();
 		addInfoMessage("Efatura oluştruma işelmi bşarılı");
 	}
 
-	private boolean validationFailed(ArchiveGDTO arcDto) {
-		if (arcDto == null) {
+	private boolean validationFailed(Archive arc) {
+		if (arc == null) {
 			addErrorMessage("InvoiceDTO boş olamaz ");
 			return false;
-		} else if (arcDto.getUuid() == null || arcDto.getUuid().length() == 0) {
+		} else if (arc.getUuid() == null || arc.getUuid().length() == 0) {
 			addErrorMessage("UUID boş olamaz");
 			return false;
-		} else if (arcDto.getArchiveId() == null || arcDto.getArchiveId().length() != 3) {
+		} else if (arc.getArchiveId() == null || arc.getArchiveId().length() != 3) {
 			addErrorMessage("InvoiceId boş olamaz ve 3 haneden olusmalı");
 			return false;
-		} else if (arcDto.getSenderName() == null || arcDto.getSenderName().length() == 0) {
+		} else if (arc.getSender() == null || arc.getSender().length() == 0) {
 			addErrorMessage("Gönderici boş olamaz");
 			return false;
-		} else if (arcDto.getReceiverTcVkn() == null || arcDto.getReceiverTcVkn().length() == 0) {
+		} else if (arc.getReceiver() == null || arc.getReceiver().length() == 0) {
 			addErrorMessage("Alıcı boş olamaz");
 			return false;
 		}
 		// arsivid formatlı mı fonk eklenecek
-		
 
 		return true;
 	}
 
 	public boolean isValidateVknTckn() {
 
-		if (archiveDto.getReceiverTcVkn() == null) {
+		if (newArchive.getReceiver() == null) {
 			addErrorMessage("Vkn Tckn boş olamaz ");
 			FacesContext.getCurrentInstance().validationFailed();
 			return false;
-		} else if (archiveDto.getReceiverTcVkn().length() != 10 || archiveDto.getReceiverTcVkn().length() != 11) {
+		} else if (newArchive.getReceiver().length() != 10 || newArchive.getReceiver().length() != 11) {
 			addErrorMessage("Vkn Tckn 10 ya da 11 haneli olmalı");
 			FacesContext.getCurrentInstance().validationFailed();
 			return false;
-		} else if (isNumeric(archiveDto.getReceiverTcVkn())) {
+		} else if (isNumeric(newArchive.getReceiver())) {
 			addErrorMessage("sayılardan olusmalı");
 			FacesContext.getCurrentInstance().validationFailed();
 			return false;
@@ -103,87 +110,50 @@ public class ArchiveBeanG extends GenericBean<ArchiveGDTO> {
 		return true;
 	}
 
-	
 	private boolean isNumeric(String strNum) {
-
 		try {
 			Double.parseDouble(strNum);
 			return true;
-
 		} catch (NumberFormatException e) {
-
 			return false;
 		}
 	}
 
+	public void clearNewArchive() {
+		newArchive = new Archive();
+		newArchive.setUuid(UUID.randomUUID().toString());
+	}
 	
 	
-
-	public List<ArchiveGDTO> getArchivesFromDirection(String direction) {
-
-		List<ArchiveGDTO> liste = new ArrayList<ArchiveGDTO>();
-
-		for (ArchiveGDTO archiveDto : archiveDTOs) {
-			if (archiveDto.getDirection().equals(direction)) {
-
-				liste.add(archiveDto);
-			}
-		}
-		return liste;
-		// return archiveDTOs.stream().filter(arc
-		// ->arc.getDirection().equals(direction)).collect(Collectors.toList());
-	}
-
-	public void clearArchive() {
-		archiveDto = new ArchiveGDTO();
-		archiveDto.setUuid(UUID.randomUUID().toString());
-	}
 
 	public void deleteArchive() {
-		if (selectedArchiveDto != null) {
-			for (ArchiveGDTO archiveDto : archiveDTOs) {
-				if (archiveDto.getUuid().equals(selectedArchiveDto.getUuid())) {
-					DataRepo.archiveG.remove(archiveDto);
-				}
-			}
-			openViewArchivePage();
+		if (selectedArchive != null) {
+
+			getArchiveService().deleteArchive(selectedArchive);		
 			addInfoMessage("Silme işlemi başarılı şekilde tamamlanmıştrı.");
-			selectedArchiveDto = null;
+			selectedArchive = null;
+			openViewArchivePage();
 		}
 	}
 
+	
+
 	public void changeStatus(String value) {
-		if (selectedArchiveDto != null) {
-			for (ArchiveGDTO archiveDto : archiveDTOs) {
-				if (archiveDto.getUuid().equals(selectedArchiveDto.getUuid())) {
-					selectedArchiveDto.setStatus(value);
-					DataRepo.archiveG.remove(archiveDto);
-					DataRepo.archiveG.add(selectedArchiveDto);
-				}
-			}
+		if (selectedArchive != null) {
+
+			selectedArchive.setStatus(value);
+			getArchiveService().saveOrUpdate(selectedArchive);
+			openViewArchivePage();
 		}
-		openViewArchivePage();
 	}
 
 	public void sendArchive() {
-		if (selectedArchiveDto != null) {
-			/*
-			 * archiveDTOs.stream() .filter(arc ->
-			 * arc.getUuid().equals(selectedArchiveDto.getUuid())).findAny().orElse(null);
-			 */
-			for (ArchiveGDTO archiveDto : archiveDTOs) {
-				if (archiveDto.getUuid().equals(selectedArchiveDto.getUuid())) {
-					DataRepo.archiveG.remove(archiveDto);
-					archiveDto.setStatus("SEND");
-					archiveDto.setDirection("OUT");
-					DataRepo.archiveG.add(archiveDto);
-					addInfoMessage("gönderme işlemi basarılı");
-				}
-			}
-			/*
-			 * if (senderArchive != null) { senderArchive.setStatus("SEND");
-			 * senderArchive.setDirection("OUT"); }
-			 */
+		if (selectedArchive != null) {
+			selectedArchive.setStatus("SEND");
+			selectedArchive.setDirection("OUT");
+			getArchiveService().saveOrUpdate(selectedArchive);
+
+			addInfoMessage("gönderme işlemi basarılı");
 		}
 		openViewArchivePage();
 	}
@@ -213,31 +183,16 @@ public class ArchiveBeanG extends GenericBean<ArchiveGDTO> {
 		}
 		return "";
 	}
+	
+	
+	
 
-	public ArchiveGDTO getArchiveDto() {
-		return archiveDto;
+	public void directionSet(String direc) {	
+		direction=direc;
 	}
-
-	public void setArchiveDto(ArchiveGDTO archiveDto) {
-		this.archiveDto = archiveDto;
-	}
-
-	public List<ArchiveGDTO> getArchiveDTOs() {
-		return archiveDTOs;
-	}
-
-	public void setArchiveDTOs(List<ArchiveGDTO> archiceDTOs) {
-		this.archiveDTOs = archiceDTOs;
-	}
-
-	public ArchiveGDTO getSelectedArchiveDto() {		
-		return selectedArchiveDto;
-	}
-
-	public void setSelectedArchiveDto(ArchiveGDTO selectedArchiveDto) {
-		this.selectedArchiveDto = selectedArchiveDto;
-	}
-
+	
+	
+	
 	public Date getMinDate() {
 		return minDate;
 	}
@@ -252,6 +207,38 @@ public class ArchiveBeanG extends GenericBean<ArchiveGDTO> {
 
 	public void setToday(Date today) {
 		this.today = today;
+	}
+
+	public List<Archive> getArchives() {
+		return archives;
+	}
+
+	public void setArchives(List<Archive> archives) {
+		this.archives = archives;
+	}
+
+	public String getDirection() {
+		return direction;
+	}
+
+	public void setDirection(String direction) {
+		this.direction = direction;
+	}
+
+	public Archive getSelectedArchive() {
+		return selectedArchive;
+	}
+
+	public void setSelectedArchive(Archive selectedArchive) {
+		this.selectedArchive = selectedArchive;
+	}
+
+	public Archive getNewArchive() {
+		return newArchive;
+	}
+
+	public void setNewArchive(Archive newArchive) {
+		this.newArchive = newArchive;
 	}
 
 }

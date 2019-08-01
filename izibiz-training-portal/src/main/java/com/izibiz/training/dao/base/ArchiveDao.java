@@ -7,10 +7,18 @@ import com.izibiz.training.entity.Archive;
 import com.izibiz.training.entity.dto.ArchiveGDTO;
 
 public interface ArchiveDao extends GenericDao<Archive> {
-	
-	
-	public List<ArchiveGDTO> findByArchiveId(String archiveID);
 
 	
+	
+	public List<Archive> getAllArchiveWithDirection(String direction);
 
+	public List<ArchiveGDTO> getAllAsDto();
+
+	public Archive findArchiveByUuidAndDirection(String uuid,String direction);
+
+	
+	
+	
 }
+
+

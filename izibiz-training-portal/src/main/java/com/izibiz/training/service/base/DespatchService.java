@@ -5,9 +5,10 @@ import java.util.List;
 import com.izibiz.training.entity.Despatch;
 
 public interface DespatchService {
-	List getAllDespatchesWithType(String type);
+	
+	 List<Despatch> getAllDespatchesWithType(String type);
 
-	List getAll();
+	 List<Despatch> getAll();
 
 	void saveOrUpdate(Despatch despatchDTO);
 

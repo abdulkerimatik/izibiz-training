@@ -16,9 +16,7 @@ import javax.persistence.Table;
 public class Archive implements Serializable {
 
 	
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	private long id;
 	private String uuid;
@@ -31,8 +29,8 @@ public class Archive implements Serializable {
 	private String direction;
 
 	@Id
-	@GeneratedValue()
-	@SequenceGenerator(name="seq_archive")
+	@GeneratedValue(generator ="gen_Archive")
+	@SequenceGenerator(name="gen_Archive",sequenceName = "SEQ_ARCHIVE",initialValue = 1,allocationSize = 1)
 	public long getId() {
 		return id;
 	}

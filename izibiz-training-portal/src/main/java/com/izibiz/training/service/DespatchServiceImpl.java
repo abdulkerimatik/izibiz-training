@@ -19,6 +19,8 @@ public class DespatchServiceImpl implements DespatchService {
 
 	@Autowired
 	private DespatchDao despatchDao;
+	
+	
 	@Override
 	public List<Despatch> getAllDespatchesWithType(String type) {
 		return despatchDao.getAllDespatchesWithType(type);

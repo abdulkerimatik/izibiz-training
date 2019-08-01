@@ -7,11 +7,21 @@ import java.util.stream.Collector;
 
 public class ArchiveGDTO {
 
+	//enumlar
+	public static final String LOAD="LOAD";
+	public static final String SENT="SENT";
+	public static final String RECEIVED="RECEIVED";
+	public static final String DEFAULT_SERIAL_ID="IZI";
+	public static final String DRAFT="DRAFT";
+	public static final String OUT="OUT";
+	public static final String IN="IN";
+	//
+	
 	private String uuid;
 	private String archiveId;
 	private String direction;
-	private String senderName;
-	private String receiverTcVkn;
+	private String sender;
+	private String receiver;
 	private String status;
 	private Date archiveDate;
 	private BigDecimal amount;
@@ -88,20 +98,20 @@ public class ArchiveGDTO {
 		this.archiveId = archiveId;
 	}
 
-	public String getSenderName() {
-		return senderName;
+	public String getSender() {
+		return sender;
 	}
 
-	public void setSenderName(String senderName) {
-		this.senderName = senderName;
+	public void setSender(String senderName) {
+		this.sender = senderName;
 	}
 
-	public String getReceiverTcVkn() {
-		return receiverTcVkn;
+	public String getReceiver() {
+		return receiver;
 	}
 
-	public void setReceiverTcVkn(String receiverTcVkn) {
-		this.receiverTcVkn = receiverTcVkn;
+	public void setReceiver(String receiverTcVkn) {
+		this.receiver = receiverTcVkn;
 	}
 
 	public String getStatus() {

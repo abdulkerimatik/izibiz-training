@@ -12,14 +12,16 @@
 	<ui:define name="body">
 		<h:form prependId="false">
 
-	#{archiveBeanG.openViewArchivePage()}	
+#{archiveBeanG.directionSet('DRAFT')}		
+  	#{archiveBeanG.openViewArchivePage()}	
+ 		
 	<!-- datatable  -->
 
 			<p:outputPanel id="archives">
-				<p:dataTable var="arc" value="#{archiveBeanG.getArchivesFromDirection('OUT')}"
-					rowKey="#{arc.uuid}" selection="#{archiveBeanG.selectedArchiveDto}"
+				<p:dataTable var="arc" value="#{archiveBeanG.archivesFromDirection}"
+					rowKey="#{arc.uuid}" selection="#{archiveBeanG.selectedArchive}"
 					selectionMode="single"
-					rendered="#{archiveBeanG.getArchivesFromDirection('OUT').size()>0}">
+					rendered="#{archiveBeanG.archivesFromDirection.size()>0}">
 				
 				
 					<p:column headerText="uuid">
@@ -37,11 +39,11 @@
 					</p:column>
 
 					<p:column headerText="Gönderici">
-						<h:outputText value="#{arc.senderName}" />
+						<h:outputText value="#{arc.sender}" />
 					</p:column>
 
 					<p:column headerText="Alıcı">
-						<h:outputText value="#{arc.receiverTcVkn}" />
+						<h:outputText value="#{arc.receiver}" />
 					</p:column>
 
 					<p:column headerText="Tutar">
