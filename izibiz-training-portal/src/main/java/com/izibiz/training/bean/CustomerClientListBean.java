@@ -25,6 +25,7 @@ public class CustomerClientListBean extends GenericBean<CustomerClientDTO>{
 	private List<CustomerClientDTO> filteredCustomerList;
 	private CustomerClientDTO selectedCustomerClient;
 	private CustomerClientService customerClientService;
+	
 	public void loadPage() {
 		if(customerClientService==null)
 			customerClientService = new CustomerClientServiceImpl();

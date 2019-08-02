@@ -18,20 +18,22 @@ public class InvoiceDtoLazyModel extends LazyDataModel<InvoiceDTO> {
 	private InvoiceService invoiceService;
 	private Map<String, Object> filtermap;
 	
+	
     public InvoiceDtoLazyModel(InvoiceService invoiceService) {
         this.invoiceService=invoiceService;
     }
-     
+    
+    
     @Override
     public InvoiceDTO getRowData(String rowKey) {
         for(InvoiceDTO inv : invoiceDTOs) {
             if(inv.getId().equals(rowKey))
                 return inv;
         }
- 
         return null;
     }
  
+    
     @Override
     public Object getRowKey(InvoiceDTO inv) {
         return inv.getId();

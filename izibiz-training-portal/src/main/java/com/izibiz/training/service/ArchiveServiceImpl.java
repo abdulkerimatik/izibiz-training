@@ -1,9 +1,12 @@
 package com.izibiz.training.service;
 
 import java.util.List;
+import java.util.Map;
 
+import org.primefaces.model.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import com.izibiz.training.dao.base.ArchiveDao;
 import com.izibiz.training.entity.Archive;
@@ -49,6 +52,33 @@ public class ArchiveServiceImpl implements ArchiveService {
 	@Override
 	public void deleteArchive(Archive Archive) {
 		archiveDao.delete(Archive);		
+	}
+
+	
+	
+	@Override
+	public ArchiveGDTO findArchiveeByid(long id) {
+		
+		return archiveDao.findArchiveeById(id);
+	}
+
+	
+	
+	@Override
+	public List<ArchiveGDTO> getArchives(int first, int pageSize, String sortField, SortOrder sortOrder,
+			Map<String, Object> filters) {
+		
+		if (CollectionUtils.isEmpty(filters)) {
+			throw new RuntimeException("filter must not empty");
+		}
+		return archiveDao.getArchives(first, pageSize, sortField, sortOrder, filters);
+	}
+	
+
+	@Override
+	public long getArchivesCount(Map<String, Object> filters) {
+		
+		return archiveDao.getArchivesCount(filters);
 	}
 	
 	

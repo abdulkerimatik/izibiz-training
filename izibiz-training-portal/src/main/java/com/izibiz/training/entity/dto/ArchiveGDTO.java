@@ -17,11 +17,14 @@ public class ArchiveGDTO {
 	public static final String IN="IN";
 	//
 	
+	private long id;
+	
 	private String uuid;
 	private String archiveId;
 	private String direction;
 	private String sender;
 	private String receiver;
+	private String receiverIdentifier;
 	private String status;
 	private Date archiveDate;
 	private BigDecimal amount;
@@ -33,6 +36,7 @@ public class ArchiveGDTO {
 	
 	
 	
+
 
 	public boolean isSendMail() {
 		return sendMail;
@@ -139,5 +143,23 @@ public class ArchiveGDTO {
 	}
 
 
+	public String getReceiverIdentifier() {
+		return receiverIdentifier;
+	}
 
+	public void setReceiverIdentifier(String receiverIdentifier) {
+		this.receiverIdentifier = receiverIdentifier;
+	}
+
+	
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	
+	
 }

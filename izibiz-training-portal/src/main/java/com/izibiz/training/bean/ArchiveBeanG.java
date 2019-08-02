@@ -2,7 +2,9 @@ package com.izibiz.training.bean;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.faces.bean.ManagedBean;
@@ -11,6 +13,9 @@ import javax.faces.context.FacesContext;
 
 import com.izibiz.training.bean.base.GenericBean;
 import com.izibiz.training.entity.Archive;
+import com.izibiz.training.entity.dto.ArchiveGDTO;
+import com.izibiz.training.lazy.model.ArchiveEntitiyLazyModel;
+import com.izibiz.training.lazy.model.InvoiceDtoLazyModel;
 
 @ViewScoped
 @ManagedBean(name = "archiveBeanG")
@@ -21,11 +26,22 @@ public class ArchiveBeanG extends GenericBean<Archive> {
 	private List<Archive> archives;
 	private Archive selectedArchive ;
 	private Archive newArchive;
-
 	public String direction;
-
 	private Date minDate = new Date(System.currentTimeMillis() - (7L * 24 * 3600 * 1000));
 	private Date today = new Date(System.currentTimeMillis());
+	
+	private ArchiveEntitiyLazyModel archiveLazy;
+	private ArchiveGDTO selectedArchiveDto ;
+	private ArchiveGDTO newArchiveDto;
+	
+	
+	public  void loadArchivesLazy() {
+		Map<String, Object> filter=new HashMap<String, Object>();
+		filter.put("direction", "DRAFT");
+		archiveLazy=new ArchiveEntitiyLazyModel(getArchiveService());
+		archiveLazy.setFiltermap(filter);
+	}
+	
 
 	public void openViewArchivePage() {
 
@@ -70,6 +86,7 @@ public class ArchiveBeanG extends GenericBean<Archive> {
 		addInfoMessage("Efatura oluştruma işelmi bşarılı");
 	}
 
+	
 	private boolean validationFailed(Archive arc) {
 		if (arc == null) {
 			addErrorMessage("InvoiceDTO boş olamaz ");
@@ -119,6 +136,8 @@ public class ArchiveBeanG extends GenericBean<Archive> {
 		}
 	}
 
+	
+	
 	public void clearNewArchive() {
 		newArchive = new Archive();
 		newArchive.setUuid(UUID.randomUUID().toString());
@@ -240,5 +259,35 @@ public class ArchiveBeanG extends GenericBean<Archive> {
 	public void setNewArchive(Archive newArchive) {
 		this.newArchive = newArchive;
 	}
+	public ArchiveEntitiyLazyModel getArchiveLazy() {
+		return archiveLazy;
+	}
 
+	public void setArchiveLazy(ArchiveEntitiyLazyModel archiveLazy) {
+		this.archiveLazy = archiveLazy;
+	}
+
+
+	public ArchiveGDTO getSelectedArchiveDto() {
+		return selectedArchiveDto;
+	}
+
+
+	public void setSelectedArchiveDto(ArchiveGDTO selectedArchiveDto) {
+		this.selectedArchiveDto = selectedArchiveDto;
+	}
+
+
+	public ArchiveGDTO getNewArchiveDto() {
+		return newArchiveDto;
+	}
+
+
+	public void setNewArchiveDto(ArchiveGDTO newArchiveDto) {
+		this.newArchiveDto = newArchiveDto;
+	}
+	
+	
+	
+	
 }

@@ -96,6 +96,7 @@ public class InvoiceDaoImpl extends GenericDaoHibernateImpl<InvoiceDTO> implemen
 		}
 	}
 	
+	
 	@Override
     public long getInvoiceDtoCount(Map<String,Object> filters) {
     	logger.debug("start InvoiceDaoImpl.getInvoiceDtos with params ");
@@ -105,24 +106,22 @@ public class InvoiceDaoImpl extends GenericDaoHibernateImpl<InvoiceDTO> implemen
     				" WHERE  i.CUSTOMER_PARTY_ID = p.id";
     		
     		StringBuilder sqlBuilder=new StringBuilder(sql);
-    		buildSql(sqlBuilder, filters);
-    		
+    		buildSql(sqlBuilder, filters);   		
     		SQLQuery sqlQuery = getCurrentSession().createSQLQuery(sqlBuilder.toString());
 		
-    		Number count=(Number) sqlQuery.uniqueResult();
-		if(count!=null)
+    		Number count=(Number) sqlQuery.uniqueResult();	
+    		if(count!=null)
 			resultCount=count.longValue();
-		
-		logger.debug("end InvoiceDaoImpl.getInvoiceDtos with params ");
-
-		
-    		return resultCount;
-    	
+			
+    		logger.debug("end InvoiceDaoImpl.getInvoiceDtos with params ");
+	
+    		return resultCount;  	
     }
 
+	
+	
 	@Override
 	public List<InvoiceDTO> findByInvoiceId(String invoiceID) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

@@ -1,6 +1,9 @@
 package com.izibiz.training.dao.base;
 
 import java.util.List;
+import java.util.Map;
+
+import org.primefaces.model.SortOrder;
 
 import com.izibiz.training.dao.common.GenericDao;
 import com.izibiz.training.entity.Archive;
@@ -17,6 +20,14 @@ public interface ArchiveDao extends GenericDao<Archive> {
 	public Archive findArchiveByUuidAndDirection(String uuid,String direction);
 
 	
+	public ArchiveGDTO findArchiveeById(long id);
+
+	
+	public List<ArchiveGDTO> getArchives(int first, int pageSize, String sortField, SortOrder sortOrder,
+			Map<String, Object> filters);
+	
+	
+	public long getArchivesCount(Map<String, Object> filters);
 	
 	
 }

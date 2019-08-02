@@ -31,8 +31,6 @@ public class InvoiceBean extends GenericBean<InvoiceDTO> {
 		filter.put("accountId", 504);
 		invoiceDtoLazyModel=new InvoiceDtoLazyModel(getInvoiceService());
 		invoiceDtoLazyModel.setFiltermap(filter);
-	
-		
 
 	}
 	

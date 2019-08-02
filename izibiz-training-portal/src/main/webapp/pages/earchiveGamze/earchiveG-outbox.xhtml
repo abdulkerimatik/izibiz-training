@@ -12,45 +12,47 @@
 	<ui:define name="body">
 		<h:form prependId="false">
 
-#{archiveBeanG.directionSet('DRAFT')}		
-  	#{archiveBeanG.openViewArchivePage()}	
+	#{archiveBeanG.directionSet('DRAFT')}		 	
+  	#{archiveBeanG.loadArchivesLazy()}	
  		
 	<!-- datatable  -->
 
 			<p:outputPanel id="archives">
-				<p:dataTable var="arc" value="#{archiveBeanG.archivesFromDirection}"
-					rowKey="#{arc.uuid}" selection="#{archiveBeanG.selectedArchive}"
-					selectionMode="single"
+				<p:dataTable var="arc" value="#{archiveBeanG.archiveLazy}"
+					paginator="true" rows="10"
+					paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+					rowsPerPageTemplate="5,10,15" lazy="true" rowKey="#{arc.uuid}"
+					selection="#{archiveBeanG.selectedArchiveDto}" selectionMode="single"
 					rendered="#{archiveBeanG.archivesFromDirection.size()>0}">
-				
-				
-					<p:column headerText="uuid">
+
+
+					<p:column headerText="uuid" >
 						<h:outputText value="#{arc.uuid}" />
 					</p:column>
 
-					<p:column headerText="Fatura Tarihi">
+					<p:column headerText="Fatura Tarihi" sortBy="#{arc.archiveDate}" filterBy="#{arc.archiveDate}">
 						<h:outputText value="#{arc.archiveDate}">
 							<f:convertDateTime pattern="dd-MM-yyyy" />
 						</h:outputText>
 					</p:column>
 
-					<p:column headerText="Fatura NO">
+					<p:column headerText="Fatura NO" sortBy="#{arc.archiveId}" filterBy="#{arc.archiveId}">
 						<h:outputText value="#{arc.archiveId}" />
 					</p:column>
 
-					<p:column headerText="Gönderici">
+					<p:column headerText="Gönderici" sortBy="#{arc.sender}" filterBy="#{arc.sender}">
 						<h:outputText value="#{arc.sender}" />
 					</p:column>
 
-					<p:column headerText="Alıcı">
+					<p:column headerText="Alıcı" sortBy="#{arc.receiver}" filterBy="#{arc.receiver}">
 						<h:outputText value="#{arc.receiver}" />
 					</p:column>
 
-					<p:column headerText="Tutar">
+					<p:column headerText="Tutar" sortBy="#{arc.amount}" filterBy="#{arc.amount}">
 						<h:outputText value="#{arc.amount}" />
 					</p:column>
 
-					<p:column headerText="Durum"
+					<p:column headerText="Durum" 
 						style="background-color:#{archiveBeanG.statusColor(arc.status)}">
 						<h:outputText value="#{archiveBeanG.statusDesc(arc.status)}" />
 					</p:column>
@@ -60,9 +62,6 @@
 				</p:dataTable>
 
 			</p:outputPanel>
-
-
-
 
 
 		</h:form>
