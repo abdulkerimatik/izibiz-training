@@ -38,6 +38,7 @@ public class ArchiveBeanG extends GenericBean<Archive> {
 	public  void loadArchivesLazy() {
 		Map<String, Object> filter=new HashMap<String, Object>();
 		filter.put("direction", "DRAFT");
+	
 		archiveLazy=new ArchiveEntitiyLazyModel(getArchiveService());
 		archiveLazy.setFiltermap(filter);
 	}
