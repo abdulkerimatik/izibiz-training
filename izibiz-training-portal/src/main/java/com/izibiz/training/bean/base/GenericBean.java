@@ -10,9 +10,9 @@ import javax.faces.context.FacesContext;
 import org.apache.commons.lang3.StringUtils;
 
 import com.izibiz.training.service.base.AccountService;
-import com.izibiz.training.service.base.ArchiveService;
 import com.izibiz.training.service.base.DespatchService;
 import com.izibiz.training.service.base.InvoiceService;
+import com.izibiz.training.service.base.ReconciliationService;
 import com.izibiz.training.service.base.UserService;
 
 public class GenericBean<T> implements Serializable{
@@ -27,16 +27,17 @@ public class GenericBean<T> implements Serializable{
 	@ManagedProperty(value="#{despatchService}")
 	private DespatchService despatchService;
 	
-	@ManagedProperty(value="#{archiveService}")
-	private ArchiveService archiveService;
-	
-	
 	@ManagedProperty( value="#{accountService}")
 	private AccountService accountService;
 	
 	@ManagedProperty( value="#{invoiceService}")
 	private InvoiceService invoiceService;
 	
+	@ManagedProperty( value="#{reconciliationService}")
+	private ReconciliationService reconciliationService;
+	
+
+
 	public String getResourceBundleMessage(String key) {
 		if (StringUtils.isEmpty(key)) {
 			return "";
@@ -79,14 +80,6 @@ public class GenericBean<T> implements Serializable{
 		this.despatchService = despatchService;
 	}
 
-	public ArchiveService getArchiveService() {
-		return archiveService;
-	}
-
-	public void setArchiveService(ArchiveService archiveService) {
-		this.archiveService = archiveService;
-	}
-	
 	public AccountService getAccountService() {
 		return accountService;
 	}
@@ -101,6 +94,13 @@ public class GenericBean<T> implements Serializable{
 
 	public void setInvoiceService(InvoiceService invoiceService) {
 		this.invoiceService = invoiceService;
+	}
+	public ReconciliationService getReconciliationService() {
+		return reconciliationService;
+	}
+
+	public void setReconciliationService(ReconciliationService reconciliationService) {
+		this.reconciliationService = reconciliationService;
 	}
 
 }

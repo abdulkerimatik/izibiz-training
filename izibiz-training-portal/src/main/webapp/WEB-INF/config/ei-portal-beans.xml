@@ -24,10 +24,11 @@ http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	
-	<bean id="archiveDao" class="com.izibiz.training.dao.ArchiveDaoImpl" parent="genericHibernateDao">
+	<bean id="reconciliationDao" class="com.izibiz.training.dao.ReconciliationDaoImpl" parent="genericHibernateDao">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	
+
 
 	<!-- **************************** Service Declaration *************************** -->
 
@@ -35,7 +36,7 @@ http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 	<bean id="despatchService" class="com.izibiz.training.service.DespatchServiceImpl" />
 	<bean id="accountService" class="com.izibiz.training.service.AccountServiceImpl" />
 	<bean id="invoiceService" class="com.izibiz.training.service.InvoiceServiceImpl" />
-	<bean id="archiveService" class="com.izibiz.training.service.ArchiveServiceImpl" />
+	<bean id="reconciliationService" class="com.izibiz.training.service.ReconciliationServiceImpl" />
 
 
 
