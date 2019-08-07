@@ -26,29 +26,30 @@
 					rendered="#{archiveBeanG.archivesFromDirection.size()>0}">
 
 
-					<p:column headerText="uuid" >
+					<p:column headerText="uuid" sortBy="#{arc.uuid}"
+						filterBy="#{arc.uuid}" filterMatchMode="contains">
 						<h:outputText value="#{arc.uuid}" />
 					</p:column>
 
 					<p:column headerText="Fatura Tarihi" sortBy="#{arc.archiveDate}" filterBy="#{arc.archiveDate}">
 						<h:outputText value="#{arc.archiveDate}">
-							<f:convertDateTime pattern="dd-MM-yyyy" />
+							<f:convertDateTime pattern="dd-MM-yyyy"/>
 						</h:outputText>
 					</p:column>
 
-					<p:column headerText="Fatura NO" sortBy="#{arc.archiveId}" filterBy="#{arc.archiveId}">
+					<p:column headerText="Fatura NO" sortBy="#{arc.archiveId}" filterBy="#{arc.archiveId}" filterMatchMode="contains">
 						<h:outputText value="#{arc.archiveId}" />
 					</p:column>
 
-					<p:column headerText="Gönderici" sortBy="#{arc.sender}" filterBy="#{arc.sender}">
+					<p:column headerText="Gönderici" sortBy="#{arc.sender}" filterBy="#{arc.sender}" >
 						<h:outputText value="#{arc.sender}" />
 					</p:column>
 
-					<p:column headerText="Alıcı" sortBy="#{arc.receiver}" filterBy="#{arc.receiver}">
+					<p:column headerText="Alıcı" sortBy="#{arc.receiver}" filterBy="#{arc.receiver}" >
 						<h:outputText value="#{arc.receiver}" />
 					</p:column>
 
-					<p:column headerText="Tutar" sortBy="#{arc.amount}" filterBy="#{arc.amount}">
+					<p:column headerText="Tutar" sortBy="#{arc.amount}" filterBy="#{arc.amount}" >
 						<h:outputText value="#{arc.amount}" />
 					</p:column>
 

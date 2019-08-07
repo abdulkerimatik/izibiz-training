@@ -1,9 +1,20 @@
 package com.izibiz.training.dao;
 
+import java.io.Console;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.function.Predicate;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Root;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
@@ -15,6 +26,7 @@ import org.hibernate.type.DateType;
 import org.hibernate.type.LongType;
 import org.primefaces.model.SortOrder;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
 import com.izibiz.training.dao.base.ArchiveDao;
 import com.izibiz.training.dao.common.GenericDaoHibernateImpl;
@@ -27,7 +39,10 @@ public class ArchiveDaoImpl extends GenericDaoHibernateImpl<Archive> implements 
 
 	private static final Logger logger = Logger.getLogger(ArchiveDaoImpl.class);
 	private static final long serialVersionUID = 1L;
-
+	
+	
+	
+	
 	public ArchiveDaoImpl() {
 		super(Archive.class);
 	}
@@ -67,8 +82,8 @@ public class ArchiveDaoImpl extends GenericDaoHibernateImpl<Archive> implements 
 	@Override
 	public List<ArchiveGDTO> getArchives(int first, int pageSize, String sortField, SortOrder sortOrder,
 			Map<String, Object> filters) {
-
-		logger.debug("start InvoiceDaoImpl.getInvoiceDtos with params ");
+		
+		//logger.debug("start InvoiceDaoImpl.getInvoiceDtos with params ");
 
 		String sql = "SELECT " + 
 				"                        a.id AS id,  " + 
@@ -83,8 +98,9 @@ public class ArchiveDaoImpl extends GenericDaoHibernateImpl<Archive> implements 
 				"                     WHERE  a.CUSTOMER_PARTY_ID = p.id";
 
 		StringBuilder sqlBuilder = new StringBuilder(sql);
-		buildSql(sqlBuilder, filters);
+		filterSql(sqlBuilder, filters);
 		
+
 		SQLQuery sqlQuery = getCurrentSession().createSQLQuery(sqlBuilder.toString());
 		sqlQuery.setResultTransformer(Transformers.aliasToBean(ArchiveGDTO.class));
 		sqlQuery.addScalar("id", LongType.INSTANCE);
@@ -102,15 +118,20 @@ public class ArchiveDaoImpl extends GenericDaoHibernateImpl<Archive> implements 
 		List<ArchiveGDTO> archives = sqlQuery.list();
 		logger.debug("end InvoiceDaoImpl.getInvoiceDtos with params ");
 
+		
 		return archives;
+		
 	}
 	
 	
+	
+	
 
-	private void buildSql(StringBuilder sqlBuilder, Map<String, Object> filters) {
+	private void filterSql(StringBuilder sqlBuilder, Map<String, Object> filters) {
+	
 		for (Entry<String, Object> filter : filters.entrySet()) {
-			String key = filter.getKey();
-			Object value = filter.getValue();
+			String key = filter.getKey();	
+			Object value = filter.getValue();	
 			switch (key) {
 			case "accountId":
 				sqlBuilder.append(" and account_Id=").append(value);
@@ -120,9 +141,51 @@ public class ArchiveDaoImpl extends GenericDaoHibernateImpl<Archive> implements 
 				break;
 			default:
 				break;
-			}
+			}		
 		}
+		
 	}
+
+	
+	
+	/*
+	 * @Override public List<ArchiveGDTO> getArchives(int first, int pageSize,
+	 * String sortField, SortOrder sortOrder, Map<String, Object> filters) {
+	 * 
+	 * logger.debug("start InvoiceDaoImpl.getInvoiceDtos with params ");
+	 * 
+	 * String sql = "SELECT " + "                        a.id AS id,  " +
+	 * "                        a.uuid AS uuid, " +
+	 * "                        a.archive_date AS  archiveDate, " +
+	 * "                        a.archive_id AS  archiveId, " +
+	 * "                        a.status AS status,            " +
+	 * "                        p.name AS receiver, " +
+	 * "                        p.IDENTIFIER AS receiverIdentifier, " +
+	 * "                        a.amount AS amount" +
+	 * "                     FROM ARCHIVE a, PARTY p  " +
+	 * "                     WHERE  a.CUSTOMER_PARTY_ID = p.id";
+	 * 
+	 * StringBuilder sqlBuilder = new StringBuilder(sql); buildSql(sqlBuilder,
+	 * filters);
+	 * 
+	 * SQLQuery sqlQuery =
+	 * getCurrentSession().createSQLQuery(sqlBuilder.toString());
+	 * sqlQuery.setResultTransformer(Transformers.aliasToBean(ArchiveGDTO.class));
+	 * sqlQuery.addScalar("id", LongType.INSTANCE); sqlQuery.addScalar("uuid");
+	 * sqlQuery.addScalar("archiveDate", DateType.INSTANCE);
+	 * sqlQuery.addScalar("archiveId"); sqlQuery.addScalar("status");
+	 * sqlQuery.addScalar("receiver"); sqlQuery.addScalar("receiverIdentifier");
+	 * sqlQuery.addScalar("amount",BigDecimalType.INSTANCE);
+	 * 
+	 * sqlQuery.setFirstResult(first); sqlQuery.setMaxResults(pageSize);
+	 * 
+	 * List<ArchiveGDTO> archives = sqlQuery.list();
+	 * logger.debug("end InvoiceDaoImpl.getInvoiceDtos with params ");
+	 * 
+	 * return archives; }
+	 */
+
+	
 
 	@Override
 	public long getArchivesCount(Map<String, Object> filters) {
@@ -133,7 +196,7 @@ public class ArchiveDaoImpl extends GenericDaoHibernateImpl<Archive> implements 
 					" WHERE  a.CUSTOMER_PARTY_ID = p.id";
 
 		StringBuilder sqlBuilder = new StringBuilder(sql);
-		buildSql(sqlBuilder, filters);
+		filterSql(sqlBuilder, filters);
 
 		SQLQuery sqlQuery = getCurrentSession().createSQLQuery(sqlBuilder.toString());
 

@@ -1,12 +1,17 @@
 package com.izibiz.training.entity.dto;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collector;
 
-public class ArchiveGDTO {
+public class ArchiveGDTO implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2384229819311637553L;
 	//enumlar
 	public static final String LOAD="LOAD";
 	public static final String SENT="SENT";
@@ -17,26 +22,26 @@ public class ArchiveGDTO {
 	public static final String IN="IN";
 	//
 	
-	private long id;
+	public long id;
 	
-	private String uuid;
-	private String archiveId;
-	private String direction;
-	private String sender;
-	private String receiver;
-	private String receiverIdentifier;
-	private String status;
-	private Date archiveDate;
-	private BigDecimal amount;
-	private String profileId;
-	private String archiveType;
-	private String sendingType;
-	private boolean sendMail;	
-	private boolean sendSms;
+	public String uuid;
+	public String archiveId;
+	public String direction;
+	public String sender;
+	public String receiver;
+	public String receiverIdentifier;
+	public String status;
+	public Date archiveDate;
+	public BigDecimal amount;
+	public String profileId;
+	public String archiveType;
+	public String sendingType;
+	public boolean sendMail;	
+	public boolean sendSms;
 	
 	
 	
-
+//
 
 	public boolean isSendMail() {
 		return sendMail;
