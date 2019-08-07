@@ -14,7 +14,7 @@ import javax.faces.context.FacesContext;
 import com.izibiz.training.bean.base.GenericBean;
 import com.izibiz.training.entity.Archive;
 import com.izibiz.training.entity.dto.ArchiveGDTO;
-import com.izibiz.training.lazy.model.ArchiveEntitiyLazyModel;
+import com.izibiz.training.lazy.model.ArchiveGDTOLazyModel;
 import com.izibiz.training.lazy.model.InvoiceDtoLazyModel;
 
 @ViewScoped
@@ -30,17 +30,19 @@ public class ArchiveBeanG extends GenericBean<Archive> {
 	private Date minDate = new Date(System.currentTimeMillis() - (7L * 24 * 3600 * 1000));
 	private Date today = new Date(System.currentTimeMillis());
 	
-	private ArchiveEntitiyLazyModel archiveLazy;
+	private ArchiveGDTOLazyModel archiveLazy;
 	private ArchiveGDTO selectedArchiveDto ;
 	private ArchiveGDTO newArchiveDto;
 	
 	
 	public  void loadArchivesLazy() {
+
 		Map<String, Object> filter=new HashMap<String, Object>();
-		filter.put("direction", "DRAFT");
-	
-		archiveLazy=new ArchiveEntitiyLazyModel(getArchiveService());
+		filter.put("direction", "OUT");
+		archiveLazy=new ArchiveGDTOLazyModel(getArchiveService());		
 		archiveLazy.setFiltermap(filter);
+		
+	
 	}
 	
 
@@ -64,6 +66,8 @@ public class ArchiveBeanG extends GenericBean<Archive> {
 		// return archiveDTOs.stream().filter(arc
 		// ->arc.getDirection().equals(direction)).collect(Collectors.toList());
 	}
+	
+
 
 	public void editArchive() {
 
@@ -260,11 +264,11 @@ public class ArchiveBeanG extends GenericBean<Archive> {
 	public void setNewArchive(Archive newArchive) {
 		this.newArchive = newArchive;
 	}
-	public ArchiveEntitiyLazyModel getArchiveLazy() {
+	public ArchiveGDTOLazyModel getArchiveLazy() {
 		return archiveLazy;
 	}
 
-	public void setArchiveLazy(ArchiveEntitiyLazyModel archiveLazy) {
+	public void setArchiveLazy(ArchiveGDTOLazyModel archiveLazy) {
 		this.archiveLazy = archiveLazy;
 	}
 

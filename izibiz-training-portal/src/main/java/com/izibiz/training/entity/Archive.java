@@ -27,6 +27,7 @@ public class Archive implements Serializable {
 	private BigDecimal amount;
 	private String status;
 	private String direction;
+	
 
 	@Id
 	@GeneratedValue(generator ="gen_Archive")

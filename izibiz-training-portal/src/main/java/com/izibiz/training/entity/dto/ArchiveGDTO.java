@@ -22,23 +22,23 @@ public class ArchiveGDTO implements Serializable{
 	public static final String IN="IN";
 	//
 	
-	public long id;
-	
-	public String uuid;
-	public String archiveId;
-	public String direction;
-	public String sender;
-	public String receiver;
-	public String receiverIdentifier;
-	public String status;
-	public Date archiveDate;
-	public BigDecimal amount;
-	public String profileId;
-	public String archiveType;
-	public String sendingType;
-	public boolean sendMail;	
-	public boolean sendSms;
-	
+	private long id;
+	private String uuid;
+	private String archiveId;
+	private String direction;
+	private String sender;
+	private String senderIdentifier;
+	private String receiver;
+	private String receiverIdentifier;
+	private String status;
+	private Date archiveDate;
+	private BigDecimal amount;
+	private String profileId;
+	private String archiveType;
+	private String sendingType;
+	private boolean sendMail;
+	private boolean sendSms;
+
 	
 	
 //
@@ -163,6 +163,14 @@ public class ArchiveGDTO implements Serializable{
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public String getSenderIdentifier() {
+		return senderIdentifier;
+	}
+
+	public void setSenderIdentifier(String senderIdentifier) {
+		this.senderIdentifier = senderIdentifier;
 	}
 
 	

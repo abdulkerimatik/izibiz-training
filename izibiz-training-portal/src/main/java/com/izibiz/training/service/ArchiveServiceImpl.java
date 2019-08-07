@@ -66,19 +66,19 @@ public class ArchiveServiceImpl implements ArchiveService {
 	
 	@Override
 	public List<ArchiveGDTO> getArchives(int first, int pageSize, String sortField, SortOrder sortOrder,
-			Map<String, Object> filters) {
+			Map<String, Object> filterEqual, Map<String, Object> filterContains) {
 		
-		if (CollectionUtils.isEmpty(filters)) {
+		if (CollectionUtils.isEmpty(filterEqual)) {
 			throw new RuntimeException("filter must not empty");
 		}
-		return archiveDao.getArchives(first, pageSize, sortField, sortOrder, filters);
+		return archiveDao.getArchives(first, pageSize, sortField, sortOrder, filterEqual,filterContains);
 	}
 	
 
 	@Override
-	public long getArchivesCount(Map<String, Object> filters) {
+	public long getArchivesCount(Map<String, Object> filterEquals,Map<String, Object> filterContains) {
 		
-		return archiveDao.getArchivesCount(filters);
+		return archiveDao.getArchivesCount(filterEquals,filterContains);
 	}
 	
 	

@@ -24,10 +24,10 @@ public interface ArchiveDao extends GenericDao<Archive> {
 
 	
 	public List<ArchiveGDTO> getArchives(int first, int pageSize, String sortField, SortOrder sortOrder,
-			Map<String, Object> filters);
+			Map<String, Object> filterEquals,Map<String, Object> filterContains);
 	
 	
-	public long getArchivesCount(Map<String, Object> filters);
+	public long getArchivesCount(Map<String, Object> filterEquals,Map<String, Object> filterContains);
 	
 	
 }

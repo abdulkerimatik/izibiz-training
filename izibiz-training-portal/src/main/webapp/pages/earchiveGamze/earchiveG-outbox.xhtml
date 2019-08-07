@@ -12,22 +12,29 @@
 	<ui:define name="body">
 		<h:form prependId="false">
 
+
+
 	#{archiveBeanG.directionSet('DRAFT')}		 	
   	#{archiveBeanG.loadArchivesLazy()}	
+ 		
+ 		
+ 		
+ 		
+ 		
+ 		
  		
 	<!-- datatable  -->
 
 			<p:outputPanel id="archives">
-				<p:dataTable var="arc" value="#{archiveBeanG.archiveLazy}"
-					paginator="true" rows="10"
+				<p:dataTable var="arc" value="#{archiveBeanG.archiveLazy} "
+					paginator="true" rows="2"
 					paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-					rowsPerPageTemplate="5,10,15" lazy="true" rowKey="#{arc.uuid}"
+					rowsPerPageTemplate="2,10,15" lazy="true" rowKey="#{arc.id}"
 					selection="#{archiveBeanG.selectedArchiveDto}" selectionMode="single"
 					rendered="#{archiveBeanG.archivesFromDirection.size()>0}">
 
 
-					<p:column headerText="uuid" sortBy="#{arc.uuid}"
-						filterBy="#{arc.uuid}" filterMatchMode="contains">
+					<p:column headerText="uuid" >
 						<h:outputText value="#{arc.uuid}" />
 					</p:column>
 
