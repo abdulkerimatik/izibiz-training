@@ -41,14 +41,15 @@
 
 			<p:submenu
 				label="#{msg['app.portal.menu.draft.reconciliation.title']}">
-				<p:menuitem value="#{msg['app.portal.menu.draft.reconciliation']}"
-					icon="ui-icon-mail-closed" url="/e-reconciliation" />
 				<p:menuitem
-					value="#{msg['app.portal.menu.draft.reconciliation.formation']}"
-					icon="ui-icon-mail-closed" url="/e-reconciliation-formation" />
+					value="#{msg['app.portal.menu.draft.reconciliation.inbox']}"
+					icon="ui-icon-mail-closed" url="/e-reconciliation-inbox" />
 				<p:menuitem
-					value="#{msg['app.portal.menu.draft.reconciliation.report']}"
-					icon="ui-icon-mail-closed" url="/e-reconciliation-report" />
+					value="#{msg['app.portal.menu.draft.reconciliation.outbox']}"
+					icon="ui-icon-mail-closed" url="/e-reconciliation-outbox" />
+				<p:menuitem 
+					value="#{msg['app.portal.menu.draft.reconciliation.draft']}"
+					icon="ui-icon-mail-closed" url="/e-reconciliation-draft" />
 			</p:submenu>
 
 			<p:submenu label="#{msg['app.portal.menu.user.title']}">

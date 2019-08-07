@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/layout/template-with-menu.xhtml">
+
+	<ui:define name="body">
+		<h:form prependId="false">
+		#{reconciliationBean.openViewReconciPageInsert()}
+		<p:outputLabel id="textbox">
+		
+		
+		
+		<p:outputPanel id="panel">
+         <p:inputText  value = "#{reconciliationBean.valueText}" ></p:inputText>
+         <p:commandButton value = "Show Message" action="#{reconciliationBean.tableOpacity}" update="reconcisent panel" process="@this,panel"/>
+		</p:outputPanel>
+		
+		<p:commandButton value="Destroy the World" action="#{reconciliationBean.tableOpacity}" update="reconcisent">
+        		<p:confirm header="Uyarı Mesajı" message="Bu işlemi gerçekleştirmek istediğinize emin misiniz ?"  />
+   		</p:commandButton>
+   		
+    	<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+    	<div id="vkk" align="center">
+        		<p:commandButton value="Onayla" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+        		<p:commandButton value="Reddet" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-closethick"/>
+        		</div>
+   	    </p:confirmDialog>   
+   	    <p:commandButton value="Destroy the World" action="#{reconciliationBean.tableOpacity}" update="reconcisent">
+        		<p:confirm header="Uyarı Mesajı" message="Bu işlemi gerçekleştirmek istediğinize emin misiniz ?"  />
+   		</p:commandButton>
+   
+     
+        
+      	
+      </p:outputLabel>
+		<p:outputPanel id="reconcisent" style="background-color: red;">
+				<p:dataTable id="datatable" var="list"  value="#{reconciliationBean.reconciList}"
+							 rowKey="#{list.uuid}" selection="#{reconciliationBean.checkReconciliaton}"
+							 style="#{reconciliationBean.opaciTy?'':'opacity: 0.2;'}">
+			
+        		<f:facet name="header">
+            			#{msg['app.portal.menu.draft.reconci.table.title']}
+        		</f:facet>
+        		<p:column selectionMode="multiple"
+						style="width:16px; text-align:center">
+					</p:column>
+        		<!-- Fatura Numuarası -->
+        		<p:column headerText="#{msg['app.portal.menu.draft.reconci.table.invoice.number']}">
+            		<h:outputText value ="#{list.uuid}" rendered="true"/>
+        		</p:column>
+        		<!-- Yükleme Tarihi -->
+        		<p:column headerText="#{msg['app.portal.menu.draft.reconci.table.uploadate']}">
+            		<h:outputText value="#{list.loadingDate}" pattern="dd.MM.yyyy HH:mm" >
+            		<f:convertDateTime pattern="dd-MM-yyyy" />
+            		</h:outputText>
+        		</p:column>
+        		<!-- Ünvan -->
+        		<p:column headerText="#{msg['app.portal.menu.draft.reconci.table.invoice.customerName']}">
+            		<h:outputText value="#{list.receiver }"/>
+        		</p:column>
+        		<!-- VKN/TCKN -->
+        		<p:column headerText="#{msg['app.portal.menu.draft.reconci.table.VKN']}">
+            		<h:outputText value = "#{list.reconcilitionId}"/>
+        		</p:column>
+        		<!-- Tutar -->
+        		<p:column headerText="#{msg['app.portal.menu.draft.reconci.table.amount']}">
+        			<h:outputText value = "#{list.amount}"/>
+        		</p:column>
+        		<!-- Durum -->
+            	<p:column headerText="#{msg['app.portal.menu.draft.reconci.table.status']}" style="background-color:#{reconciliationBean.statusColor(list.status)}">	
+            		<h:outputText value = "#{reconciliationBean.statusDesc(list.status)}"/>
+        		</p:column>
+   	    		</p:dataTable>
+		 	</p:outputPanel>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

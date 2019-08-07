@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/layout/template-with-menu.xhtml">
+
+	<ui:define name="body">
+	<h:form prependId="false">
+		 #{reconciliationBean.openViewReconciTableList()}
+		 <p:outputPanel id="invoices">
+					<p:dataTable id="car" value="#{reconciliationBean.reconciliationDtoLazyModel}"
+							var="car" lazy="true" selection="#{reconciliationBean.checkReconciliaton}"
+							rowKey="#{car.uuid}" paginator="true" rows="15"
+							paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+							rowsPerPageTemplate="10,25,50"
+							emptyMessage="Data not found"
+							tableStyle="table-layout:auto" reflow="true" >
+					<p:column selectionMode="multiple"
+						style="width:16px; text-align:center">
+					</p:column>
+					
+<p:column headerText="Fatura NO"  >
+<h:outputText value="#{arc.archiveId}" />
+</p:column>
+					<p:column headerText="uuid"    style="width: 260px; height: 20px;" 
+							  filterBy="#{car.uuid}" filterMatchMode="contains">
+						<h:outputText value="#{car.uuid}" />
+					</p:column>
+					<p:column headerText="Fatura Tarihi" sortBy="#{car.uuid}">
+						<h:outputText value="#{car.loadingDate}" >
+							<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Fatura NO">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{car.reconciliationId}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{car.reconciliationId}" style="width:96%" label="Year" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column headerText="Alıcı">
+						<h:outputText value="#{car.sender}" />
+					</p:column>
+						<p:column headerText="VKN &amp; TCKNO">
+						<h:outputText value="#{car.receiverIdentifier}" />
+					</p:column>					
+					<p:column headerText="Tutar">
+						<h:outputText value="#{car.amount}" />
+					</p:column>
+					<p:column headerText="Durum"
+						style="background-color:#{reconciliationBean.statusColor(car.status)}">
+						<h:outputText value="#{reconciliationBean.statusDesc(car.status)}" />
+					</p:column>
+					
+				</p:dataTable>
+			</p:outputPanel>		 
+		</h:form>
+	</ui:define>
+</ui:composition>
