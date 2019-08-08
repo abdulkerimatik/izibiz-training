@@ -11,6 +11,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.context.RequestContext;
+
 import com.izibiz.training.bean.base.GenericBean;
 import com.izibiz.training.entity.Archive;
 import com.izibiz.training.entity.dto.ArchiveGDTO;
@@ -42,10 +44,10 @@ public class ArchiveBeanG extends GenericBean<Archive> {
 		archiveLazy=new ArchiveGDTOLazyModel(getArchiveService());		
 		archiveLazy.setFiltermap(filter);
 		
-	
 	}
 	
 
+	
 	public void openViewArchivePage() {
 
 		setArchives(new ArrayList<Archive>());

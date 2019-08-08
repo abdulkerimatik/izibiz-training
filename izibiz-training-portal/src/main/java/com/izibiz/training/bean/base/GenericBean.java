@@ -1,6 +1,7 @@
 package com.izibiz.training.bean.base;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.ResourceBundle;
 
 import javax.faces.application.FacesMessage;
@@ -41,6 +42,12 @@ public class GenericBean<T> implements Serializable{
 	@ManagedProperty( value="#{archiveService}")
 	private ArchiveService archiveService;
 
+	
+	private Date minDate = new Date(System.currentTimeMillis() - (7L * 24 * 3600 * 1000));
+	private Date today = new Date(System.currentTimeMillis());
+	
+	
+	
 	public String getResourceBundleMessage(String key) {
 		if (StringUtils.isEmpty(key)) {
 			return "";
@@ -112,6 +119,22 @@ public class GenericBean<T> implements Serializable{
 
 	public void setArchiveService(ArchiveService archiveService) {
 		this.archiveService = archiveService;
+	}
+
+	public Date getMinDate() {
+		return minDate;
+	}
+
+	public void setMinDate(Date minDate) {
+		this.minDate = minDate;
+	}
+
+	public Date getToday() {
+		return today;
+	}
+
+	public void setToday(Date today) {
+		this.today = today;
 	}
 	
 

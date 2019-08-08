@@ -36,20 +36,15 @@ public class ArchiveGDTOLazyModel extends LazyDataModel<ArchiveGDTO> {
 		return null;
 	}
 
-	@Override
-	public Object getRowKey(ArchiveGDTO arc) {
-		return arc.getId();
-	}
+
 
 	@Override
 	public List<ArchiveGDTO> load(int first, int pageSize, String sortField, SortOrder sortOrder,
 			Map<String, Object> filters) {
 
 		
-		long reusltCount = getArchiveService().getArchivesCount(filtermap,filters);
-		
+		long reusltCount = getArchiveService().getArchivesCount(filtermap,filters);		
 		setRowCount((int) reusltCount);
-
 		archives = getArchiveService().getArchives(first, pageSize, sortField, sortOrder, filtermap, filters);	
 		
 		//List<ArchiveGDTO> data = new ArrayList<ArchiveGDTO>();

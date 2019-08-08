@@ -13,71 +13,210 @@
 
 
 
-	#{archiveBeanG.clearArchive()}	
+	#{archiveCreateBean.clearNewArchive()}	
 			
 			<!-- yeni arsiv -->
 
 			<p:outputPanel id="newArchive">
-
 				<h:panelGrid columns="3">
 					<p:outputLabel value="Alıcı Vkn/tckn" for="receiverVkn" />
 					<p:spacer width="5px" />
 
-					<p:inputText value="#{archiveBeanG.archiveDto.receiverTcVkn}"
+					<p:inputText value="#{archiveCreateBean.newArchive.receiver}"
 						id="receiverVkn" maxlength="11" required="true"
-						converter="javax.faces.Double" converterMessage="sayı olmalı"
 						validatorMessage="Alıcı Vkn/tckn en az 10 karakterden oluşmaktadır"
 						requiredMessage="Alıcı Vkn/tckn boş geçeilemez">
 						<f:validateLength minimum="10" maximum="11" for="receiverVkn"></f:validateLength>
-						<p:ajax event="blur" listener="#{archiveBeanG.validateVknTckn}" update="newArchive"></p:ajax>
+						<p:ajax event="blur"
+							listener="#{archiveCreateBean.isValidateVknTckn}"
+							update="newArchive"></p:ajax>
+						<p:keyFilter for="receiverVkn" mask="int" />
 					</p:inputText>
 				</h:panelGrid>
 
-
-				<h:panelGrid id="panel2" columns="5" style="margin-top: 55px;" >
+				<h:panelGrid id="pnlArchiveInf" columns="5"
+					style="margin-top: 55px;">
 					<p:spacer width="5px" />
 
 					<p:outputLabel value="Senaryo" />
 					<h:selectOneMenu id="profileId"
-						value="#{archiveBeanG.archiveDto.profileId}"
+						value="#{archiveCreateBean.newArchive.profileId}"
 						style=" width: 231px ;height: 27px;font-size: 40px ; font-size: 15px !important;">
 						<f:selectItem itemValue="ARCHIVE" itemLabel="E-Arsiv Fatura" />
 					</h:selectOneMenu>
 
-
 					<p:outputLabel value="Fatura Tarihi" for="date" />
-					<p:calendar id="date" value="#{archiveBeanG.archiveDto.archiveDate}"
+					<p:calendar id="date"
+						value="#{archiveCreateBean.newArchive.archiveDate}"
 						required="true" requiredMessage="Fatura tarıhı boş geçeilemez"
 						readonlyInput="true" disabledWeekends="true"
-						mindate="#{archiveBeanG.minDate}" maxdate="#{archiveBeanG.today}" />
+						mindate="#{archiveCreateBean.minDate}"
+						maxdate="#{archiveCreateBean.today}" />
 
 					<p:spacer width="5px" />
 
 					<p:outputLabel for="sendingType" value="Gönderim Sekli " />
 					<h:selectOneMenu id="sendingType"
-						value="#{archiveBeanG.archiveDto.sendingType}"
+						value="#{archiveCreateBean.newArchive.sendingType}"
 						style=" width: 231px ;height: 27px;font-size: 40px ; font-size: 15px !important;">
 						<f:selectItem itemValue="PAPER" itemLabel="Kagıt" />
 						<f:selectItem itemValue="ELECTRONIC" itemLabel="Elektronik" />
 					</h:selectOneMenu>
 
-
-
 					<p:outputLabel value="Arsiv Tip " for="archiveType" />
 					<h:selectOneMenu id="archiveType"
-						value="#{archiveBeanG.archiveDto.archiveType}"
+						value="#{archiveCreateBean.newArchive.archiveType}"
 						style=" width: 231px ;height: 27px;font-size: 40px ; font-size: 15px !important;">
 						<f:selectItem itemValue="SALES" itemLabel="satıs" />
 						<f:selectItem itemValue="RETURN" itemLabel="iade" />
 						<f:selectItem itemValue="WITHHOLDING" itemLabel="tevkifat" />
 					</h:selectOneMenu>
-					
+
 					<p:spacer width="5px" />
 
-					<h:selectBooleanCheckbox value="#{archiveBeanG.archiveDto.sendMail}" />mail gonder							
-					<h:selectBooleanCheckbox value="#{archiveBeanG.archiveDto.sendSms}" />sms gonder
-				
+					<h:selectBooleanCheckbox
+						value="#{archiveCreateBean.newArchive.sendMail}" />mail gonder							
+					<h:selectBooleanCheckbox
+						value="#{archiveCreateBean.newArchive.sendSms}" />sms gonder				
 				</h:panelGrid>
+			</p:outputPanel>
+
+
+
+
+			<!-- archive lınes -->
+
+			<p:outputPanel>
+
+				<p:dataTable id="arcLines" widgetVar="arcLines" var="arc"
+					value="#{dtAddRowView.arcLines}" editable="true"
+					style="margin-bottom:20px">
+
+					<p:ajax event="rowEdit" listener="#{archiveCreateBean.onRowEdit}"
+						update="arcLines" />
+					<p:ajax event="rowEditCancel"
+						listener="#{archiveCreateBean.onRowCancel}" update="arcLines" />
+
+					<p:column headerText="stok kodu">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{arc.id}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText id="modelInput" value="#{arc.id}"
+									style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column headerText="urun adı">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{arc.year}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{arc.year}" style="width:100%" label="Year" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column headerText="mıktar">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{arc.brand}" />
+							</f:facet>
+							<f:facet name="input">
+								<h:selectOneMenu value="#{arc.brand}" style="width:100%">
+									<f:selectItems value="#{archiveCreateBean.brands}" var="man"
+										itemLabel="#{man}" itemValue="#{man}" />
+								</h:selectOneMenu>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column headerText="birim">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{arc.color}" />
+							</f:facet>
+							<f:facet name="input">
+								<h:selectOneMenu value="#{arc.color}" style="width:100%">
+									<f:selectItems value="#{archiveCreateBean.colors}" var="color"
+										itemLabel="#{color}" itemValue="#{color}" />
+								</h:selectOneMenu>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column headerText="birim fiyatı">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{arc.color}" />
+							</f:facet>
+							<f:facet name="input">
+								<h:selectOneMenu value="#{arc.color}" style="width:100%">
+									<f:selectItems value="#{archiveCreateBean.colors}" var="color"
+										itemLabel="#{color}" itemValue="#{color}" />
+								</h:selectOneMenu>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column headerText="kdv oranı">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{arc.color}" />
+							</f:facet>
+							<f:facet name="input">
+								<h:selectOneMenu value="#{arc.color}" style="width:100%">
+									<f:selectItems value="#{archiveCreateBean.colors}" var="color"
+										itemLabel="#{color}" itemValue="#{color}" />
+								</h:selectOneMenu>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column headerText="kdv tutarı">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{arc.color}" />
+							</f:facet>
+							<f:facet name="input">
+								<h:selectOneMenu value="#{arc.color}" style="width:100%">
+									<f:selectItems value="#{archiveCreateBean.colors}" var="color"
+										itemLabel="#{color}" itemValue="#{color}" />
+								</h:selectOneMenu>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+
+					<p:column headerText="toplam">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{arc.color}" />
+							</f:facet>
+							<f:facet name="input">
+								<h:selectOneMenu value="#{arc.color}" style="width:100%">
+									<f:selectItems value="#{archiveCreateBean.colors}" var="color"
+										itemLabel="#{color}" itemValue="#{color}" />
+								</h:selectOneMenu>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column style="width:32px">
+						<p:rowEditor />
+					</p:column>
+				</p:dataTable>
+
+				<div class="ui-g">
+					<div class="ui-g-12">
+						<p:commandButton value="Add new row"
+							styleClass="ui-priority-primary" process="@this"
+							update="arcLines" action="#{archiveCreateBean.onAddNew()}"
+							oncomplete="PF('arcLines').addRow();" />
+					</div>
+				</div>
 
 
 			</p:outputPanel>

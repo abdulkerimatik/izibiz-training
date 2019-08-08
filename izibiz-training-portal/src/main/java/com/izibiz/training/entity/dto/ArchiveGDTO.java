@@ -6,12 +6,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collector;
 
+import com.izibiz.training.models.ArchiveLines;
+
 public class ArchiveGDTO implements Serializable{
 
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 2384229819311637553L;
+	
 	//enumlar
 	public static final String LOAD="LOAD";
 	public static final String SENT="SENT";
@@ -38,7 +39,7 @@ public class ArchiveGDTO implements Serializable{
 	private String sendingType;
 	private boolean sendMail;
 	private boolean sendSms;
-
+	private List<ArchiveLines> archiveLineList;
 	
 	
 //
@@ -171,6 +172,14 @@ public class ArchiveGDTO implements Serializable{
 
 	public void setSenderIdentifier(String senderIdentifier) {
 		this.senderIdentifier = senderIdentifier;
+	}
+
+	public List<ArchiveLines> getArchiveLineList() {
+		return archiveLineList;
+	}
+
+	public void setArchiveLineList(List<ArchiveLines> archiveLineList) {
+		this.archiveLineList = archiveLineList;
 	}
 
 	
