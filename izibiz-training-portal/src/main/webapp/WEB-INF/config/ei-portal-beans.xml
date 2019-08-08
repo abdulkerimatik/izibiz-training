@@ -18,16 +18,16 @@ http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 	<bean id="accountDao" class="com.izibiz.training.dao.AccountDaoImpl" parent="genericHibernateDao">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
-	
-	
 	<bean id="invoiceDao" class="com.izibiz.training.dao.InvoiceDaoImpl" parent="genericHibernateDao">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
-	
 	<bean id="reconciliationDao" class="com.izibiz.training.dao.ReconciliationDaoImpl" parent="genericHibernateDao">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	
+	<bean id="archiveDao" class="com.izibiz.training.dao.ArchiveDaoImpl" parent="genericHibernateDao">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
 
 
 	<!-- **************************** Service Declaration *************************** -->
@@ -37,7 +37,7 @@ http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 	<bean id="accountService" class="com.izibiz.training.service.AccountServiceImpl" />
 	<bean id="invoiceService" class="com.izibiz.training.service.InvoiceServiceImpl" />
 	<bean id="reconciliationService" class="com.izibiz.training.service.ReconciliationServiceImpl" />
-
+	<bean id="archiveService" class="com.izibiz.training.service.ArchiveServiceImpl" />
 
 
 	<!-- **************************** Util Declaration *************************** -->

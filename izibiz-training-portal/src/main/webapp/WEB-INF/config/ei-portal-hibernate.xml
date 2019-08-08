@@ -22,6 +22,7 @@ http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 				<value>com.izibiz.training.entity.Despatch</value>
 				<value>com.izibiz.training.entity.Account</value>
 				<value>com.izibiz.training.entity.Reconciliation</value>
+				<value>com.izibiz.training.entity.Archive</value>
 				</list>
 		</property>
 		<property name="hibernateProperties">

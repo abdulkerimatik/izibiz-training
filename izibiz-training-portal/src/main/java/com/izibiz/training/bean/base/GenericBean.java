@@ -10,6 +10,7 @@ import javax.faces.context.FacesContext;
 import org.apache.commons.lang3.StringUtils;
 
 import com.izibiz.training.service.base.AccountService;
+import com.izibiz.training.service.base.ArchiveService;
 import com.izibiz.training.service.base.DespatchService;
 import com.izibiz.training.service.base.InvoiceService;
 import com.izibiz.training.service.base.ReconciliationService;
@@ -37,6 +38,8 @@ public class GenericBean<T> implements Serializable{
 	private ReconciliationService reconciliationService;
 	
 
+	@ManagedProperty( value="#{archiveService}")
+	private ArchiveService archiveService;
 
 	public String getResourceBundleMessage(String key) {
 		if (StringUtils.isEmpty(key)) {
@@ -102,5 +105,14 @@ public class GenericBean<T> implements Serializable{
 	public void setReconciliationService(ReconciliationService reconciliationService) {
 		this.reconciliationService = reconciliationService;
 	}
+
+	public ArchiveService getArchiveService() {
+		return archiveService;
+	}
+
+	public void setArchiveService(ArchiveService archiveService) {
+		this.archiveService = archiveService;
+	}
+	
 
 }
