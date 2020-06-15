@@ -23,7 +23,7 @@
 		<spring.context.version>4.2.5.RELEASE</spring.context.version>
 		<jsf.version>2.3.0-m02</jsf.version>
 		<hibernate.entitymanager.version>5.1.0.Final</hibernate.entitymanager.version>
-		<hibernate.validator.version>5.2.4.Final</hibernate.validator.version>
+		<hibernate.validator.version>5.3.5.Final</hibernate.validator.version>
 		<spring.security.version>4.1.0.RELEASE</spring.security.version>
 		<org.ocpsoft.rewrite.version>2.0.12.Final</org.ocpsoft.rewrite.version>
 		<com.ocpsoft.version>3.3.3</com.ocpsoft.version>
