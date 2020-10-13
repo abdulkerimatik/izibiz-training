@@ -17,7 +17,7 @@
 		<javax.servlet.version>1.2</javax.servlet.version>
 		<oracle.ojdbc.version>12.1.0.2</oracle.ojdbc.version>
 		<log4j.version>1.2.17</log4j.version>
-		<junit.version>4.12</junit.version>
+		<junit.version>4.13.1</junit.version>
 		<perf4j.version>0.9.16</perf4j.version>
 		<slf4j.version>1.7.10</slf4j.version>
 		<spring.context.version>4.2.5.RELEASE</spring.context.version>
